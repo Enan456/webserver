@@ -1,100 +1,16 @@
 <!doctype html><html lang="en-US" prefix="og: http://ogp.me/ns#">
-<script src="https://www.gstatic.com/firebasejs/5.0.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.0.0/firebase-database.js"></script>
 <head>
         <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" type="text/css" href="sg.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
 
     <meta content="text/html;charset=utf-8" http-equiv="content-type"><meta content="width=device-width,initial-scale=1" name="viewport">
     <meta name="theme-color" content="#02243e" />
     <meta name="apple-mobile-web-app-status-bar-style" content="#02243e">
 
     <script src= "service-worker.js"></script>
-        <style>
-        body {
-            text-align: center;
-        }
 
-        body {
-          color: white;
-            background-blend-mode: lighten;
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-color: #02243E;
-
-        }
-
-        input[type=checkbox] {
-            zoom: 1.5;
-        }
-
-        h1 {
-          color: white;
-            border-left-style: solid;
-            border-right-style: solid;
-            border-top-style: solid;
-            border-bottom-style: solid;
-            border-color: white;
-            background-color: #FE5000;
-
-        }
-
-        p {
-          color: white;
-            font: roboto;
-        }
-
-        .defaultTextBox {
-            padding: 0;
-            height: 30px;
-            position: relative;
-            left: 0;
-            outline: none;
-            border: 1px solid #cdcdcd;
-            border-color: rgba(0, 0, 0, .15);
-            background-color: white;
-            font-size: 16px;
-        }
-
-        .button {
-            border-radius: 4px;
-            background-color: gray;
-            border: none;
-            color: #FFFFFF;
-            text-align: center;
-            font-size: 18px;
-            padding: 10px;
-            width: 100px;
-            transition: all 0.5s;
-            cursor: pointer;
-            margin: 5px;
-        }
-
-        .button span {
-            cursor: pointer;
-            display: inline-block;
-            position: relative;
-            transition: 0.5s;
-        }
-
-        .button span:after {
-            content: '\00bb';
-            position: absolute;
-            opacity: 0;
-            top: 0;
-            right: -20px;
-            transition: 0.5s;
-        }
-
-        .button:hover span {
-            padding-right: 25px;
-        }
-
-        .button:hover span:after {
-            opacity: 1;
-            right: 0;
-        }
-    </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112760702-1"></script>
@@ -108,7 +24,9 @@
 
         gtag('config', 'UA-112760702-1');
     </script>
-  
+    <script src="/__/firebase/5.5.6/firebase-app.js"></script>
+    <script src="/__/firebase/5.5.6/firebase-auth.js"></script>
+    <script src="/__/firebase/5.5.6/firebase-database.js"></script>
     <!-- <script src=index.js> -->
 </head>
 
@@ -123,7 +41,7 @@
         <div class="rendered-form">
             <div class="">
                <title>GEARSCOUT: POWER UP</title>
-                   <h1 id="control-2498188">GEARSCOUT: POWER UP</h1> 
+                   <h1 id="control-2498188">GEARSCOUT: POWER UP</h1>
             </div>
             <div class="fb-number form-group field-yourname">
                 <label for="yourname" class="fb-text-label">Name:</label>
@@ -429,6 +347,7 @@
             });
         }
     </script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
 </body>
 
 </html>
