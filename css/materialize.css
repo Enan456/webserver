@@ -1,3 +1,6 @@
+/*
+Non Materialize related CSS by Ethan
+*/
 h1 {
   color: white;
     border-left-style: solid;
@@ -36,6 +39,10 @@ body.fade-out {
 }
 html {
     background-color: #02243E;
+}
+
+.margin-main{
+  margin: 0% 7.5%;
 }
 
 /*!

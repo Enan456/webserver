@@ -5,6 +5,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="css/materialize.css" media="screen,projection" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#02243E" />
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
     <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase-app.js"></script>
@@ -40,8 +41,8 @@
 <body>
     <title>GearScout 2.0</title>
     <form>
-        <h1 id="control-2498188">GearScout 2.0</h1>
-        <div class="row">
+        <div class="margin-main">
+        <center><h1 id="control-2498188">GearScout 2.0</h1>
             <div class="input-field col-md-6 col-sm-12">
                 <input id="yourname" type="text" class="validate">
                 <label for="yourname">Name</label>
@@ -50,8 +51,6 @@
                 <input id="match" type="text" class="validate">
                 <label for="match">Match</label>
             </div>
-        </div>
-        <div class="row">
             <div class="input-field col-md-6 col-sm-12">
                 <input id="yourteam" type="text" class="validate">
                 <label for="yourteam">Team You Are In</label>
@@ -60,7 +59,6 @@
                 <input id="scoutteam" type="text" class="validate">
                 <label for="scoutteam">Team You Are Scouting</label>
             </div>
-        </div>
         <div class="row">
             <div class="input-field col-md-12 col-sm-12">
                 <input id="regional" type="text" class="validate">
@@ -68,7 +66,6 @@
             </div>
         </div>
         <h2>Auto</h2>
-        <div class="row">
             <div class="input-field col-md-6 col-sm-12">
                 <p>
                     <label>
@@ -85,8 +82,8 @@
                     </label>
                 </p>
             </div>
-        </div>
-        <div class="row">
+
+
             <div class="input-field col-md-6 col-sm-12">
                 <p>
                     <label>
@@ -103,9 +100,10 @@
                     </label>
                 </p>
             </div>
-        </div>
+
+
         <h2>TeleOp</h2>
-        <div class="row">
+
             <div class="input-field col-md-6 col-sm-12">
                 <p>
                     <label>
@@ -122,8 +120,8 @@
                     </label>
                 </p>
             </div>
-        </div>
-        <div class="row">
+
+
             <div class="input-field col-md-6 col-sm-12">
                 <input id="pcubes" type="text" class="validate">
                 <label for="pcubes">Portal Power Cubes</label>
@@ -132,8 +130,8 @@
                 <input id="faswitch" type="text" class="validate">
                 <label for="faswitch">Cubes In Friendly Alliance Switch</label>
             </div>
-        </div>
-        <div class="row">
+
+
             <div class="input-field col-md-6 col-sm-12">
                 <input id="scale" type="text" class="validate">
                 <label for="scale">Cubes In Scale</label>
@@ -143,7 +141,7 @@
                 <input id="opswitch" type="text" class="validate">
                 <label for="opswitch">Cubes In Opposing Alliance Switch</label>
             </div>
-        </div>
+
         <h2>End Game</h2>
         <p>
             <label>
@@ -179,9 +177,15 @@
         <button class="btn waves-effect waves-light" type="submit" name="action">Submit
             <i class="material-icons right">send</i>
         </button>
-
-
+      </center>
+    </div>
     </form>
+    <script>document.body.className += ' fade-out';</script>
+    <script>
+    $(function() {
+    $('body').removeClass('fade-out');
+});
+    </script>
     <script>
         var submit2 = document.getElementById('submit');
 
