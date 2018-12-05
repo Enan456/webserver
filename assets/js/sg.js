@@ -1,6 +1,10 @@
 var submit2 = document.getElementById('submit');
 
-
+        if('serviceWorker' in navigator) {
+navigator.serviceWorker
+       .register('assets/js/sg.js')
+       .then(function() { console.log("Service Worker Registered"); });
+}
         var config = {
             apiKey: "AIzaSyAGjIhyS5eGmUvZysE46CuWFjeX0T-ykWA",
             authDomain: "scoutgear-2018.firebaseapp.com",
