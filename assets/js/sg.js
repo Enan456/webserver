@@ -38,19 +38,10 @@ self.addEventListener('install', function (event) {
 
 
 
-var config = {
-    apiKey: "AIzaSyAGjIhyS5eGmUvZysE46CuWFjeX0T-ykWA",
-    authDomain: "scoutgear-2018.firebaseapp.com",
-    databaseURL: "https://scoutgear-2018.firebaseio.com",
-    projectId: "scoutgear-2018",
-    storageBucket: "scoutgear-2018.appspot.com",
-    messagingSenderId: "269363065314"
-};
-firebase.initializeApp(config);
-var database = firebase.database();
+
 
 function writeUserData() {
-    
+
     var config = {
         apiKey: "AIzaSyAGjIhyS5eGmUvZysE46CuWFjeX0T-ykWA",
         authDomain: "scoutgear-2018.firebaseapp.com",

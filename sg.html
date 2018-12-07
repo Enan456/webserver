@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <meta name="Description" content="GearScout - The Scouting App For Any Team">
     <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase.js"></script>
-    <script src="assets/js/sg.js"></script>
     <style src="assets/css/bootstrap.min.css"></style>
     <style src="assets/css/style.css"></style>
     <style src="assets/css/sg.css"></style>
@@ -17,6 +16,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112760702-1"></script>
     <script>
+    var config = {
+        apiKey: "AIzaSyAGjIhyS5eGmUvZysE46CuWFjeX0T-ykWA",
+        authDomain: "scoutgear-2018.firebaseapp.com",
+        databaseURL: "https://scoutgear-2018.firebaseio.com",
+        projectId: "scoutgear-2018",
+        storageBucket: "scoutgear-2018.appspot.com",
+        messagingSenderId: "269363065314"
+    };
+    firebase.initializeApp(config);
+    var database = firebase.database();
+    
         window.dataLayer = window.dataLayer || [];
 
     function gtag() {
@@ -26,6 +36,7 @@
 
     gtag('config', 'UA-112760702-1');
 </script>
+    <script src="assets/js/sg.js"></script>
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/icons/favicon-16x16.png">
