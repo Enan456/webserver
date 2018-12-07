@@ -41,7 +41,8 @@
 <body>
     <center>
     <title>GearScout 2.0</title>
-    <form class="center-align">
+    <form>
+      <center>
         <div class="margin-main">
         <h1 id="control-2498188">GearScout 2.0</h1>
             <div class="input-field col-md-6 col-sm-12">
@@ -53,7 +54,7 @@
                 <label for="match">Match</label>
             </div>
             <div class="input-field col-md-6 col-sm-12">
-                <input id="yourteam" type="text" class="validate">
+                <input id="yourteam" class="validate" type="number" pattern="[0-9]*" inputmode="numeric">
                 <label for="yourteam">Team You Are In</label>
             </div>
             <div class="input-field col-md-6 col-sm-12">
@@ -178,14 +179,8 @@
         <button class="btn waves-effect waves-light" type="submit" id= "submit" name="action">Submit
             <i class="material-icons right">send</i>
         </button>
-     
+
     </div>
-    <ul class="collapsible">
-  <li>
-    <div class="collapsible-header"><i class="material-icons">people</i>Credits</div>
-    <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-  </li>
-</ul>
     </form>
     <script>document.body.className += ' fade-out';</script>
     <script>
