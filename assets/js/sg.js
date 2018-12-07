@@ -1,3 +1,5 @@
+var doc = require("../../sg.html");
+global.document=doc();
 var submit2 = document.getElementById('submit');
 
 if ('serviceWorker' in navigator) {
