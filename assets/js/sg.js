@@ -50,6 +50,7 @@ firebase.initializeApp(config);
 var database = firebase.database();
 
 function writeUserData() {
+    
     var config = {
         apiKey: "AIzaSyAGjIhyS5eGmUvZysE46CuWFjeX0T-ykWA",
         authDomain: "scoutgear-2018.firebaseapp.com",
