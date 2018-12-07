@@ -1,4 +1,4 @@
-var doc = require("../../sg.html");
+var doc = "../../sg.html";
 //global.document = "../../sg.html";
 var submit2 = doc.getElementById('submit');
 
