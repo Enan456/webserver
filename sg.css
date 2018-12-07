@@ -1,0 +1,90 @@
+
+body {
+    text-align: center;
+}
+
+body {
+  color: white;
+    background-blend-mode: lighten;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #02243E;
+    font-family: 'Roboto', sans-serif;
+}
+
+input[type=checkbox] {
+    zoom: 1.5;
+}
+
+h1 {
+  color: white;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-color: white;
+    background-color: #FE5000;
+    font-family: 'Roboto', sans-serif;
+    border-radius: 40px;
+}
+
+p {
+  color: white;
+    font: roboto;
+    font-family: 'Roboto', sans-serif;
+}
+
+
+
+.defaultTextBox {
+    padding: 0;
+    height: 30px;
+    position: relative;
+    left: 0;
+    outline: none;
+    border: 1px solid #cdcdcd;
+    border-color: rgba(0, 0, 0, .15);
+    background-color: white;
+    font-size: 16px;
+}
+
+.button {
+    border-radius: 40px;
+    background-color: gray;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 18px;
+    padding: 10px;
+    width: 200px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+
+.button:hover span {
+    padding-right: 25px;
+}
+
+.button:hover span:after {
+    opacity: 1;
+    right: 0;
+}
