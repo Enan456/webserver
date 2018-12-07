@@ -1,6 +1,6 @@
-var doc = "../../sg.html";
+//var doc = "../../sg.html";
 //global.document = "../../sg.html";
-var submit2 = doc.getElementById('submit');
+//var submit2 = doc.getElementById('submit');
 
 if ('serviceWorker' in navigator) {
 window.addEventListener('load', function() {
@@ -36,6 +36,8 @@ self.addEventListener('install', function(event) {
   );
 });
 
+
+
         var config = {
             apiKey: "AIzaSyAGjIhyS5eGmUvZysE46CuWFjeX0T-ykWA",
             authDomain: "scoutgear-2018.firebaseapp.com",
@@ -46,7 +48,7 @@ self.addEventListener('install', function(event) {
         };
         firebase.initializeApp(config);
         var database = firebase.database();
-        submit2.onclick = function writeUserData() {
+        function writeUserData() {
             /*  firebase.post("/gearscout2018", JSON ) */
             var yourname = doc.getElementById("yourname").value
             var regional = doc.getElementById("regional").value
