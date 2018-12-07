@@ -1,6 +1,6 @@
-//var doc = require("../../sg.html");
-global.document = "../../sg.html";
-var submit2 = document.getElementById('submit');
+var doc = require("../../sg.html");
+//global.document = "../../sg.html";
+var submit2 = doc.getElementById('submit');
 
 if ('serviceWorker' in navigator) {
 window.addEventListener('load', function() {
@@ -48,26 +48,26 @@ self.addEventListener('install', function(event) {
         var database = firebase.database();
         submit2.onclick = function writeUserData() {
             /*  firebase.post("/gearscout2018", JSON ) */
-            var yourname = document.getElementById("yourname").value
-            var regional = document.getElementById("regional").value
-            var scoutteam = document.getElementById("scoutteam").value;
-            var lineCrossed = document.getElementById("auto-0").value;
-            var switchblockauto = document.getElementById("auto-1").value;
-            var penaltyauto = document.getElementById("auto-2").value;
-            var scaleblockauto = document.getElementById("auto-3").value;
-            var forklift = document.getElementById("teleop-0").value;
-            var defense = document.getElementById("teleop-1").value;
-            var portal = document.getElementById("pcubes").value;
-            var allianceswitch = document.getElementById("faswitch").value;
-            var scale = document.getElementById("scale").value;
-            var opponentswitch = document.getElementById("opswitch").value;
-            var rampbot = document.getElementById("end-0").value;
-            var park = document.getElementById("end-1").value;
-            var levitate = document.getElementById("end-2").value;
-            var climbed = document.getElementById("end-3").value;
-            var disabled = document.getElementById("end-4").value;
-            var yourteam = document.getElementById("yourteam").value;
-            var match = document.getElementById("match").value;
+            var yourname = doc.getElementById("yourname").value
+            var regional = doc.getElementById("regional").value
+            var scoutteam = doc.getElementById("scoutteam").value;
+            var lineCrossed = doc.getElementById("auto-0").value;
+            var switchblockauto = doc.getElementById("auto-1").value;
+            var penaltyauto = doc.getElementById("auto-2").value;
+            var scaleblockauto = doc.getElementById("auto-3").value;
+            var forklift = doc.getElementById("teleop-0").value;
+            var defense = doc.getElementById("teleop-1").value;
+            var portal = doc.getElementById("pcubes").value;
+            var allianceswitch = doc.getElementById("faswitch").value;
+            var scale = doc.getElementById("scale").value;
+            var opponentswitch = doc.getElementById("opswitch").value;
+            var rampbot = doc.getElementById("end-0").value;
+            var park = doc.getElementById("end-1").value;
+            var levitate = doc.getElementById("end-2").value;
+            var climbed = doc.getElementById("end-3").value;
+            var disabled = doc.getElementById("end-4").value;
+            var yourteam = doc.getElementById("yourteam").value;
+            var match = doc.getElementById("match").value;
 
             if (yourname === null) {
                 yourname = " ";
