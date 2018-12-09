@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="assets/css/materialize.css" media="screen,projection" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#02243E" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <meta name="Description" content="GearScout - The Scouting App For Any Team">
+    <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase.js"></script>
+    <style src="assets/css/bootstrap.min.css"></style>
+    <style src="assets/css/style.css"></style>
+    <style src="assets/css/sg.css"></style>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112760702-1"></script>
+    <script>
+        var config = {
+        apiKey: "AIzaSyAGjIhyS5eGmUvZysE46CuWFjeX0T-ykWA",
+        authDomain: "scoutgear-2018.firebaseapp.com",
+        databaseURL: "https://scoutgear-2018.firebaseio.com",
+        projectId: "scoutgear-2018",
+        storageBucket: "scoutgear-2018.appspot.com",
+        messagingSenderId: "269363065314"
+    };
+    firebase.initializeApp(config);
+    var database = firebase.database();
+
+        window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-112760702-1');
+</script>
+    <script src="assets/js/sg.js"></script>
+    <script src="assets/js/service_worker.js"></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/icons/favicon-16x16.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+
+</head>
+<body>
+    <h1>Data</h1>
+<div class="input-field col-md-6 col-sm-12">
+    <input id="yourteam" type="text" class="validate">
+    <label for="yourteam">Team You Are In</label>
+</div>
+<div class="input-field col-md-12 col-sm-12">
+    <input id="regional" type="text" class="validate">
+    <label for="regional">Regional Code</label>
+</div>
+<div class="input-field col-md-6 col-sm-12">
+    <input id="scoutteam" type="text" class="validate">
+    <label for="scoutteam">Team You want data for</label>
+</div>
+<button onclick="load_team()">Get my data</button>
+<canvas id="myChart" width="400" height="400"></canvas>
+<script>
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+            datasets: [{
+                label: '# of Votes',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
