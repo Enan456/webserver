@@ -31,10 +31,10 @@ self.addEventListener('install', function (event) {
         })
     );
 });
-let CACHE_NAME = 'my-site-cache-v1'
+let CACHE_CHECK = 'my-site-cache-v1'
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
+    caches.open(CACHE_CHECK)
     .then(cache => cache.addAll('./404.html'))
   )
 })
@@ -46,7 +46,7 @@ self.addEventListener('fetch', (event) => {
         var networked = fetch(event.request)
           .then((response) => {
             let cacheCopy = response.clone()
-            caches.open(CACHE_NAME)
+            caches.open(CACHE_CHECK)
               .then(cache => cache.put(event.request, cacheCopy))
             return response;
           })
