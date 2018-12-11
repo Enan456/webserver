@@ -62,29 +62,69 @@ self.addEventListener('fetch', (event) => {
 // New Service serviceWorker
 
 
-let CACHE_NAME = 'sw-v1'
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-    .then(cache => cache.addAll('/sg.html'))
-  )
-})
-self.addEventListener('fetch', (event) => {
-  if (event.request.method === 'GET') {
-    event.respondWith(
-      caches.match(event.request)
-      .then((cached) => {
-        var networked = fetch(event.request)
-          .then((response) => {
-            let cacheCopy = response.clone()
-            caches.open(CACHE_NAME)
-              .then(cache => cache.put(event.request, cacheCopy))
-            return response;
-          })
-          .catch(() => caches.match(offlinePage));
-        return cached || networked;
-      })
-    )
+'use strict';
+
+
+const CACHE_VERSION = 1;
+let CURRENT_CACHES = {
+  offline: 'offline-v' + CACHE_VERSION
+};
+const OFFLINE_URL = 'sg.html';
+
+function createCacheBustedRequest(url) {
+  let request = new Request(url, {cache: 'reload'});
+  if ('cache' in request) {
+    return request;
   }
-  return;
+
+
+  let bustedUrl = new URL(url, self.location.href);
+  bustedUrl.search += (bustedUrl.search ? '&' : '') + 'cachebust=' + Date.now();
+  return new Request(bustedUrl);
+}
+
+self.addEventListener('install', event => {
+  event.waitUntil(
+    fetch(createCacheBustedRequest(OFFLINE_URL)).then(function(response) {
+      return caches.open(CURRENT_CACHES.offline).then(function(cache) {
+        return cache.put(OFFLINE_URL, response);
+      });
+    })
+  );
+});
+
+self.addEventListener('activate', event => {
+  let expectedCacheNames = Object.keys(CURRENT_CACHES).map(function(key) {
+    return CURRENT_CACHES[key];
+  });
+
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (expectedCacheNames.indexOf(cacheName) === -1) {
+            console.log('Deleting old cache:', cacheName);
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+});
+
+self.addEventListener('fetch', event => {
+
+  if (event.request.mode === 'navigate' ||
+      (event.request.method === 'GET' &&
+       event.request.headers.get('accept').includes('text/html'))) {
+    console.log('Handling fetch event for', event.request.url);
+    event.respondWith(
+      fetch(event.request).catch(error => {
+
+        console.log('Fetch failed; returning offline page instead.', error);
+        return caches.match(OFFLINE_URL);
+      })
+    );
+  }
+
 });
