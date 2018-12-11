@@ -20,6 +20,7 @@
   "homepage": "https://github.com/Enan456/webserver#readme",
   "dependencies": {
     "hoodie": "^28.2.6",
-    "node": "^11.1.0"
+    "node": "^11.1.0",
+    "pwa-install-prompt": "^1.0.2"
   }
 }
