@@ -16,7 +16,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112760702-1"></script>
     <script>
-    /* var config = {
+        /* var config = {
         apiKey: "AIzaSyAGjIhyS5eGmUvZysE46CuWFjeX0T-ykWA",
         authDomain: "scoutgear-2018.firebaseapp.com",
         databaseURL: "https://scoutgear-2018.firebaseio.com",
@@ -51,183 +51,331 @@
 
 <body>
     <center>
-    <title>GearScout 2.0</title>
-    <form>
-      <center>
-        <div class="margin-main">
-        <h1 id="control-2498188">GearScout 2.0</h1>
-            <div class="input-field col-md-6 col-sm-12">
-                <input id="yourname" type="text" class="validate">
-                <label for="yourname">Name</label>
-            </div>
-            <div class="input-field col-md-6 col-sm-12">
-                <input id="match" type="text" class="validate">
-                <label for="match">Match</label>
-            </div>
-            <div class="input-field col-md-6 col-sm-12">
-                <input id="yourteam" type="text" class="validate" >
-                <label for="yourteam">Team You Are In</label>
-            </div>
-            <div class="input-field col-md-6 col-sm-12">
-                <input id="scoutteam" type="text" class="validate">
-                <label for="scoutteam">Team You Are Scouting</label>
-            </div>
-        <div class="row">
-            <div class="input-field col-md-12 col-sm-12">
-                <input id="regional" type="text" class="validate">
-                <label for="regional">Regional Code</label>
-            </div>
-        </div>
-        <h2>Auto</h2>
-            <div class="input-field col-md-6 col-sm-12">
-                <p>
-                    <label>
-                        <input type="checkbox" class="filled-in" value="line" id="auto-0">
-                        <span>Line Crossed</span>
-                    </label>
-                </p>
-            </div>
-            <div class="input-field col-md-6 col-sm-12">
-                <p>
-                    <label>
-                        <input type="checkbox" class="filled-in" value="block-auto" id="auto-1">
-                        <span>Block Placed On Switch</span>
-                    </label>
-                </p>
-            </div>
+        <title>GearScout 2.0</title>
+        <form>
+            <center>
+                <div class="margin-main">
+                    <h1 id="control-2498188">GearScout 2.0</h1>
+                    <div class="input-field col-md-6 col-sm-12">
+                        <input id="yourname" type="text" class="validate">
+                        <label for="yourname">Name</label>
+                    </div>
+                    <div class="input-field col-md-6 col-sm-12">
+                        <input id="match" type="text" class="validate">
+                        <label for="match">Match</label>
+                    </div>
+                    <div class="input-field col-md-6 col-sm-12">
+                        <input id="yourteam" type="text" class="validate">
+                        <label for="yourteam">Team You Are In</label>
+                    </div>
+                    <div class="input-field col-md-6 col-sm-12">
+                        <input id="scoutteam" type="text" class="validate">
+                        <label for="scoutteam">Team You Are Scouting</label>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col-md-12 col-sm-12">
+                            <input id="regional" type="text" class="validate">
+                            <label for="regional">Regional Code</label>
+                        </div>
+                    </div>
+                    <h2>Auto</h2>
+                    <div class="input-field col-md-6 col-sm-12">
+                        <p>
+                            <label>
+                                <input type="checkbox" class="filled-in" value="line" id="auto-0">
+                                <span>Line Crossed</span>
+                            </label>
+                        </p>
+                    </div>
+                    <div class="input-field col-md-6 col-sm-12">
+                        <p>
+                            <label>
+                                <input type="checkbox" class="filled-in" value="block-auto" id="auto-1">
+                                <span>Block Placed On Switch</span>
+                            </label>
+                        </p>
+                    </div>
 
 
-            <div class="input-field col-md-6 col-sm-12">
-                <p>
-                    <label>
-                        <input type="checkbox" class="filled-in" value="block2-auto" id="auto-3">
-                        <span>Block Placed On Scale</span>
-                    </label>
-                </p>
-            </div>
-            <div class="input-field col-md-6 col-sm-12">
-                <p>
-                    <label>
-                        <input type="checkbox" class="filled-in" value="penalty-auto" id="auto-2">
-                        <span>Penalty</span>
-                    </label>
-                </p>
-            </div>
+                    <div class="input-field col-md-6 col-sm-12">
+                        <p>
+                            <label>
+                                <input type="checkbox" class="filled-in" value="block2-auto" id="auto-3">
+                                <span>Block Placed On Scale</span>
+                            </label>
+                        </p>
+                    </div>
+                    <div class="input-field col-md-6 col-sm-12">
+                        <p>
+                            <label>
+                                <input type="checkbox" class="filled-in" value="penalty-auto" id="auto-2">
+                                <span>Penalty</span>
+                            </label>
+                        </p>
+                    </div>
 
 
-        <h2>TeleOp</h2>
+                    <h2>TeleOp</h2>
 
-            <div class="input-field col-md-6 col-sm-12">
-                <p>
-                    <label>
-                        <input type="checkbox" class="filled-in" value="forklift" id="teleop-0">
-                        <span>Forklift</span>
-                    </label>
-                </p>
-            </div>
-            <div class="input-field col-md-6 col-sm-12">
-                <p>
-                    <label>
-                        <input type="checkbox" class="filled-in" value="defense" id="teleop-1">
-                        <span>Defense</span>
-                    </label>
-                </p>
-            </div>
-
-
-            <div class="input-field col-md-6 col-sm-12">
-                <input id="pcubes" type="number" pattern="[0-9]*" inputmode="numeric" class="validate">
-                <label for="pcubes">Portal Power Cubes</label>
-            </div>
-            <div class="input-field col-md-6 col-sm-12">
-                <input id="faswitch" type="number" pattern="[0-9]*" inputmode="numeric" class="validate">
-                <label for="faswitch">Cubes In Friendly Alliance Switch</label>
-            </div>
+                    <div class="input-field col-md-6 col-sm-12">
+                        <p>
+                            <label>
+                                <input type="checkbox" class="filled-in" value="forklift" id="teleop-0">
+                                <span>Forklift</span>
+                            </label>
+                        </p>
+                    </div>
+                    <div class="input-field col-md-6 col-sm-12">
+                        <p>
+                            <label>
+                                <input type="checkbox" class="filled-in" value="defense" id="teleop-1">
+                                <span>Defense</span>
+                            </label>
+                        </p>
+                    </div>
 
 
-            <div class="input-field col-md-6 col-sm-12">
-                <input id="scale" type="number" pattern="[0-9]*" inputmode="numeric" class="validate">
-                <label for="scale">Cubes In Scale</label>
-            </div>
+                    <div class="input-field col-md-6 col-sm-12">
+                        <input id="pcubes" type="number" pattern="[0-9]*" inputmode="numeric" class="validate">
+                        <label for="pcubes">Portal Power Cubes</label>
+                    </div>
+                    <div class="input-field col-md-6 col-sm-12">
+                        <input id="faswitch" type="number" pattern="[0-9]*" inputmode="numeric" class="validate">
+                        <label for="faswitch">Cubes In Friendly Alliance Switch</label>
+                    </div>
 
-            <div class="input-field col-md-6 col-sm-12">
-                <input id="opswitch" type="number" pattern="[0-9]*" inputmode="numeric" class="validate">
-                <label for="opswitch">Cubes In Opposing Alliance Switch</label>
-            </div>
 
-        <h2>End Game</h2>
-        <p>
-            <label>
-                <input type="checkbox" class="filled-in" value="rampbot" id="end-0">
-                <span>Ramp Bot</span>
-            </label>
-        </p>
-        <p>
-            <label>
-                <input type="checkbox" class="filled-in" value="park" id="end-1">
-                <span>Parked</span>
-            </label>
-        </p>
-        <p>
-            <label>
-                <input type="checkbox" class="filled-in" value="levitate" id="end-2">
-                <span>Levitate</span>
-            </label>
-        </p>
-        <p>
-            <label>
-                <input type="checkbox" class="filled-in" value="climbed" id="end-3">
-                <span>Climbed</span>
-            </label>
-        </p>
-        <p>
-            <label>
-                <input type="checkbox" class="filled-in" value="disabled" id="end-4">
-                <span>Disabled</span>
-            </label>
-        </p>
+                    <div class="input-field col-md-6 col-sm-12">
+                        <input id="scale" type="number" pattern="[0-9]*" inputmode="numeric" class="validate">
+                        <label for="scale">Cubes In Scale</label>
+                    </div>
 
-        <button class="btn waves-effect waves-light" type="submit" id= "submit" name="action" onclick="writeUserData();">Submit
-            <i class="material-icons right">send</i>
-        </button>
+                    <div class="input-field col-md-6 col-sm-12">
+                        <input id="opswitch" type="number" pattern="[0-9]*" inputmode="numeric" class="validate">
+                        <label for="opswitch">Cubes In Opposing Alliance Switch</label>
+                    </div>
 
-    </div>
-    </form>
-    <script>document.body.className += ' fade-out';</script>
-    <script>
-    $(function() {
-    $('body').removeClass('fade-out');
-});
-    </script>
-    <script type="text/javascript" src="assets/js/materialize.js"></script>
-    <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service_worker.js');
-    }
-</script>
-  <script>
-var elem = document.querySelector('.collapsible.expandable');
-var instance = M.Collapsible.init(elem, {
-  accordion: false
-});
-</script>
-</center>
+                    <h2>End Game</h2>
+                    <p>
+                        <label>
+                            <input type="checkbox" class="filled-in" value="rampbot" id="end-0">
+                            <span>Ramp Bot</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input type="checkbox" class="filled-in" value="park" id="end-1">
+                            <span>Parked</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input type="checkbox" class="filled-in" value="levitate" id="end-2">
+                            <span>Levitate</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input type="checkbox" class="filled-in" value="climbed" id="end-3">
+                            <span>Climbed</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input type="checkbox" class="filled-in" value="disabled" id="end-4">
+                            <span>Disabled</span>
+                        </label>
+                    </p>
+
+                    <button class="btn waves-effect waves-light" type="submit" id="submit" name="action" onclick="writeUserData();">Submit
+                        <i class="material-icons right">send</i>
+                    </button>
+
+                </div>
+        </form>
+        <script>
+            document.body.className += ' fade-out';
+
+            function writeUserData() {
+                var document = "../../sg.html";
+                var submit2 = document.getElementById('submit');
+                var config = {
+                    apiKey: "AIzaSyAGjIhyS5eGmUvZysE46CuWFjeX0T-ykWA",
+                    authDomain: "scoutgear-2018.firebaseapp.com",
+                    databaseURL: "https://scoutgear-2018.firebaseio.com",
+                    projectId: "scoutgear-2018",
+                    storageBucket: "scoutgear-2018.appspot.com",
+                    messagingSenderId: "269363065314"
+                };
+                firebase.initializeApp(config);
+                var database = firebase.database();
+                /* firebase.post("/gearscout2018", JSON ) */
+                var yourname = document.getElementById("yourname").value
+                var regional = document.getElementById("regional").value
+                var scoutteam = document.getElementById("scoutteam").value;
+                var lineCrossed = document.getElementById("auto-0").value;
+                var switchblockauto = document.getElementById("auto-1").value;
+                var penaltyauto = document.getElementById("auto-2").value;
+                var scaleblockauto = document.getElementById("auto-3").value;
+                var forklift = document.getElementById("teleop-0").value;
+                var defense = document.getElementById("teleop-1").value;
+                var portal = document.getElementById("pcubes").value;
+                var allianceswitch = document.getElementById("faswitch").value;
+                var scale = document.getElementById("scale").value;
+                var opponentswitch = document.getElementById("opswitch").value;
+                var rampbot = document.getElementById("end-0").value;
+                var park = document.getElementById("end-1").value;
+                var levitate = document.getElementById("end-2").value;
+                var climbed = document.getElementById("end-3").value;
+                var disabled = document.getElementById("end-4").value;
+                var yourteam = document.getElementById("yourteam").value;
+                var match = document.getElementById("match").value;
+
+                if (yourname === null) {
+                    yourname = " ";
+                }
+                if (regional === null) {
+                    regional = "a_trash";
+                }
+                if (scoutteam === null) {
+                    scoutteam = 0;
+                }
+                if (lineCrossed === null) {
+                    lineCrossed == false;
+                }
+                if (switchblockauto === null) {
+                    switchblockauto == false;
+                }
+                if (penaltyauto === null) {
+                    penaltyauto == false;
+                }
+                if (scaleblockauto === null) {
+                    scaleblockauto == false;
+                }
+                if (forklift === null) {
+                    forklift == false;
+                }
+                if (defense === null) {
+                    defense == false;
+                }
+                if (portal === null) {
+                    portal = 0;
+                }
+                if (allianceswitch === null) {
+                    allianceswitch = 0;
+                }
+                if (scale === null) {
+                    scale = 0;
+                }
+                if (opponentswitch === null) {
+                    opponentswitch = 0;
+                }
+                if (rampbot === null) {
+                    rampbot == false;
+                }
+                if (park === null) {
+                    park == false;
+                }
+                if (levitate === null) {
+                    levitate == false;
+                }
+                if (climbed === null) {
+                    climbed == false;
+                }
+                if (disabled === null) {
+                    disabled == false;
+                }
+                if (yourteam === null) {
+                    yourteam == 2338;
+                }
+                if (match === null) {
+                    match = "a_trash";
+                }
+
+
+
+                var sender1 = "GearScout2018:{2338:{" + scoutteam + ": {" + match + ":{ yourname:" + yourname +
+                    ",regional:" + regional + ",scoutteam:" + scoutteam + ",lineCrossed:" + lineCrossed +
+                    ",switchblockauto:" + switchblockauto + ",penaltyauto:" + penaltyauto + ",scaleblockauto:" +
+                    scaleblockauto + ",forklift:" + forklift + ",defense:" + defense + ",portal:" + portal +
+                    ",allianceswitch:" + allianceswitch + ",scale:" + scale + ",opponentswitch:" + opponentswitch +
+                    ",rampbot:" + rampbot + ",park:" + park + ",levitate:" + levitate + ",climbed:" + climbed +
+                    ",disabled:" + disabled + ",yourteam:" + yourteam + ",match:" + match + "}}}}";
+
+                var sender = {
+                    "Gearscout-2018": {
+                        "yourname": yourname,
+                        "regional": regional,
+                        "scoutteam": scoutteam,
+                        "lineCrossed": lineCrossed,
+                        "switchblockauto": switchblockauto,
+                        "penaltyauto": penaltyauto,
+                        "scaleblockauto": scaleblockauto,
+                        "forklift": forklift,
+                        "defense": defense,
+                        "portal": portal,
+                        "allianceswitch": allianceswitch,
+                        "scale": scale,
+                        "opponentswitch": opponentswitch,
+                        "rampbot": rampbot,
+                        "park": park,
+                        "levitate": levitate,
+                        "climbed": climbed,
+                        "disabled": disabled,
+                        "yourteam": yourteam,
+                        "match": match
+                    }
+                };
+
+
+
+
+
+                //console.log(JSON.parse(sender1));
+                console.log(sender);
+
+                firebase.database().ref('scouttgear-2018/' + scoutteam + "/" + match).set(sender, function (error) {
+                    if (error) {
+                        window.alert(error);
+                    }
+                });
+            }
+        </script>
+        <script>
+            $(function () {
+                $('body').removeClass('fade-out');
+            });
+        </script>
+        <script type="text/javascript" src="assets/js/materialize.js"></script>
+        <script>
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('service_worker.js');
+            }
+        </script>
+        <script>
+            var elem = document.querySelector('.collapsible.expandable');
+            var instance = M.Collapsible.init(elem, {
+                accordion: false
+            });
+        </script>
+    </center>
 </body>
 <br>
 <br>
 <footer class="page-footer">
-  <div class="container">
-    <div class="row">
-      <center>
-        <h5 class="white-text">Credits</h5>
-        <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
-      </center>
-    </div>
-  </div>
-  <div class="footer-copyright">
     <div class="container">
-    <p> Version 1.5, December 2018 </p>
+        <div class="row">
+            <center>
+                <h5 class="white-text">Credits</h5>
+                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+            </center>
+        </div>
     </div>
-  </div>
+    <div class="footer-copyright">
+        <div class="container">
+            <p> Version 1.5, December 2018 </p>
+        </div>
+    </div>
 </footer>
+
 </html>
