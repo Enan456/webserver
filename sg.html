@@ -49,6 +49,7 @@
 
 
 <body>
+  <audio id="my_audio" src="videoplayback.mp3" loop="loop"></audio>
     <center>
         <title>GearScout 2.0</title>
         <form>
@@ -356,6 +357,11 @@
             var instance = M.Collapsible.init(elem, {
                 accordion: false
             });
+        </script>
+        <script>
+          window.onload = function() {
+          document.getElementById("my_audio").play();
+          }
         </script>
     </center>
 </body>
