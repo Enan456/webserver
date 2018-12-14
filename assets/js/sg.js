@@ -8,7 +8,9 @@
 
 
 function writeUserData() {
-
+    var doc = "../../sg.html";
+    global.document = "../../sg.html";
+    var submit2 = doc.getElementById('submit');
     var config = {
         apiKey: "AIzaSyAGjIhyS5eGmUvZysE46CuWFjeX0T-ykWA",
         authDomain: "scoutgear-2018.firebaseapp.com",
