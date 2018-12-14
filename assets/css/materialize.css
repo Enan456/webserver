@@ -3025,7 +3025,7 @@ ul.staggered-list li {
       -ms-flex-pack: justify;
           justify-content: space-between;
   padding: 10px 0px;
-  color: #FE5000;
+  color: white;
   background-color: rgba(51, 51, 51, 0.08);
 }
 
