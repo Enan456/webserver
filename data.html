@@ -9,9 +9,12 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <meta name="Description" content="GearScout - The Scouting App For Any Team">
     <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase.js"></script>
+    <script type="text/javascript" src="assets/js/materialize.js"></script>
     <style src="assets/css/bootstrap.min.css"></style>
     <style src="assets/css/style.css"></style>
     <style src="assets/css/sg.css"></style>
+    <style src="assets/css/materialize.css"></style>
+
 <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -49,6 +52,8 @@
 
 </head>
 <body>
+  <center>
+  <div class="margin-main">
     <h1>Data</h1>
 <div class="input-field col-md-6 col-sm-12">
     <input id="yourteam" type="text" class="validate">
@@ -63,6 +68,8 @@
     <label for="scoutteam">Team You want data for</label>
 </div>
 <button onclick="load_team()">Get my data</button>
+</div>
+</center>
 <canvas id="cubes" width="400" height="400"></canvas>
 <script>
     var ctx = document.getElementById("cubes").getContext('2d');
