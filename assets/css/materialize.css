@@ -4,6 +4,9 @@ Non Materialize related CSS by Ethan
 input{
   color: #FE5000;
 }
+p{
+  color: white;
+}
 h1 {
   color: white;
     border-left-style: solid;
