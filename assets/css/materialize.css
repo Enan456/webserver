@@ -44,6 +44,11 @@ html {
     background-color: #02243E;
 }
 
+canvas{
+  color: white;
+  opacity: 50%;
+}
+
 .margin-main{
   margin: 0% 3%;
 }
