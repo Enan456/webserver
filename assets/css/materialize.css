@@ -4,6 +4,9 @@ Non Materialize related CSS by Ethan
 input{
   color: #FE5000;
 }
+p{
+  color: white;
+}
 h1 {
   color: white;
     border-left-style: solid;
@@ -42,6 +45,11 @@ body.fade-out {
 }
 html {
     background-color: #02243E;
+}
+
+canvas{
+  color: white;
+  opacity: 50%;
 }
 
 .margin-main{
@@ -87,11 +95,11 @@ html {
 }
 
 .materialize-red.lighten-2 {
-  background-color: #ee6e73 !important;
+  background-color: #FE5000 !important;
 }
 
 .materialize-red-text.text-lighten-2 {
-  color: #ee6e73 !important;
+  color: #FE5000 !important;
 }
 
 .materialize-red.lighten-1 {
@@ -2739,7 +2747,7 @@ a {
 blockquote {
   margin: 20px 0;
   padding-left: 1.5rem;
-  border-left: 5px solid #ee6e73;
+  border-left: 5px solid #FE5000;
 }
 
 i {
@@ -2799,7 +2807,7 @@ video.responsive-video {
 }
 
 .pagination li.active {
-  background-color: #ee6e73;
+  background-color: #FE5000;
 }
 
 .pagination li.disabled a {
@@ -2998,7 +3006,7 @@ ul.staggered-list li {
 .page-footer {
   padding-top: 20px;
   color: #fff;
-  background-color: #ee6e73;
+  background-color: #FE5000;
 }
 
 .page-footer .footer-copyright {
@@ -3017,7 +3025,7 @@ ul.staggered-list li {
       -ms-flex-pack: justify;
           justify-content: space-between;
   padding: 10px 0px;
-  color: rgba(255, 255, 255, 0.8);
+  color: white;
   background-color: rgba(51, 51, 51, 0.08);
 }
 
@@ -4323,7 +4331,7 @@ table span.badge {
 
 nav {
   color: #fff;
-  background-color: #ee6e73;
+  background-color: #FE5000;
   width: 100%;
   height: 56px;
   line-height: 56px;
@@ -5149,7 +5157,7 @@ small {
 
 .tabs .tab a:hover, .tabs .tab a.active {
   background-color: transparent;
-  color: #ee6e73;
+  color: #FE5000;
 }
 
 .tabs .tab.disabled a,
@@ -7575,13 +7583,13 @@ input[type=range]::-ms-thumb {
 .table-of-contents a:hover {
   color: #a8a8a8;
   padding-left: 15px;
-  border-left: 1px solid #ee6e73;
+  border-left: 1px solid #FE5000;
 }
 
 .table-of-contents a.active {
   font-weight: 500;
   padding-left: 14px;
-  border-left: 2px solid #ee6e73;
+  border-left: 2px solid #FE5000;
 }
 
 .sidenav {
@@ -7783,7 +7791,7 @@ input[type=range]::-ms-thumb {
 
 .sidenav .collapsible-body > ul:not(.collapsible) > li.active,
 .sidenav.sidenav-fixed .collapsible-body > ul:not(.collapsible) > li.active {
-  background-color: #ee6e73;
+  background-color: #FE5000;
 }
 
 .sidenav .collapsible-body > ul:not(.collapsible) > li.active a,
@@ -8560,7 +8568,7 @@ input[type=range]::-ms-thumb {
   position: absolute;
   font-size: 1rem;
   border-radius: 50%;
-  background-color: #ee6e73;
+  background-color: #FE5000;
   -webkit-box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.14), 0 10px 50px 0 rgba(0, 0, 0, 0.12), 0 30px 10px -20px rgba(0, 0, 0, 0.2);
           box-shadow: 0 20px 20px 0 rgba(0, 0, 0, 0.14), 0 10px 50px 0 rgba(0, 0, 0, 0.12), 0 30px 10px -20px rgba(0, 0, 0, 0.2);
   width: 100%;

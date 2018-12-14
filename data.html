@@ -9,9 +9,12 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <meta name="Description" content="GearScout - The Scouting App For Any Team">
     <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase.js"></script>
+    <script type="text/javascript" src="assets/js/materialize.js"></script>
     <style src="assets/css/bootstrap.min.css"></style>
     <style src="assets/css/style.css"></style>
     <style src="assets/css/sg.css"></style>
+    <style src="assets/css/materialize.css"></style>
+
 <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -49,6 +52,8 @@
 
 </head>
 <body>
+  <center>
+  <div class="margin-main">
     <h1>Data</h1>
 <div class="input-field col-md-6 col-sm-12">
     <input id="yourteam" type="text" class="validate">
@@ -62,14 +67,18 @@
     <input id="scoutteam" type="text" class="validate">
     <label for="scoutteam">Team You want data for</label>
 </div>
-<button onclick="load_team()">Get my data</button>
+<button class="btn waves-effect waves-light" type="submit" onclick="load_team()";>Get My Data
+    <i class="material-icons right">send</i>
+</button>
+</div>
+</center>
 <canvas id="cubes" width="400" height="400"></canvas>
 <script>
     var ctx = document.getElementById("cubes").getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+            labels: ["Portal Power Cubes", "Cubes In Friendly Alliance Switch", "Cubes In Scale", "Cubes In Opposing Alliance Switch", "Purple", "Orange"],
             datasets: [{
                 label: '# of Votes',
                 data: [12, 19, 3, 5, 2, 3],
