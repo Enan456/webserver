@@ -335,7 +335,9 @@
 
                 firebase.database().ref('scouttgear-2018/' + scoutteam + "/" + match).set(sender, function (error) {
                     if (error) {
-                        window.alert(error);
+                        console.log(error);
+                    }else{
+                        console.log("Succsess!");
                     }
                 });
             }
