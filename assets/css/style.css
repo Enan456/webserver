@@ -73,3 +73,8 @@ h1 {
   color: #f1c83c;
   font-size: 20px;
 }
+.inputs{
+  width:75%;
+  margin-left: 12.5%;
+  margin-right: 12.5%;
+}
