@@ -79,6 +79,7 @@
                         </div>
                     </div>
                     <h2>Auto</h2>
+                    <div class="inputs">
                     <div class="input-field col-md-6 col-sm-12">
                         <p>
                             <label>
@@ -113,9 +114,10 @@
                             </label>
                         </p>
                     </div>
-
+                </div>
 
                     <h2>TeleOp</h2>
+                    <div class="inputs">
 
                     <div class="input-field col-md-6 col-sm-12">
                         <p>
@@ -154,8 +156,9 @@
                         <input id="opswitch" type="number" pattern="[0-9]*" inputmode="numeric" class="validate">
                         <label for="opswitch">Cubes In Opposing Alliance Switch</label>
                     </div>
-
+                </div>
                     <h2>End Game</h2>
+                    <div class="inputs">
                     <p>
                         <label>
                             <input type="checkbox" class="filled-in" value="rampbot" id="end-0">
@@ -186,7 +189,7 @@
                             <span>Disabled</span>
                         </label>
                     </p>
-
+                </div>
                     <button class="btn waves-effect waves-light" type="submit" id="submit" name="action" onclick="writeUserData();">Submit
                         <i class="material-icons right">send</i>
                     </button>
@@ -333,13 +336,9 @@
                 //console.log(JSON.parse(sender1));
                 console.log(sender);
 
-                firebase.database().ref('scouttgear-2018/' + scoutteam + "/" + match).set(sender, function (error) {
-                    if (error) {
-                        console.log(error);
-                    }else{
-                        console.log("Succsess!");
-                    }
-                });
+                firebase.database().ref('scouttgear-2018/' + scoutteam + "/" + match).push(sender).catch(function (error) {
+    console.error('Error spilling the tea, sorry fam', error);
+  });
                 console.log("is this crud on???");
             }
         </script>
