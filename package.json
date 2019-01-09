@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Enan456/webserver#readme",
   "dependencies": {
+    "bootstrap": "^4.2.1",
     "hoodie": "^28.2.6",
     "node": "^11.1.0",
     "pwa-install-prompt": "^1.0.2"
