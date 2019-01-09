@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="assets/css/materialize.css" media="screen,projection" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#02243E" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <meta name="Description" content="GearScout - The Scouting App For Any Team">
+  <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase.js"></script>
+  <style src="assets/css/bootstrap.min.css"></style>
+  <style src="assets/css/style.css"></style>
+  <style src="assets/css/sg.css"></style>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112760702-1"></script>
+  <script>
+    /* var config = {
+            apiKey: "AIzaSyAGjIhyS5eGmUvZysE46CuWFjeX0T-ykWA",
+            authDomain: "scoutgear-2018.firebaseapp.com",
+            databaseURL: "https://scoutgear-2018.firebaseio.com",
+            projectId: "scoutgear-2018",
+            storageBucket: "scoutgear-2018.appspot.com",
+            messagingSenderId: "269363065314"
+        };
+        firebase.initializeApp(config);
+        var database = firebase.database(); */
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'UA-112760702-1');
+  </script>
+  <script src="service_worker.js"></script>
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/icons/favicon-16x16.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+
+</head>
+
+<body>
+  <!--   <audio id="my_audio" src="videoplayback.mp3" loop="loop"></audio>
+ -->
+  <title>GearScout 2.0</title>
+  <!--row 1 -->
+  <div class="row">
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+    <div class="col-sm-1 box"> <button type="button" id="lvl2PlatformL">lvl2</button>
+    </div>
+    <div class="col-sm-2 box"> <button type="button" id="lvl3Platform">lvl3</button>
+    </div>
+    <div class="col-sm-1 box"> <button type="button" id="lvl2PlatformR">lvl2</button>
+    </div>
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+  </div>
+  <!--row 2 -->
+  <div class="row">
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+    <div class="col-sm-2 box"> <button type="button" id="lvl1platformL">lvl1</button>
+    </div>
+    <div class="col-sm-2 box"> <button type="button" id="lvl1platformR">lvl1</button>
+    </div>
+
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+  </div>
+  <!--row 3 -->
+  <div class="row">
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+    <div class="col-sm-1 box"> <input type="checkbox" id="cCTLHatch">
+    </div>
+    <div class="col-sm-1 box"> <input type="checkbox" id="cCTRHatch">
+    </div>
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+    <div class="col-sm-1 box">
+      <p></p>
+    </div>
+  </div>
+
+  <!--row 4 -->
+  <div class="row">
+    <div class="col-sm-1 box">
+      <p>b</p>
+    </div>
+    <div class="col-sm-1 box"> <input type="checkbox" id="lRRHHatch">
+    </div>
+    <div class="col-sm-1 box"> <input type="checkbox" id="lRRMHatch">
+    </div>
+    <div class="col-sm-1 box"> <input type="checkbox" id="lRRLHatch">
+    </div>
+    <div class="col-sm-1 box"> <input type="checkbox" id="lCLTHatch">
+    </div>
+    <div class="col-sm-1 box"> <button type="button" id="lCCTCargo">cargo</button>
+    </div>
+    <div class="col-sm-1 box"> <button type="button" id="rCCTCargo">cargo</button>
+    </div>
+    <div class="col-sm-1 box"> <input type="checkbox" id="rCLTHatch">
+    </div>
+    <div class="col-sm-1 box"> <input type="checkbox" id="rRRLHatch">
+    </div>
+    <div class="col-sm-1 box"> <input type="checkbox" id="rRRMHatch">
+    </div>
+    <div class="col-sm-1 box"> <input type="checkbox" id="rRRHHatch">
+    </div>
+    <div class="col-sm-1 box">
+      <p>b</p>
+    </div>
+  </div>
+
+  <!--row 5 -->
+  <div class="row">
+    <div class="col-sm-1 box">
+      <p>c</p>
+    </div>
+    <div class="col-sm-1 box"> <button type="button" id="lRCHCargo">High</button>
+    </div>
+    <div class="col-sm-1 box"> <button type="button" id="lRCMCargo">Med.</button>
+    </div>
+    <div class="col-sm-1 box"> <button type="button" id="lRCLCargo">low</button>
+    </div>
+    <div class="col-sm-1 box"> <input type="checkbox" id="lCLMHatch">
+    </div>
+    <div class="col-sm-1 box"> <button type="button" id="lCCMCargo">cargo</button>
+    </div>
+    <div class="col-sm-1 box"> <button type="button" id="rCCMCargo">cargo</button>
+    </div>
+    <div class="col-sm-1 box"> <input type="checkbox" id="rCRMHatch">
+    </div>
+    <div class="col-sm-1 box"> <button type="button" id="rRCLCargo">low</button>
+    </div>
+    <div class="col-sm-1 box"> <button type="button" id="rRCMCargo">Med.</button>
+    </div>
+    <div class="col-sm-1 box"> <button type="button" id="rRCHCargo">High</button>
+    </div>
+    <div class="col-sm-1 box">
+      <p>c</p>
+    </div>
+  </div>
+
+  <!--row 6 -->
+  <div class="row">
+    <div class="col-sm-1 box">
+      <p>b</p>
+    </div>
+    <div class="col-sm-1 box"> <input type="checkbox" id="lRLHHatch">
+    </div>
+    <div class="col-sm-1 box"> <input type="checkbox" id="lRLMHatch">
+    </div>
+    <div class="col-sm-1 box"> <input type="checkbox" id="lRLLHatch">
+    </div>
+    <div class="col-sm-1 box"> <input type="checkbox" id="lCLLHatch">
+    </div>
+    <div class="col-sm-1 box"> <button type="button" id="lCCLCargo">cargo</button>
+    </div>
+    <div class="col-sm-1 box"> <button type="button" id="rCCLCargo">cargo</button>
+    </div>
+    <div class="col-sm-1 box"> <input type="checkbox" id="rCRLHatch">
+    </div>
+    <div class="col-sm-1 box"> <input type="checkbox" id="rRLHHatch">
+    </div>
+    <div class="col-sm-1 box"> <input type="checkbox" id="rRLMHatch">
+    </div>
+    <div class="col-sm-1 box"> <input type="checkbox" id="rRLLHatch">
+    </div>
+    <div class="col-sm-1 box">
+      <p>b</p>
+    </div>
+  </div>
+
+  </div>
+  <button class="btn waves-effect waves-light" type="submit" id="submit" name="action" onclick="writeUserData();">Submit</button>
+  </div>
+  </form>
+  <script>
+    document.body.className += ' fade-out';
+
+    function writeUserData() {
+      /*                 var submit2 = document.getElementById('submit');*/
+      var config = {
+        apiKey: "AIzaSyAGjIhyS5eGmUvZysE46CuWFjeX0T-ykWA",
+        authDomain: "scoutgear-2018.firebaseapp.com",
+        databaseURL: "https://scoutgear-2018.firebaseio.com",
+        projectId: "scoutgear-2018",
+        storageBucket: "scoutgear-2018.appspot.com",
+        messagingSenderId: "269363065314"
+      };
+      firebase.initializeApp(config);
+      var database = firebase.database();
+      /* firebase.post("/gearscout2018", JSON ) */
+      var  = document.getElementById("").value
+      var  = document.getElementById("").value
+      var  = document.getElementById("").value;
+      var  = document.getElementById("").value;
+      var  = document.getElementById("").value;
+      var  = document.getElementById("").value;
+      var  = document.getElementById("").value;
+      var  = document.getElementById("").value;
+      var  = document.getElementById("").value;
+      var  = document.getElementById("").value;
+      var  = document.getElementById("").value;
+      var  = document.getElementById("").value;
+      var  = document.getElementById("").value;
+      var  = document.getElementById("").value;
+      var  = document.getElementById("").value;
+      var levitate = document.getElementById("").value;
+      var climbed = document.getElementById("").value;
+      var disabled = document.getElementById("").value;
+      var yourteam = document.getElementById("").value;
+      var match = document.getElementById("").value;
+    }
+  </script>
+</body>
+<br>
+</br>
+<footer class="page-footer">
+  <div class="container">
+    <div class="row">
+      <center>
+        <h5 class="white-text">Credits</h5>
+        <p class="grey-text text-lighten-4">Insert Names:</p>
+      </center>
+    </div>
+  </div>
+  <div class="footer-copyright">
+    <div class="container">
+      <p> Version 1.5, December 2018 </p>
+    </div>
+  </div>
+</footer>
