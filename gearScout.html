@@ -48,6 +48,32 @@
   <!--   <audio id="my_audio" src="videoplayback.mp3" loop="loop"></audio>
  -->
   <title>GearScout 2.0</title>
+  <center>
+    <form>
+    <div class="margin-main">
+        <h1 id="control-2498188">GearScout 2.0</h1>
+        <div class="input-field col-md-6 col-sm-12">
+            <input id="yourname" type="text" class="validate">
+            <label for="yourname">Name</label>
+        </div>
+        <div class="input-field col-md-6 col-sm-12">
+            <input id="match" type="text" class="validate">
+            <label for="match">Match</label>
+        </div>
+        <div class="input-field col-md-6 col-sm-12">
+            <input id="yourteam" type="text" class="validate">
+            <label for="yourteam">Team You Are In</label>
+        </div>
+        <div class="input-field col-md-6 col-sm-12">
+            <input id="scoutteam" type="text" class="validate">
+            <label for="scoutteam">Team You Are Scouting</label>
+        </div>
+        <div class="row">
+            <div class="input-field col-md-12 col-sm-12">
+                <input id="regional" type="text" class="validate">
+                <label for="regional">Regional Code</label>
+            </div>
+        </div>
   <!--row 1 -->
   <div class="row">
     <div class="col-sm-1 box">
@@ -298,6 +324,51 @@
       var rRLHHatch = document.getElementById("rRLHHatch").value;
       var rRLMHatch = document.getElementById("rRLMHatch").value;
       var rRLLHatch = document.getElementById("rRLLHatch").value;
+
+      const sender = {
+        lvl2PlatformL: lvl2PlatformL,
+        lvl3Platform: lvl3Platform,
+        lvl2PlatformR: lvl2PlatformR,
+        lvl1platformL: lvl1PlatformL,
+        lvl1platformR: lvl1PlatformR,
+        cCTLHatch: cCTLHatch,
+        cCTRHatch: cCTRHatch,
+        lRRHHatch: lRRHHatch,
+        lRRMHatch: lRRMHatch,
+        lRRLHatch: lRRLHatch,
+        lCLTHatch: lCLTHatch,
+        lCCTCargo: lCCTCargo,
+        rCCTCargo: rCCTCargo,
+        rCLTHatch: rCLTHatch,
+        rRRLHatch: rRRLHatch,
+        rRRMHatch: rRRMHatch,
+        rRRHHatch: rRRHHatch,
+        lRCHCargo: lRCHCargo,
+        lRCMCargo: lRCMCargo,
+        lRCLCargo: lRCLCargo,
+        lCLMHatch: lCLMHatch,
+        lCCMCargo: lCCMCargo,
+        rCCMCargo: rCCMCargo,
+        rCRMHatch: rCRMHatch,
+        rRCLCargo: rRCLCargo,
+        rRCMCargo: rRCMCargo,
+        rRCHCargo: rRCHCargo,
+        lRLHHatch: lRLHHatch,
+        lRLMHatch: lRLMHatch,
+        lRLLHatch: lRLLHatch,
+        lCLLHatch: lCLLHatch,
+        lCCLCargo: lCCLCargo,
+        rCCLCargo: rCCLCargo,
+        rCRLHatch: rCRLHatch,
+        rRLHHatch: rRLHHatch,
+        rRLMHatch: rRLMHatch,
+        rRLLHatch: rRLLHatch,
+      };
+      console.log(sender);
+
+      firebase.database().ref('scouttgear-2018/' + scoutteam + "/" + match).push(sender).catch(function (error) {
+        console.error('Error spilling the tea, sorry fam', error);
+      });
     }
   </script>
 </body>
