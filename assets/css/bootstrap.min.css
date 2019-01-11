@@ -74,9 +74,9 @@ body {
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #212529;
+    color: #02243E;
     text-align: left;
-    background-color: #fff
+    background-color: #02243E
 }
 
 [tabindex="-1"]:focus {
@@ -2221,7 +2221,7 @@ pre code {
     font-size: 1rem;
     line-height: 1.5;
     color: #495057;
-    background-color: #fff;
+    background-color: #02243E;
     background-clip: padding-box;
     border: 1px solid #ced4da;
     border-radius: .25rem;
@@ -2235,7 +2235,7 @@ pre code {
 
 .form-control:focus {
     color: #495057;
-    background-color: #fff;
+    background-color: #02243E;
     border-color: #80bdff;
     outline: 0;
     box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25)
@@ -2278,7 +2278,7 @@ select.form-control:not([size]):not([multiple]) {
 
 select.form-control:focus::-ms-value {
     color: #495057;
-    background-color: #fff
+    background-color: #02243E
 }
 
 .form-control-file,
