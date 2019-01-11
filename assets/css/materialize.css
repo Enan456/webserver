@@ -35,22 +35,13 @@ h2 {
 }
 
 body{
-  background-color: #02243E
-  opacity: 1;
-  transition: 1s opacity;
-}
-body.fade-out {
-    opacity: 0;
-    transition: none;
+  background-color: #02243E;
+
 }
 html {
     background-color: #02243E;
 }
 
-canvas{
-  color: white;
-  opacity: 50%;
-}
 
 .margin-main{
   margin: 0% 3%;
