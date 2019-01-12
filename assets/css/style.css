@@ -6,7 +6,7 @@ html {
 body {
   font-family: 'Fjalla One', sans-serif;
   background: linear-gradient(to bottom, #405166 0%, #656f6f 100%);
-  background-color: #02243E;
+  background-color: #02243E !important;
 }
 
 .container {
