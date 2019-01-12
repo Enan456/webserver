@@ -14,11 +14,20 @@
   <style src="assets/css/style.css"></style>
   <style src="assets/css/sg.css"></style>
   <meta name="apple-mobile-web-app-status-bar-style" content="0f699e">
-
+  <script>
+    var browserSync = require('browser-sync').create();
+    gulp.task('browserSync', function() {
+  browserSync.init({
+    server: {
+      baseDir: 'webserver'
+    },
+  })
+})
+  </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112760702-1"></script>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
-    crossorigin="anonymous">
+    crossorigin="anony  mous">
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
     crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>

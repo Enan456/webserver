@@ -21,6 +21,7 @@
   "dependencies": {
     "hoodie": "^28.2.6",
     "node": "^11.1.0",
+    "normalize.css": "^8.0.1",
     "pwa-install-prompt": "^1.0.2"
   }
 }
