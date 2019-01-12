@@ -9137,7 +9137,7 @@ input[type=range]::-ms-thumb {
     margin-top: 1.2rem;
   }
 }
-
+.box {
 	text-align: center;
 	padding: 0 0 0 0px;
 	background-color: #696969;
