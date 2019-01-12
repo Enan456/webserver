@@ -9,7 +9,7 @@
 }
 
 .flex-grid {
-  display: flex;
+  display: flex !important;
 }
 .col-1 {
 	flex: 1;
