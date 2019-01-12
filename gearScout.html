@@ -14,9 +14,9 @@
   <style src="assets/css/sg.css"></style>
   <meta name="apple-mobile-web-app-status-bar-style" content="0f699e">
   <script>
-    var browserSync = require('browser-sync').create();
-    gulp.task('browserSync', function() {
-  browserSync.init({
+    var bflex-gridserSync = require('bflex-gridser-sync').create();
+    gulp.task('bflex-gridserSync', function() {
+  bflex-gridserSync.init({
     server: {
       baseDir: 'webserver'
     },
@@ -85,15 +85,15 @@
         <input id="scoutteam" type="text" class="validate">
         <label for="scoutteam">Team You Are Scouting</label>
       </div>
-      <div class="row">
+      <div class="flex-grid">
         <div class="input-field">
           <input id="regional" type="text" class="validate">
           <label for="regional">Regional Code</label>
         </div>
       </div>
       <div class="container">
-        <!--row 1 -->
-        <div class="row">
+        <!--flex-grid 1 -->
+        <div class="flex-grid">
           <div class="col-xs-4 box">
             <p></p>
           </div>
@@ -107,8 +107,8 @@
             <p></p>
           </div>
         </div>
-        <!--row 2 -->
-        <div class="row">
+        <!--flex-grid 2 -->
+        <div class="flex-grid">
           <div class="col-xs-4 box">
             <p></p>
           </div>
@@ -119,8 +119,8 @@
             <p></p>
           </div>
         </div>
-        <!--row 3 -->
-        <div class="row">
+        <!--flex-grid 3 -->
+        <div class="flex-grid">
           <div class="col-xs-5 box">
             <p></p>
           </div>
@@ -132,8 +132,8 @@
             <p></p>
           </div>
         </div>
-        <!--row 4 -->
-        <div class="row">
+        <!--flex-grid 4 -->
+        <div class="flex-grid">
           <div class="col-xs-5 box">
             <p></p>
           </div>
@@ -145,8 +145,8 @@
             <p></p>
           </div>
         </div>
-        <!--row 5 -->
-        <div class="row">
+        <!--flex-grid 5 -->
+        <div class="flex-grid">
           <div class="col-xs-1 box">
             <p>Right</p>
           </div>
@@ -175,8 +175,8 @@
           </div>
         </div>
 
-        <!--row 6 -->
-        <div class="row">
+        <!--flex-grid 6 -->
+        <div class="flex-grid">
           <div class="col-xs-1 box">
             <p>Ports</p>
           </div>
@@ -205,8 +205,8 @@
           </div>
         </div>
 
-        <!--row 7 -->
-        <div class="row">
+        <!--flex-grid 7 -->
+        <div class="flex-grid">
           <div class="col-xs-1 box">
             <p>Left</p>
           </div>
@@ -345,7 +345,7 @@
 <footer class="page-footer">
   <center>
     <div class="container">
-      <div class="row">
+      <div class="flex-grid">
         <h5 class="white-text">Credits</h5>
         <p class="grey-text text-lighten-4">Insert Names:No lol XD</p>
       </div>
