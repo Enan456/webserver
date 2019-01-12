@@ -19,8 +19,6 @@
   },
   "homepage": "https://github.com/Enan456/webserver#readme",
   "dependencies": {
-    "node": "^11.1.0",
-    "normalize.css": "^8.0.1",
-    "pwa-install-prompt": "^1.0.2"
+    "node": "^11.1.0"
   }
 }
