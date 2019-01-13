@@ -15,7 +15,7 @@
     <style src="assets/css/sg.css"></style>
     <style src="assets/css/materialize.css"></style>
 
-<script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112760702-1"></script>
@@ -51,66 +51,96 @@
 
 
 </head>
+
 <body>
-  <center>
-      <!-- Use these form inputs to grab data -->
-  <div class="margin-main">
-    <h1>Data</h1>
-<div class="input-field col-md-6 col-sm-12">
-    <input id="yourteam" type="text" class="validate">
-    <label for="yourteam">Team You Are In</label>
-</div>
-<div class="input-field col-md-12 col-sm-12">
-    <input id="regional" type="text" class="validate">
-    <label for="regional">Regional Code</label>
-</div>
-<div class="input-field col-md-6 col-sm-12">
-    <input id="scoutteam" type="text" class="validate">
-    <label for="scoutteam">Team You want data for</label>
-</div>
-<button class="btn waves-effect waves-light" type="submit" onclick="load_team()";>Get My Data
-    <i class="material-icons right">send</i>
-</button>
-</div>
-</center>
-<canvas id="cubes" width="400" height="400"></canvas>
-<!-- https://stackoverflow.com/questions/11456862/get-a-json-file-from-url-and-display -->
-<!-- use that thing^ -->
-<script>
-    var ctx = document.getElementById("cubes").getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ["Portal Power Cubes", "Cubes In Friendly Alliance Switch", "Cubes In Scale", "Cubes In Opposing Alliance Switch"],
-            datasets: [{
-                label: '# of points',
-                data: [12, 19, 3, 5],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255,99,132,1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
+    <center>
+        <!-- Use these form inputs to grab data -->
+        <div class="margin-main">
+            <h1>Data</h1>
+            <div class="input-field col-md-6 col-sm-12">
+                <input id="yourteam" type="text" class="validate">
+                <label for="yourteam">Team You Are In</label>
+            </div>
+            <div class="input-field col-md-12 col-sm-12">
+                <input id="regional" type="text" class="validate">
+                <label for="regional">Regional Code</label>
+            </div>
+            <div class="input-field col-md-6 col-sm-12">
+                <input id="scoutteam" type="text" class="validate">
+                <label for="scoutteam">Team You want data for</label>
+            </div>
+            <button class="btn waves-effect waves-light" type="submit" onclick="load_team()" ;>Get My Data
+                <i class="material-icons right">send</i>
+            </button>
+        </div>
+    </center>
+
+    <script>
+        function load_team() {
+const yourTeam = document.getElementById("yourteam");
+const regional = document.getElementById("regional");
+const scoutteam = document.getElementById("scoutteam");
+            var userDataRef = firebase.database().ref("/"+ yourTeam + "/" + regional ).orderByKey();
+            userDataRef.once("value").then(function (snapshot) {
+                snapshot.forEach(function (childSnapshot) {
+                    var key = childSnapshot.key;
+                    var childData = childSnapshot.val();
+
+                    var name_val = childSnapshot.val().Name;
+                    var id_val = childSnapshot.val().AssignedID;
+
+                    $("#name").append(name_val);
+                    $("#id").append(id_val);
+
+                });
+            });
         }
-    });
-</script>
+    </script>
+
+
+
+
+    <canvas id="cubes" width="400" height="400"></canvas>
+    <!-- https://stackoverflow.com/questions/11456862/get-a-json-file-from-url-and-display -->
+    <!-- use that thing^ -->
+    <script>
+        var ctx = document.getElementById("cubes").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ["Portal Power Cubes", "Cubes In Friendly Alliance Switch", "Cubes In Scale",
+                    "Cubes In Opposing Alliance Switch"
+                ],
+                datasets: [{
+                    label: '# of points',
+                    data: [12, 19, 3, 5],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
 
 </body>
+
 </html>
