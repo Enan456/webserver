@@ -9599,6 +9599,7 @@ input[type=range]::-ms-thumb {
   height: 50px;
   background-repeat: no-repeat;
   padding: 0%;
+  -webkit-appearance: button !important;
 }
 
 .hatch:checked {
@@ -9609,6 +9610,7 @@ input[type=range]::-ms-thumb {
   height: 50px;
   background-repeat: no-repeat;
   padding: 0%;
+  -webkit-appearance: button !important;
 }
 
 .hatch label {
@@ -9619,6 +9621,7 @@ input[type=range]::-ms-thumb {
   height: 50px;
   background-repeat: no-repeat;
   padding: 0%;
+  -webkit-appearance: button !important;
 }
 
 .hatch:checked label {
@@ -9629,6 +9632,7 @@ input[type=range]::-ms-thumb {
   height: 50px;
   background-repeat: no-repeat;
   padding: 0%;
+  -webkit-appearance: button !important;
 }
 
 .flex-grid {
