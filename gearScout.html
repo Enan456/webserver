@@ -12,6 +12,7 @@
   <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase.js"></script>
   <style src="assets/css/style.css"></style>
   <style src="assets/css/sg.css"></style>
+  <script src="assets/js/materialize.js"></script>
   <meta name="apple-mobile-web-app-status-bar-style" content="0f699e">
   <!--   <script>
     var browserSync = require('browser-sync').create();
@@ -85,12 +86,13 @@
         <input id="scoutteam" type="text" class="validate">
         <label for="scoutteam">Team You Are Scouting</label>
       </div>
-      <div class="flex-grid">
+      <div class="input-field">
         <div class="input-field">
           <input id="regional" type="text" class="validate">
           <label for="regional">Regional Code</label>
         </div>
       </div>
+      <br>
       <div class="container">
         <!--flex-grid 1 -->
         <div class="flex-grid">
@@ -236,10 +238,10 @@
         </div>
       </div>
     </div>
+    </div>
     <center>
       <button class="btn waves-effect waves-light" type="submit" id="submit" name="action" onclick="writeUserData();">Submit</button>
     </center>
-    </div>
   </form>
   <script>
     function writeUserData() {
@@ -424,18 +426,3 @@ var addrRCHCargo = (function () {
 </body>
 <br>
 </br>
-<footer class="page-footer">
-  <center>
-    <div class="container">
-      <div class="flex-grid">
-        <h5 class="white-text">Credits</h5>
-        <p class="grey-text text-lighten-4">Insert Names:No lol XD</p>
-      </div>
-    </div>
-    <div class="footer-copyright">
-      <div class="container">
-        <p> Version 23.38, January 2019 </p>
-      </div>
-    </div>
-  </center>
-</footer>
