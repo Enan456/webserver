@@ -374,6 +374,19 @@ rRLLHatch: rRLLHatch,
 
     }
   </script>
+
+  <input onclick="addlRCHCargo" type="button" value="High" id="lRCHCargo"></input>
+
+  <input onclick="addlRCMCargo" type="button" value="Med." id="lRCMCargo"></input>
+
+  <input onclick="addlRCLCargo" type="button" value="Low" id="lRCLCargo"></input>
+
+  <input onclick="addrRCLCargo" type="button" value="Low" id="rRCLCargo"></input>
+
+  <input onclick="addrRCMCargo" type="button" value="Med." id="rRCMCargo"></input>
+
+  <input onclick="addrRCHCargo" type="button" value="High" id="rRCHCargo"></input>
+  
   <script>
     var addlRCHCargo = (function () {
       var counterlRCHCargo = 0;
@@ -381,7 +394,18 @@ rRLLHatch: rRLLHatch,
         counterlRCHCargo += 1;
         return counter
       }
-    })();
+        if  (("lRCHCargo").value="High") {
+          document.getElementById("lRCHCargo").value="1";
+          } else if (("lRCHCargo").value="1"){
+            document.getElementById("lRCHCargo").value="1";
+          } else if (("lRCHCargo").value="2"){
+            document.getElementById("lRCHCargo").value="High";
+          }
+        
+         
+
+      })();
+    
 
     var addlRCMCargo = (function () {
       var counterlRCMCargo = 0;
@@ -391,39 +415,26 @@ rRLLHatch: rRLLHatch,
       }
     })();
 
-    var add = (function () {
-      var counterlRCLCargo = 0;
-      return function () {
-        counterlRCLCargo += 1;
-        return counter
-      }
-    })();
+var addlRCLCargo = (function () {
+  var counterlRCLCargo = 0;
+  return function () {counterlRCLCargo += 1; return counter}
+})();
 
-    var add = (function () {
-      var counterrRCLCargo = 0;
-      return function () {
-        counterrRCLCargo += 1;
-        return counter
-      }
-    })();
+var addrRCLCargo = (function () {
+  var counterrRCLCargo = 0;
+  return function () {counterrRCLCargo += 1; return counter}
+})();
 
-    var add = (function () {
-      var counterrRCMCargo = 0;
-      return function () {
-        counterrRCMCargo += 1;
-        return counter
-      }
-    })();
+var addrRCMCargo = (function () {
+  var counterrRCMCargo = 0;
+  return function () {counterrRCMCargo += 1; return counter}
+})();
 
-    var add = (function () {
-      var counterrRCHCargo = 0;
-      return function () {
-        counterrRCHCargo += 1;
-        return counter
-      }
-    })();
+var addrRCHCargo = (function () {
+  var counterrRCHCargo = 0;
+  return function () {counterrRCHCargo += 1; return counter}
+})();
 
-    lRCHCargo onclick =
   </script>
 </body>
 <br>
