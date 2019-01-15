@@ -4,7 +4,7 @@
 <head>
   <!-- https://codepen.io/AgentWill/pen/QzBdJm?editors=1100 -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link type="text/css" rel="stylesheet" href="assets/css/materialize.css" media="screen,projection"/>
+  <link type="text/css" rel="stylesheet" href="assets/css/materialize.css" media="screen,projection" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#02243E" />
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
@@ -13,7 +13,7 @@
   <style src="assets/css/style.css"></style>
   <style src="assets/css/sg.css"></style>
   <meta name="apple-mobile-web-app-status-bar-style" content="0f699e">
-<!--   <script>
+  <!--   <script>
     var browserSync = require('browser-sync').create();
     gulp.task('browserSync', function() {
   bflex-gridserSync.init({
@@ -29,7 +29,7 @@
   <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
   <!-- <script src="assets/js/materialize.js"></script> -->
   <!-- Load our React component. -->
-<!--   <script src="/assets/react/button.js"></script>
+  <!--   <script src="/assets/react/button.js"></script>
   <script src="/assets/react/checkbox.js"></script> -->
   <script>
     /* var config = {
@@ -244,61 +244,95 @@
   <script>
     function writeUserData() {
       /*                 var submit2 = document.getElementById('submit');*/
-var config = {
-apiKey: "AIzaSyAGjIhyS5eGmUvZysE46CuWFjeX0T-ykWA",
-authDomain: "scoutgear-2018.firebaseapp.com",
-databaseURL: "https://scoutgear-2018.firebaseio.com",
-projectId: "scoutgear-2018",
-storageBucket: "scoutgear-2018.appspot.com",
-messagingSenderId: "269363065314"
-};
-firebase.initializeApp(config);
-var database = firebase.database();
-/* firebase.post("/gearscout2018", JSON ) */
-var lvl2PlatformL = document.getElementById("lvl2PlatformL").checked.toString;
-var lvl3Platform = document.getElementById("lvl3Platform").checked.toString;
-var lvl2PlatformR = document.getElementById("lvl2PlatformR").checked.toString;
-var lvl1platformL = document.getElementById("lvl1PlatformL").checked.toString;
-var lvl1platformR = document.getElementById("lvl1PlatformR").checked.toString;
-var cCTLHatch = document.getElementById("cCTLHatch").checked.toString;
-var cCTRHatch = document.getElementById("cCTRHatch").checked.toString;
-var lRRHHatch = document.getElementById("lRRHHatch").checked.toString;
-var lRRMHatch = document.getElementById("lRRMHatch").checked.toString;
-var lRRLHatch = document.getElementById("lRRLHatch").checked.toString;
-var lCLTHatch = document.getElementById("lCLTHatch").checked.toString;
-var lCCTCargo = document.getElementById("lCCTCargo").checked.toString;
-var rCCTCargo = document.getElementById("rCCTCargo").checked.toString;
-var rCLTHatch = document.getElementById("rCLTHatch").checked.toString;
-var rRRLHatch = document.getElementById("rRRLHatch").checked.toString;
-var rRRMHatch = document.getElementById("rRRMHatch").checked.toString;
-var rRRHHatch = document.getElementById("rRRHHatch").checked.toString;
-var lRCHCargo = document.getElementById("lRCHCargo").checked.toString;
-var lRCMCargo = document.getElementById("lRCMCargo").checked.toString;
-var lRCLCargo = document.getElementById("lRCLCargo").checked.toString;
-var lCLMHatch = document.getElementById("lCLMHatch").checked.toString;
-var lCCMCargo = document.getElementById("lCCMCargo").checked.toString;
-var rCCMCargo = document.getElementById("rCCMCargo").checked.toString;
-var rCRMHatch = document.getElementById("rCRMHatch").checked.toString;
-var rRCLCargo = document.getElementById("rRCLCargo").checked.toString;
-var rRCMCargo = document.getElementById("rRCMCargo").checked.toString;
-var rRCHCargo = document.getElementById("rRCHCargo").checked.toString;
-var lRLHHatch = document.getElementById("lRLHHatch").checked.toString;
-var lRLMHatch = document.getElementById("lRLMHatch").checked.toString;
-var lRLLHatch = document.getElementById("lRLLHatch").checked.toString;
-var lCLLHatch = document.getElementById("lCLLHatch").checked.toString;
-var lCCLCargo = document.getElementById("lCCLCargo").checked.toString;
-var rCCLCargo = document.getElementById("rCCLCargo").checked.toString;
-var rCRLHatch = document.getElementById("rCRLHatch").checked.toString;
-var rRLHHatch = document.getElementById("rRLHHatch").checked.toString;
-var rRLMHatch = document.getElementById("rRLMHatch").checked.toString;
-var rRLLHatch = document.getElementById("rRLLHatch").checked.toString;
+      var config = {
+        apiKey: "AIzaSyAGjIhyS5eGmUvZysE46CuWFjeX0T-ykWA",
+        authDomain: "scoutgear-2018.firebaseapp.com",
+        databaseURL: "https://scoutgear-2018.firebaseio.com",
+        projectId: "scoutgear-2018",
+        storageBucket: "scoutgear-2018.appspot.com",
+        messagingSenderId: "269363065314"
+      };
+      firebase.initializeApp(config);
+      var database = firebase.database();
+      /* firebase.post("/gearscout2018", JSON ) */
+      /* var lvl2PlatformL = document.getElementById("lvl2PlatformL").checked.toString;
+      var lvl3Platform = document.getElementById("lvl3Platform").checked.toString;
+      var lvl2PlatformR = document.getElementById("lvl2PlatformR").checked.toString;
+      var lvl1platformL = document.getElementById("lvl1PlatformL").checked.toString;
+      var lvl1platformR = document.getElementById("lvl1PlatformR").checked.toString; */
+      var cCTLHatch = document.getElementById("cCTLHatch").checked.toString;
+      var cCTRHatch = document.getElementById("cCTRHatch").checked.toString;
+      var lRRHHatch = document.getElementById("lRRHHatch").checked.toString;
+      var lRRMHatch = document.getElementById("lRRMHatch").checked.toString;
+      var lRRLHatch = document.getElementById("lRRLHatch").checked.toString;
+      var lCLTHatch = document.getElementById("lCLTHatch").checked.toString;
+      var lCCTCargo = document.getElementById("lCCTCargo").checked.toString;
+      var rCCTCargo = document.getElementById("rCCTCargo").checked.toString;
+      var rCLTHatch = document.getElementById("rCLTHatch").checked.toString;
+      var rRRLHatch = document.getElementById("rRRLHatch").checked.toString;
+      var rRRMHatch = document.getElementById("rRRMHatch").checked.toString;
+      var rRRHHatch = document.getElementById("rRRHHatch").checked.toString;
+      var lRCHCargo = document.getElementById("lRCHCargo").checked.toString;
+      var lRCMCargo = document.getElementById("lRCMCargo").checked.toString;
+      var lRCLCargo = document.getElementById("lRCLCargo").checked.toString;
+      var lCLMHatch = document.getElementById("lCLMHatch").checked.toString;
+      var lCCMCargo = document.getElementById("lCCMCargo").checked.toString;
+      var rCCMCargo = document.getElementById("rCCMCargo").checked.toString;
+      var rCRMHatch = document.getElementById("rCRMHatch").checked.toString;
+      var rRCLCargo = document.getElementById("rRCLCargo").checked.toString;
+      var rRCMCargo = document.getElementById("rRCMCargo").checked.toString;
+      var rRCHCargo = document.getElementById("rRCHCargo").checked.toString;
+      var lRLHHatch = document.getElementById("lRLHHatch").checked.toString;
+      var lRLMHatch = document.getElementById("lRLMHatch").checked.toString;
+      var lRLLHatch = document.getElementById("lRLLHatch").checked.toString;
+      var lCLLHatch = document.getElementById("lCLLHatch").checked.toString;
+      var lCCLCargo = document.getElementById("lCCLCargo").checked.toString;
+      var rCCLCargo = document.getElementById("rCCLCargo").checked.toString;
+      var rCRLHatch = document.getElementById("rCRLHatch").checked.toString;
+      var rRLHHatch = document.getElementById("rRLHHatch").checked.toString;
+      var rRLMHatch = document.getElementById("rRLMHatch").checked.toString;
+      var rRLLHatch = document.getElementById("rRLLHatch").checked.toString;
 
+      /* let sender = {
+        lvl2PlatformL: lvl2PlatformL,
+        lvl3Platform: lvl3Platform,
+        lvl2PlatformR: lvl2PlatformR,
+        lvl1platformL: lvl1PlatformL,
+        lvl1platformR: lvl1PlatformR,
+        cCTLHatch: cCTLHatch,
+        cCTRHatch: cCTRHatch,
+        lRRHHatch: lRRHHatch,
+        lRRMHatch: lRRMHatch,
+        lRRLHatch: lRRLHatch,
+        lCLTHatch: lCLTHatch,
+        lCCTCargo: lCCTCargo,
+        rCCTCargo: rCCTCargo,
+        rCLTHatch: rCLTHatch,
+        rRRLHatch: rRRLHatch,
+        rRRMHatch: rRRMHatch,
+        rRRHHatch: rRRHHatch,
+        lRCHCargo: lRCHCargo,
+        lRCMCargo: lRCMCargo,
+        lRCLCargo: lRCLCargo,
+        lCLMHatch: lCLMHatch,
+        lCCMCargo: lCCMCargo,
+        rCCMCargo: rCCMCargo,
+        rCRMHatch: rCRMHatch,
+        rRCLCargo: rRCLCargo,
+        rRCMCargo: rRCMCargo,
+        rRCHCargo: rRCHCargo,
+        lRLHHatch: lRLHHatch,
+        lRLMHatch: lRLMHatch,
+        lRLLHatch: lRLLHatch,
+        lCLLHatch: lCLLHatch,
+        lCCLCargo: lCCLCargo,
+        rCCLCargo: rCCLCargo,
+        rCRLHatch: rCRLHatch,
+        rRLHHatch: rRLHHatch,
+        rRLMHatch: rRLMHatch,
+        rRLLHatch: rRLLHatch,
+      }; */
 let sender = {
-lvl2PlatformL: lvl2PlatformL,
-lvl3Platform: lvl3Platform,
-lvl2PlatformR: lvl2PlatformR,
-lvl1platformL: lvl1PlatformL,
-lvl1platformR: lvl1PlatformR,
 cCTLHatch: cCTLHatch,
 cCTRHatch: cCTRHatch,
 lRRHHatch: lRRHHatch,
@@ -332,46 +366,64 @@ rRLHHatch: rRLHHatch,
 rRLMHatch: rRLMHatch,
 rRLLHatch: rRLLHatch,
 };
-console.log(sender.toString);
+      console.log(sender.toString);
 
-firebase.database().ref('scouttgear-2018/' + scoutteam + "/" + match).push(sender).catch(function (error) {
-console.error('Error spilling the tea, sorry fam', error);
-});
+      firebase.database().ref('scouttgear-2018/' + scoutteam + "/" + match).push(sender).catch(function (error) {
+        console.error('Error spilling the tea, sorry fam', error);
+      });
 
     }
   </script>
   <script>
     var addlRCHCargo = (function () {
-  var counterlRCHCargo = 0;
-  return function () {counterlRCHCargo += 1; return counter}
-})(); 
+      var counterlRCHCargo = 0;
+      return function () {
+        counterlRCHCargo += 1;
+        return counter
+      }
+    })();
 
-var addlRCMCargo = (function () {
-  var counterlRCMCargo = 0;
-  return function () {counterlRCMCargo += 1; return counter}
-})();
+    var addlRCMCargo = (function () {
+      var counterlRCMCargo = 0;
+      return function () {
+        counterlRCMCargo += 1;
+        return counter
+      }
+    })();
 
-var add = (function () {
-  var counterlRCLCargo = 0;
-  return function () {counterlRCLCargo += 1; return counter}
-})();
+    var add = (function () {
+      var counterlRCLCargo = 0;
+      return function () {
+        counterlRCLCargo += 1;
+        return counter
+      }
+    })();
 
-var add = (function () {
-  var counterrRCLCargo = 0;
-  return function () {counterrRCLCargo += 1; return counter}
-})();
+    var add = (function () {
+      var counterrRCLCargo = 0;
+      return function () {
+        counterrRCLCargo += 1;
+        return counter
+      }
+    })();
 
-var add = (function () {
-  var counterrRCMCargo = 0;
-  return function () {counterrRCMCargo += 1; return counter}
-})();
+    var add = (function () {
+      var counterrRCMCargo = 0;
+      return function () {
+        counterrRCMCargo += 1;
+        return counter
+      }
+    })();
 
-var add = (function () {
-  var counterrRCHCargo = 0;
-  return function () {counterrRCHCargo += 1; return counter}
-})();
+    var add = (function () {
+      var counterrRCHCargo = 0;
+      return function () {
+        counterrRCHCargo += 1;
+        return counter
+      }
+    })();
 
-lRCHCargo onclick=
+    lRCHCargo onclick =
   </script>
 </body>
 <br>
