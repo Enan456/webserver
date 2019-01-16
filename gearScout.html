@@ -180,11 +180,11 @@
           <div class="col-1">
             <p>Ports</p>
           </div>
-          <div class="col-1" id="button"> <button type="button" id="lRCHCargo" class="rocket">High</button>
+          <div class="col-1" id="button"> <button onclick="addlRCHCargo" value="High" type="button" id="lRCHCargo" class="rocket"></button>
           </div>
-          <div class="col-1" id="button"> <button type="button" id="lRCMCargo" class="rocket">Med.</button>
+          <div class="col-1" id="button"> <button onclick="addlRCMCargo" value="Med." type="button" id="lRCMCargo" class="rocket"></button>
           </div>
-          <div class="col-1" id="button"> <button type="button" id="lRCLCargo" class="rocket">low</button>
+          <div class="col-1" id="button"> <button onclick="addlRCLCargo" value="Low" type="button" id="lRCLCargo" class="rocket"></button>
           </div>
           <div class="col-1" id="checkbox"> <input type="checkbox" id="lCLMHatch" class="hatch"><label for="lCLMHatch"></label>
           </div>
@@ -194,11 +194,11 @@
           </div>
           <div class="col-1" id="checkbox"> <input type="checkbox" id="rCRMHatch" class="hatch"><label for="rCRMHatch"></label>
           </div>
-          <div class="col-1" id="button"> <button type="button" id="rRCLCargo" class="rocket">low</button>
+          <div class="col-1" id="button"> <button onclick="addrRCLCargo" value="Low" type="button" id="rRCLCargo" class="rocket"></button>
           </div>
-          <div class="col-1" id="button"> <button type="button" id="rRCMCargo" class="rocket">Med.</button>
+          <div class="col-1" id="button"> <button onclick="addrRCMCargo" value="Med." type="button" id="rRCMCargo" class="rocket"></button>
           </div>
-          <div class="col-1" id="button"> <button type="button" id="rRCHCargo" class="rocket">High</button>
+          <div class="col-1" id="button"> <button onclick="addrRCHCargo" value="High" type="button" id="rRCHCargo" class="rocket"></button>
           </div>
           <div class="col-1">
             <p>Ports</p>
@@ -374,18 +374,6 @@ rRLLHatch: rRLLHatch,
 
     }
   </script>
-
-  <input onclick="addlRCHCargo" type="button" value="High" id="lRCHCargo"></input>
-
-  <input onclick="addlRCMCargo" type="button" value="Med." id="lRCMCargo"></input>
-
-  <input onclick="addlRCLCargo" type="button" value="Low" id="lRCLCargo"></input>
-
-  <input onclick="addrRCLCargo" type="button" value="Low" id="rRCLCargo"></input>
-
-  <input onclick="addrRCMCargo" type="button" value="Med." id="rRCMCargo"></input>
-
-  <input onclick="addrRCHCargo" type="button" value="High" id="rRCHCargo"></input>
   
   <script>
     var addlRCHCargo = (function () {
