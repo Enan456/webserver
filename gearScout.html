@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <meta name="Description" content="GearScout - The Scouting App For Any Team">
   <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.14.1/dist/tf.min.js"></script>
   <style src="assets/css/style.css"></style>
   <style src="assets/css/sg.css"></style>
   <script src="assets/js/materialize.js"></script>
@@ -411,6 +412,15 @@ var addrRCHCargo = (function () {
   var counterrRCHCargo = 0;
   return function () {counterrRCHCargo += 1; return counter}
 })();
+
+    var add = (function () {
+      var counterrRCHCargo = 0;
+      return function () {
+        counterrRCHCargo += 1;
+        return counter
+      }
+    })();
+
 
   </script>
 </body>
