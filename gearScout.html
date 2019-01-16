@@ -183,11 +183,11 @@
           <div class="col-1">
             <p>Ports</p>
           </div>
-          <div class="col-1" id="button"> <button onclick="addlRCHCargo" value="High" type="button" id="lRCHCargo" class="rocket"></button>
+          <div class="col-1" id="button"> <button onclick=onClicklRCHCargo() value="High" type="button" id="lRCHCargo" class="rocket">High</button>
           </div>
-          <div class="col-1" id="button"> <button onclick="addlRCMCargo" value="Med." type="button" id="lRCMCargo" class="rocket"></button>
+          <div class="col-1" id="button"> <button onclick=addlRCMCargo() value="Med." type="button" id="lRCMCargo" class="rocket">Med.</button>
           </div>
-          <div class="col-1" id="button"> <button onclick="addlRCLCargo" value="Low" type="button" id="lRCLCargo" class="rocket"></button>
+          <div class="col-1" id="button"> <button onclick=addlRCLCargo() value="Low" type="button" id="lRCLCargo" class="rocket">Low</button>
           </div>
           <div class="col-1" id="checkbox"> <input type="checkbox" id="lCLMHatch" class="hatch"><label for="lCLMHatch"></label>
           </div>
@@ -197,11 +197,11 @@
           </div>
           <div class="col-1" id="checkbox"> <input type="checkbox" id="rCRMHatch" class="hatch"><label for="rCRMHatch"></label>
           </div>
-          <div class="col-1" id="button"> <button onclick="addrRCLCargo" value="Low" type="button" id="rRCLCargo" class="rocket"></button>
+          <div class="col-1" id="button"> <button onclick=addrRCLCargo() value="Low" type="button" id="rRCLCargo" class="rocket">Low</button>
           </div>
-          <div class="col-1" id="button"> <button onclick="addrRCMCargo" value="Med." type="button" id="rRCMCargo" class="rocket"></button>
+          <div class="col-1" id="button"> <button onclick=addrRCMCargo() value="Med." type="button" id="rRCMCargo" class="rocket">Med.</button>
           </div>
-          <div class="col-1" id="button"> <button onclick="addrRCHCargo" value="High" type="button" id="rRCHCargo" class="rocket"></button>
+          <div class="col-1" id="button"> <button onclick=addrRCHCargo() value="High" type="button" id="rRCHCargo" class="rocket">High</button>
           </div>
           <div class="col-1">
             <p>Ports</p>
@@ -380,29 +380,17 @@ rRLLHatch: rRLLHatch,
   </script>
   
   <script>
-    var addlRCHCargo = (function () {
-      var counterlRCHCargo = 0;
-      return function () {
-        counterlRCHCargo += 1;
-        return counter
-      }
-        if  (("lRCHCargo").value="High") {
-          document.getElementById("lRCHCargo").value="1";
-          } else if (("lRCHCargo").value="1"){
-            document.getElementById("lRCHCargo").value="1";
-          } else if (("lRCHCargo").value="2"){
-            document.getElementById("lRCHCargo").value="High";
+  function onClicklRCHCargo() {
+    var counterlRCHCargo = 0;
+            if  (("counterlRCHCargo")=0) {
+          document.getElementById("counterlRCHCargo")=1;
+          } else if (("counterlRCHCargo")=1){
+            document.getElementById("counterlRCHCargo")=2;
+          } else if (("counterlRCHCargo")=2){
+            document.getElementById("counterlRCHCargo")=0;
           }
-    
-
-    var addlRCMCargo = (function () {
-      var counterlRCMCargo = 0;
-      return function () {
-        counterlRCMCargo += 1;
-        return counter
-      }
-    }
-  )})();
+    document.getElementById("lRCHCargo").innerHTML = addlRCHCargo;
+  }
 
 var addlRCLCargo = (function () {
   var counterlRCLCargo = 0;
