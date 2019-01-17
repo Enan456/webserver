@@ -260,20 +260,20 @@
       };
       firebase.initializeApp(config);
       var database = firebase.database();
-      /* firebase.post("/gearscout2018", JSON ) */
-      /* var lvl2PlatformL = document.getElementById("lvl2PlatformL").checked.toString;
+      firebase.post("/gearscout2018", JSON ) 
+      var lvl2PlatformL = document.getElementById("lvl2PlatformL").checked.toString;
       var lvl3Platform = document.getElementById("lvl3Platform").checked.toString;
       var lvl2PlatformR = document.getElementById("lvl2PlatformR").checked.toString;
       var lvl1platformL = document.getElementById("lvl1PlatformL").checked.toString;
-      var lvl1platformR = document.getElementById("lvl1PlatformR").checked.toString; */
+      var lvl1platformR = document.getElementById("lvl1PlatformR").checked.toString;
       var cCTLHatch = document.getElementById("cCTLHatch").checked.toString;
       var cCTRHatch = document.getElementById("cCTRHatch").checked.toString;
       var lRRHHatch = document.getElementById("lRRHHatch").checked.toString;
       var lRRMHatch = document.getElementById("lRRMHatch").checked.toString;
       var lRRLHatch = document.getElementById("lRRLHatch").checked.toString;
       var lCLTHatch = document.getElementById("lCLTHatch").checked.toString;
-      var lCCTCargo = document.getElementById("lCCTCargo").value;
-      var rCCTCargo = document.getElementById("rCCTCargo").value;
+      var lCCTCargo = document.getElementById("lCCTCargo").checked.toString;
+      var rCCTCargo = document.getElementById("rCCTCargo").checked.toString;
       var rCLTHatch = document.getElementById("rCLTHatch").checked.toString;
       var rRRLHatch = document.getElementById("rRRLHatch").checked.toString;
       var rRRMHatch = document.getElementById("rRRMHatch").checked.toString;
@@ -282,8 +282,8 @@
       var lRCMCargo = document.getElementById("lRCMCargo").value;
       var lRCLCargo = document.getElementById("lRCLCargo").value;
       var lCLMHatch = document.getElementById("lCLMHatch").checked.toString;
-      var lCCMCargo = document.getElementById("lCCMCargo").value;
-      var rCCMCargo = document.getElementById("rCCMCargo").value;
+      var lCCMCargo = document.getElementById("lCCMCargo").checked.toString;
+      var rCCMCargo = document.getElementById("rCCMCargo").checked.toString;
       var rCRMHatch = document.getElementById("rCRMHatch").checked.toString;
       var rRCLCargo = document.getElementById("rRCLCargo").value;
       var rRCMCargo = document.getElementById("rRCMCargo").value;
@@ -292,8 +292,8 @@
       var lRLMHatch = document.getElementById("lRLMHatch").checked.toString;
       var lRLLHatch = document.getElementById("lRLLHatch").checked.toString;
       var lCLLHatch = document.getElementById("lCLLHatch").checked.toString;
-      var lCCLCargo = document.getElementById("lCCLCargo").value;
-      var rCCLCargo = document.getElementById("rCCLCargo").value;
+      var lCCLCargo = document.getElementById("lCCLCargo").checked.toString;
+      var rCCLCargo = document.getElementById("rCCLCargo").checked.toString;
       var rCRLHatch = document.getElementById("rCRLHatch").checked.toString;
       var rRLHHatch = document.getElementById("rRLHHatch").checked.toString;
       var rRLMHatch = document.getElementById("rRLMHatch").checked.toString;
@@ -374,7 +374,7 @@ rRLLHatch: rRLLHatch,
 };
       console.log(sender.toString);
 
-      firebase.database().ref('scoutgear-2018' + scoutteam + "/" + match).push(sender).catch(function (error) {
+      firebase.database().ref('scoutgear-2018/' + scoutteam + "/" + match).push(sender).catch(function (error) {
         console.error('Error spilling the tea, sorry fam', error);
       });
 
