@@ -6,7 +6,7 @@
   "display": "standalone",
   "orientation": "portrait",
   "Scope": "/",
-  "start_url": "/sg.html",
+  "start_url": "/gearScout.html",
   "icons": [
     {
       "src": "assets/images/icons/icon-72x72.png",
