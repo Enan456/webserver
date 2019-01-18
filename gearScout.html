@@ -254,7 +254,7 @@
     </center>
     </div>
     <center>
-      <button class="btn waves-effect waves-light" type="submit" id="submit" name="action" onclick="writeUserData();">Submit</button>
+      <button class="btn waves-effect waves-light" type="submit" id="submit" name="action" onclick="writeUserData();">Submit<i class="material-icons right">send</i></button>
     </center>
   </form>
   <script>
@@ -311,6 +311,19 @@
       var rRLHHatch = document.getElementById("rRLHHatch").checked.toString;
       var rRLMHatch = document.getElementById("rRLMHatch").checked.toString;
       var rRLLHatch = document.getElementById("rRLLHatch").checked.toString;
+
+                if (yourname === null) {
+                    yourname = " ";
+                }
+                if (regional === null) {
+                    regional = "a_trash";
+                }
+                if (scoutteam === null) {
+                    scoutteam = 0;
+                }
+                if (yourteam === null) {
+                    yourteam = 0;
+                }
 
       /* let sender = {
         lvl2PlatformL: lvl2PlatformL,
