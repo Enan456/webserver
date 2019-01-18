@@ -52,7 +52,7 @@
     gtag('js', new Date());
     gtag('config', 'UA-112760702-1');
   </script>
-  <script src="service_worker.js"></script>
+  <script src="serviceWorker2.js"></script>
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/icons/favicon-16x16.png">
@@ -395,8 +395,67 @@
         clicks = 1;
     };
   </script>
+<<<<<<< Updated upstream
   <script>
     var clicks2 = 0;
+=======
+    <script>
+        var clicks2 = 0;
+            function incrementValue2() {
+                clicks2 += 1;
+                document.getElementById("clicks2").innerHTML = clicks2;
+                if (clicks2 > 1)
+                clicks2 = 1;
+            };
+          </script>
+            <script>
+                var clicks3 = 0;
+                    function incrementValue3() {
+                        clicks3 += 1;
+                        document.getElementById("clicks3").innerHTML = clicks3;
+                        if (clicks3 > 1)
+                        clicks3 = 1;
+                    };
+                  </script>
+                    <script>
+                        var clicks4 = 0;
+                            function incrementValue4() {
+                                clicks4 += 1;
+                                document.getElementById("clicks4").innerHTML = clicks4;
+                                if (clicks4 > 1)
+                                clicks4 = 1;
+                            };
+                          </script>
+                            <script>
+                                var clicks5 = 0;
+                                    function incrementValue5() {
+                                        clicks5 += 1;
+                                        document.getElementById("clicks5").innerHTML = clicks5;
+                                        if (clicks5 > 1)
+                                        clicks5 = 1;
+                                    };
+                                  </script>
+                                    <script>
+                                        var clicks6 = 0;
+                                            function incrementValue6() {
+                                                clicks6 += 1;
+                                                document.getElementById("clicks6").innerHTML = clicks6;
+                                                if (clicks6 > 1)
+                                                clicks6 = 1;
+                                            };
+                                          </script>
+                        
+<script>
+if ('serviceWorker' in navigator) {
+navigator.serviceWorker.register('serviceWorker2.js');
+}
+</script>
+<script>
+var addlRCLCargo = (function () {
+  var counterlRCLCargo = 0;
+  return function () {counterlRCLCargo += 1; return counter}
+})();
+>>>>>>> Stashed changes
 
     function incrementValue2() {
       clicks2 += 1;
