@@ -376,9 +376,9 @@
         rRLMHatch: rRLMHatch,
         rRLLHatch: rRLLHatch,
       };
-      console.log(sender.toString);
+      console.log(sender);
 
-      firebase.database().ref('scoutgear-2018/' + scoutteam + "/" + match).push(sender).catch(function (error) {
+      firebase.database().ref('scoutgear-2018/' + scoutteam + "/" + match + "/").push(sender).catch(function (error) {
         console.error('Error spilling the tea, sorry fam', error);
       });
 
