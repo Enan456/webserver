@@ -52,14 +52,18 @@
     gtag('js', new Date());
     gtag('config', 'UA-112760702-1');
   </script>
-  <script src="serviceWorker2.js"></script>
+  <script src="service_worker.js"></script>
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/icons/favicon-16x16.png">
   <link rel="manifest" href="manifest.json">
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="theme-color" content="#ffffff">
-
+  <script>
+      if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('service_worker.js');
+      }
+  </script>
 </head>
 
 <body style="background-color: #02243E !important;">
@@ -494,9 +498,7 @@
         clicks6 = 1;
     };
 
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('serviceWorker2.js');
-    }
+
 
     var addlRCLCargo = (function () {
       var counterlRCLCargo = 0;
@@ -506,9 +508,7 @@
       }
     })();
 
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('serviceWorker2.js');
-    }
+
 
     var addlRCLCargo = (function () {
       var counterlRCLCargo = 0;
