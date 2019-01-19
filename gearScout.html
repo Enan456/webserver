@@ -276,42 +276,42 @@
       var yourteam = document.getElementById("yourteam").value;
       var scoutteam = document.getElementById("scoutteam").value;
       var regional = document.getElementById("regional").value;
-      var lvl2PlatformL = document.getElementById("lvl2PlatformL").checked.toString;
-      var lvl3Platform = document.getElementById("lvl3Platform").checked.toString;
-      var lvl2PlatformR = document.getElementById("lvl2PlatformR").checked.toString;
-      var lvl1platformL = document.getElementById("lvl1PlatformL").checked.toString;
-      var cCTLHatch = document.getElementById("cCTLHatch").checked.toString;
-      var cCTRHatch = document.getElementById("cCTRHatch").checked.toString;
-      var lRRHHatch = document.getElementById("lRRHHatch").checked.toString;
-      var lRRMHatch = document.getElementById("lRRMHatch").checked.toString;
-      var lRRLHatch = document.getElementById("lRRLHatch").checked.toString;
-      var lCLTHatch = document.getElementById("lCLTHatch").checked.toString;
-      var lCCTCargo = document.getElementById("lCCTCargo").checked.toString;
-      var rCCTCargo = document.getElementById("rCCTCargo").checked.toString;
-      var rCLTHatch = document.getElementById("rCLTHatch").checked.toString;
-      var rRRLHatch = document.getElementById("rRRLHatch").checked.toString;
-      var rRRMHatch = document.getElementById("rRRMHatch").checked.toString;
-      var rRRHHatch = document.getElementById("rRRHHatch").checked.toString;
+      var lvl2PlatformL = document.getElementById("lvl2PlatformL").checked.toString();
+      var lvl3Platform = document.getElementById("lvl3Platform").checked.toString();
+      var lvl2PlatformR = document.getElementById("lvl2PlatformR").checked.toString();
+      var lvl1platformL = document.getElementById("lvl1PlatformL").checked.toString();
+      var cCTLHatch = document.getElementById("cCTLHatch").checked.toString();
+      var cCTRHatch = document.getElementById("cCTRHatch").checked.toString();
+      var lRRHHatch = document.getElementById("lRRHHatch").checked.toString();
+      var lRRMHatch = document.getElementById("lRRMHatch").checked.toString();
+      var lRRLHatch = document.getElementById("lRRLHatch").checked.toString();
+      var lCLTHatch = document.getElementById("lCLTHatch").checked.toString();
+      var lCCTCargo = document.getElementById("lCCTCargo").checked.toString();
+      var rCCTCargo = document.getElementById("rCCTCargo").checked.toString();
+      var rCLTHatch = document.getElementById("rCLTHatch").checked.toString();
+      var rRRLHatch = document.getElementById("rRRLHatch").checked.toString();
+      var rRRMHatch = document.getElementById("rRRMHatch").checked.toString();
+      var rRRHHatch = document.getElementById("rRRHHatch").checked.toString();
       var lRCHCargo = document.getElementById("lRCHCargo").value;
       var lRCMCargo = document.getElementById("lRCMCargo").value;
       var lRCLCargo = document.getElementById("lRCLCargo").value;
-      var lCLMHatch = document.getElementById("lCLMHatch").checked.toString;
-      var lCCMCargo = document.getElementById("lCCMCargo").checked.toString;
-      var rCCMCargo = document.getElementById("rCCMCargo").checked.toString;
-      var rCRMHatch = document.getElementById("rCRMHatch").checked.toString;
+      var lCLMHatch = document.getElementById("lCLMHatch").checked.toString();
+      var lCCMCargo = document.getElementById("lCCMCargo").checked.toString();
+      var rCCMCargo = document.getElementById("rCCMCargo").checked.toString();
+      var rCRMHatch = document.getElementById("rCRMHatch").checked.toString();
       var rRCLCargo = document.getElementById("rRCLCargo").value;
       var rRCMCargo = document.getElementById("rRCMCargo").value;
       var rRCHCargo = document.getElementById("rRCHCargo").value;
-      var lRLHHatch = document.getElementById("lRLHHatch").checked.toString;
-      var lRLMHatch = document.getElementById("lRLMHatch").checked.toString;
-      var lRLLHatch = document.getElementById("lRLLHatch").checked.toString;
-      var lCLLHatch = document.getElementById("lCLLHatch").checked.toString;
-      var lCCLCargo = document.getElementById("lCCLCargo").checked.toString;
-      var rCCLCargo = document.getElementById("rCCLCargo").checked.toString;
-      var rCRLHatch = document.getElementById("rCRLHatch").checked.toString;
-      var rRLHHatch = document.getElementById("rRLHHatch").checked.toString;
-      var rRLMHatch = document.getElementById("rRLMHatch").checked.toString;
-      var rRLLHatch = document.getElementById("rRLLHatch").checked.toString;
+      var lRLHHatch = document.getElementById("lRLHHatch").checked.toString();
+      var lRLMHatch = document.getElementById("lRLMHatch").checked.toString();
+      var lRLLHatch = document.getElementById("lRLLHatch").checked.toString();
+      var lCLLHatch = document.getElementById("lCLLHatch").checked.toString();
+      var lCCLCargo = document.getElementById("lCCLCargo").checked.toString();
+      var rCCLCargo = document.getElementById("rCCLCargo").checked.toString();
+      var rCRLHatch = document.getElementById("rCRLHatch").checked.toString();
+      var rRLHHatch = document.getElementById("rRLHHatch").checked.toString();
+      var rRLMHatch = document.getElementById("rRLMHatch").checked.toString();
+      var rRLLHatch = document.getElementById("rRLLHatch").checked.toString();
 
                 if (yourname === null) {
                     yourname = " ";
@@ -400,7 +400,7 @@
       };
       console.log(sender);
 
-      firebase.database().ref('scoutgear-2018/' + yourteam+"/" + regional + "/" + scoutteam + "/" + match + "/").post(sender).catch(
+      firebase.database().ref('scoutgear-2018/' + yourteam+"/" + regional + "/" + scoutteam + "/" + match + "/").push(sender).catch(
         function (error) {
           console.error('Error spilling the tea, sorry fam', error);
         });
