@@ -123,7 +123,7 @@
             <div class="col-5">
               <p></p>
             </div>
-            <div class="col-4" id="checkbox"> <input type="checkbox" id="Slvl1PlatformL" class="platform1">
+            <div class="col-4" id="checkbox"> <input type="checkbox" id="Slvl1Platform" class="platform1">
             </div>
 
             <div class="col-5">
@@ -300,7 +300,7 @@
             <div class="col-5">
               <p></p>
             </div>
-            <div class="col-4" id="checkbox"> <input type="checkbox" id="lvl1PlatformL" class="platform1">
+            <div class="col-4" id="checkbox"> <input type="checkbox" id="lvl1Platform" class="platform1">
             </div>
 
             <div class="col-5">
@@ -476,7 +476,7 @@
       var lvl2PlatformL = document.getElementById("lvl2PlatformL").checked.toString();
       var lvl3Platform = document.getElementById("lvl3Platform").checked.toString();
       var lvl2PlatformR = document.getElementById("lvl2PlatformR").checked.toString();
-      var lvl1platformL = document.getElementById("lvl1PlatformL").checked.toString();
+      var lvl1platform = document.getElementById("lvl1Platform").checked.toString();
       var cCTLHatch = document.getElementById("cCTLHatch").checked.toString();
       var cCTRHatch = document.getElementById("cCTRHatch").checked.toString();
       var lRRHHatch = document.getElementById("lRRHHatch").checked.toString();
@@ -513,7 +513,7 @@
       var Slvl2PlatformL = document.getElementById("Slvl2PlatformL").checked.toString();
       var Slvl3Platform = document.getElementById("Slvl3Platform").checked.toString();
       var Slvl2PlatformR = document.getElementById("Slvl2PlatformR").checked.toString();
-      var Slvl1platformL = document.getElementById("Slvl1PlatformL").checked.toString();
+      var Slvl1platform = document.getElementById("Slvl1Platform").checked.toString();
       var ScCTLHatch = document.getElementById("ScCTLHatch").checked.toString();
       var ScCTRHatch = document.getElementById("ScCTRHatch").checked.toString();
       var SlRRHHatch = document.getElementById("SlRRHHatch").checked.toString();
@@ -599,6 +599,10 @@
         rRLLHatch: rRLLHatch,
       }; */
       var sender = {
+        "lvl2PlatformL": lvl2PlatformL,
+        "lvl3Platform": lvl3Platform,
+        "lvl2PlatformR": lvl2PlatformR,
+        "lvl1platform": lvl1Platform,
         "cCTLHatch": cCTLHatch,
         "cCTRHatch": cCTRHatch,
         "lRRHHatch": lRRHHatch,
@@ -632,6 +636,10 @@
         "rRLMHatch": rRLMHatch,
         "rRLLHatch": rRLLHatch,
         
+        "Slvl2PlatformL": Slvl2PlatformL,
+        "Slvl3Platform": Slvl3Platform,
+        "Slvl2PlatformR": Slvl2PlatformR,
+        "Slvl1platform": Slvl1Platform,
         "ScCTLHatch": ScCTLHatch,
         "ScCTRHatch": ScCTRHatch,
         "SlRRHHatch": SlRRHHatch,
