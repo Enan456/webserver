@@ -9755,3 +9755,7 @@ input[type=range]::-ms-thumb {
   flex: 7;
   width: 58.3333333%;
 }
+
+.container {
+  width: 100%;
+}
