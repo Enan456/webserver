@@ -399,7 +399,7 @@
       };
       console.log(sender);
 
-      firebase.database().ref('scoutgear-2018/' + name + "/" + yourteam + "/" + regional + "/" + scoutteam + "/" + match + "/").push(sender).catch(
+      firebase.database().ref('scoutgear-2018/' + yourteam + "/" + regional + "/" + scoutteam + "/" + match + "/").push(sender).catch(
         function (error) {
           console.error('Error spilling the tea, sorry fam', error);
         });
