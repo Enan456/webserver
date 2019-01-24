@@ -677,7 +677,11 @@
 
       firebase.database().ref('scoutgear-2018/' + yourteam+"/" + regional + "/" + scoutteam + "/" + match + "/").push(sender).catch(
         function (error) {
+          if(error){
           console.error('Error spilling the tea, sorry fam', error);
+          }else{
+            console.log('succsess')
+          }
         });
 
     }
