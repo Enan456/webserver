@@ -1,5 +1,5 @@
 /*
-Non Materialize related CSS by Ethan
+Non Materialize related CSS by Ethan and Kyle
 */
 input {
   color: #FE5000;
@@ -9753,44 +9753,38 @@ input[type=range]::-ms-thumb {
 
 .col-1 {
   flex: 1;
-  display: flex;
-  width: 8.3333333%;
+  display: inherit;
+  width: 7.14285714285%;
 }
 
 .col-2 {
   flex: 2;
-  display: flex;
-  width: 16.66666666%;
+  display: inherit;
+  width: 14.2857142857%;
 }
 
 .col-3 {
   flex: 3;
-  display: flex;
-  width: 25%;
+  display: inherit;
+  width: 21.42857142857%;
 }
 
 .col-4 {
   flex: 4;
-  display: flex;
-  width: 33.3333333%;
+  display: inherit;
+  width: 28.5714285714%;
 }
 
 .col-5 {
   flex: 5;
-  display: flex;
-  width: 41.66666%;
+  display: inherit;
+  width: 35.71428571428%;
 }
 
 .col-6 {
   flex: 6;
-  display: flex;
-  width: 50%;
-}
-
-.col-7 {
-  flex: 7;
-  display: flex;
-  width: 58.3333333%;
+  display: inherit;
+  width: 42.8571428571%;
 }
 
 .container {
