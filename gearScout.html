@@ -696,6 +696,7 @@
       console.log(sender);
 
       if (online) {
+        console.log("sending...");
         firebase.database().ref('scoutgear-2018/' + yourteam + "/" + regional + "/" + scoutteam + "/" + match + "/").push(
             sender).catch(
             function (error) {
