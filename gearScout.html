@@ -508,7 +508,7 @@
     var pathData = [];
 
     var connectedRef = firebase.database().ref(".info/connected");
-    var online = connectedRef;
+    var online = connectedRef.val();
     console.log(online);
 
     connectedRef.on("value", function(snap) {
