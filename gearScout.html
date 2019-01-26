@@ -511,10 +511,11 @@
     var connectedRef = firebase.database().ref(".info/connected");
     connectedRef.on("value", function(snap) {
       if (snap.val() === true) {
+        console.log("time to send");
         online = true;
-        for (var i = 0; i < allSenders.length; i ++) {
-          firebase.database().ref('scoutgear-2018/' + pathData[i][0] + "/" + pathData[i][1] + "/" + pathData[i][2] + "/" + pathData[i][3] + "/").push(
-            allSenders[i]).catch(
+        while (allSenders.length > 0) {
+          firebase.database().ref('scoutgear-2018/' + pathData[0][0] + "/" + pathData[0][1] + "/" + pathData[0][2] + "/" + pathData[0][3] + "/").push(
+            allSenders[0]).catch(
             function (error) {
               if (error) {
                 console.log('Error spilling the tea, sorry fam' + error);
@@ -522,8 +523,11 @@
                 console.log('succsess')
               }
             });
+          allSenders.splice(0, 1);
+          pathData.splice(0, 1);
         }
       } else {
+        console.log("you went offline");
         online = false;
       }
     });
@@ -708,7 +712,7 @@
       }
 
       var frm = document.getElementsByName('main')[0];
-      console.log(frm)
+      console.log(frm);
       frm.reset(); // Reset all form data
       return false;
     }
