@@ -80,12 +80,15 @@
 const yourTeam = document.getElementById("yourteam");
 const regional = document.getElementById("regional");
 const scoutteam = document.getElementById("scoutteam");
+
+
+
             var userDataRef = firebase.database().ref("/"+ yourTeam + "/" + regional ).orderByKey();
             userDataRef.once("value").then(function (snapshot) {
                 snapshot.forEach(function (childSnapshot) {
                     var key = childSnapshot.key;
                     var childData = childSnapshot.val();
-
+                    console.log(childSnapshot.val());
                     var name_val = childSnapshot.val().Name;
                     var id_val = childSnapshot.val().AssignedID;
 
@@ -98,48 +101,6 @@ const scoutteam = document.getElementById("scoutteam");
     </script>
 
 
-
-
-    <canvas id="cubes" width="400" height="400"></canvas>
-    <!-- https://stackoverflow.com/questions/11456862/get-a-json-file-from-url-and-display -->
-    <!-- use that thing^ -->
-    <script>
-        var ctx = document.getElementById("cubes").getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ["Portal Power Cubes", "Cubes In Friendly Alliance Switch", "Cubes In Scale",
-                    "Cubes In Opposing Alliance Switch"
-                ],
-                datasets: [{
-                    label: '# of points',
-                    data: [12, 19, 3, 5],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-    </script>
 
 </body>
 
