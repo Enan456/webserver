@@ -76,24 +76,24 @@
   <form>
     <div class="margin-main">
       <div class="input-field">
-        <input id="yourname" type="text" class="validate">
+        <input id="yourname" type="text" class="validate" required>
         <label for="yourname">Name</label>
       </div>
       <div class="input-field">
-        <input id="match" type="text" class="validate">
+        <input id="match" type="text" class="validate"required>
         <label for="match"><label for=""></label>Match</label>
       </div>
       <div class="input-field">
-        <input id="yourteam" type="text" class="validate">
+        <input id="yourteam" type="text" class="validate" required>
         <label for="yourteam">Team You Are In</label>
       </div>
       <div class="input-field">
-        <input id="scoutteam" type="text" class="validate">
+        <input id="scoutteam" type="text" class="validate" required>
         <label for="scoutteam">Team You Are Scouting</label>
       </div>
       <div class="input-field">
         <div class="input-field">
-          <input id="regional" type="text" class="validate">
+          <input id="regional" type="text" class="validate" required>
           <label for="regional">Regional Code</label>
         </div>
       </div>
@@ -254,7 +254,7 @@
     </center>
     </div>
     <center>
-      <button class="btn waves-effect waves-light" type="submit" id="submit" name="action" onclick="writeUserData()">Submit<i class="material-icons right">send</i></button>
+      <button class="btn waves-effect waves-light" type="submit" id="submit" name="action" onclick=writeUserData();>Submit<i class="material-icons right">send</i></button>
     </center>
   </form>
   <script>
