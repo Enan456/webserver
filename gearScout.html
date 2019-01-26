@@ -508,10 +508,12 @@
 
     var connectedRef = firebase.database().ref(".info/connected");
     var online = connectedRef;
+    console.log(online);
 
     connectedRef.on("value", function(snap) {
       if (snap.val() === true) {
         online = true;
+        console.log(online);
         for (var i = 0; i < allSenders.length; i ++) {
           firebase.database().ref('scoutgear-2018/' + yourteam + "/" + regional + "/" + scoutteam + "/" + match + "/").push(
             allSenders[i]).catch(
@@ -525,6 +527,7 @@
         }
       } else {
         online = false;
+        console.log(online);
       }
     });
     
