@@ -44,8 +44,6 @@
         };
         firebase.initializeApp(config);
         var database = firebase.database(); */
-    var order = [];
-    
     window.dataLayer = window.dataLayer || [];
 
     function gtag() {
@@ -724,23 +722,25 @@
   </script>
 
   <script>
+    var order = [];
+
     function checkboxClicked(elem) {
       var used = false;
       for (var i = 0; i < order.length; i ++) {
-        if (elem.name == order[i]) {
+        if (elem.id == order[i]) {
           used = true;
           order.splice(i, 1);
         }
       }
       if (!used) {
-        order.push(elem.name);
+        order.push(elem.id);
       }
     };
 
     function incrementHigh(elem) {
       var timesUsed = [];
       for (var i = 0; i < order.length; i ++) {
-        if (elem.name == order[i]) {
+        if (elem.id == order[i]) {
           timesUsed.push(i);
         }
       }
@@ -749,7 +749,7 @@
         timesUsed[1] --;
         order.splice(timesUsed[1], 1);
       } else {
-        order.push(elem.name);
+        order.push(elem.id);
       }
       elem.value++;
       if (elem.value == 3) {
@@ -770,7 +770,7 @@
     function incrementMed(elem) {
       var timesUsed = [];
       for (var i = 0; i < order.length; i ++) {
-        if (elem.name == order[i]) {
+        if (elem.id == order[i]) {
           timesUsed.push(i);
         }
       }
@@ -779,7 +779,7 @@
         timesUsed[1] --;
         order.splice(timesUsed[1], 1);
       } else {
-        order.push(elem.name);
+        order.push(elem.id);
       }
       elem.value++;
       if (elem.value == 3) {
@@ -800,7 +800,7 @@
     function incrementLow(elem) {
       var timesUsed = [];
       for (var i = 0; i < order.length; i ++) {
-        if (elem.name == order[i]) {
+        if (elem.id == order[i]) {
           timesUsed.push(i);
         }
       }
@@ -809,7 +809,7 @@
         timesUsed[1] --;
         order.splice(timesUsed[1], 1);
       } else {
-        order.push(elem.name);
+        order.push(elem.id);
       }
       elem.value++;
       if (elem.value == 3) {
