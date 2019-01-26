@@ -505,6 +505,7 @@
   </form>
   <script>
     var allSenders = [];
+    var pathData = [];
 
     var connectedRef = firebase.database().ref(".info/connected");
     var online = connectedRef;
@@ -513,9 +514,8 @@
     connectedRef.on("value", function(snap) {
       if (snap.val() === true) {
         online = true;
-        console.log(online);
         for (var i = 0; i < allSenders.length; i ++) {
-          firebase.database().ref('scoutgear-2018/' + yourteam + "/" + regional + "/" + scoutteam + "/" + match + "/").push(
+          firebase.database().ref('scoutgear-2018/' + pathData[i][0] + "/" + pathData[i][1] + "/" + pathData[i][2] + "/" + pathData[i][3] + "/").push(
             allSenders[i]).catch(
             function (error) {
               if (error) {
@@ -527,7 +527,6 @@
         }
       } else {
         online = false;
-        console.log(online);
       }
     });
     
@@ -706,6 +705,7 @@
             });
       } else {
         allSenders.push(sender);
+        pathData.push([yourteam, regional, scoutteam, match]);
         console.log("offline, sorry");
       }
 
