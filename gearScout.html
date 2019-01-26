@@ -501,8 +501,7 @@
           class="material-icons right">send</i></button>
           <br>
       </br>
-      <span id="scoreTotal">0</span>
-      <input id="input" type="text" value="0"/>
+      <input class="scoreTotal" id="inputTotal" type="text" value="0"/>
     </center>
   </form>
   <script>
@@ -942,12 +941,12 @@
       var inputs = document.getElementsByClassName('rocketHatch'),
           total = document.getElementsByClassName('scoreTotal');
         for (var i=0; i < inputs.length; i++) {
-          inputs[i].onchange = totalScore() {
+          inputs[i].onchange = totalScore(); {
             var add = this.value * (this.checked ? 1 : -1);
             total.innerHTML = parseFloat(total.innerHTML) + add
-            var new_total = parseFloat(document.getElementById('input').value);
+            var new_total = parseFloat(document.getElementById('inputTotal').value);
             console.log(new_total);
-            document.getElementById('input').value=new_total + add
+            document.getElementById('inputTotal').value=new_total + add
           }
         }
     }
