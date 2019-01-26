@@ -508,6 +508,7 @@
 
       /*                 var submit2 = document.getElementById('submit');*/
       // firebase.post("/gearscout2018", JSON)
+      var yourname = document.getElementById("yourname").value;
       var match = document.getElementById("match").value;
       var yourteam = document.getElementById("yourteam").value;
       var scoutteam = document.getElementById("scoutteam").value;
@@ -586,19 +587,6 @@
       var SrRLMHatch = document.getElementById("SrRLMHatch").checked.toString();
       var SrRLLHatch = document.getElementById("SrRLLHatch").checked.toString();
 
-      if (yourname === null) {
-        yourname = " ";
-      }
-      if (regional === null) {
-        regional = "a_trash";
-      }
-      if (scoutteam === null) {
-        scoutteam = 0;
-      }
-      if (yourteam === null) {
-        yourteam = 0;
-      }
-
       /* let sender = {
         lvl2PlatformL: lvl2PlatformL,
         lvl3Platform: lvl3Platform,
@@ -638,7 +626,9 @@
         rRLLHatch: rRLLHatch,
       }; */
       var sender = {
+        "yourname": yourname,
         "order": order,
+
         "lvl2PlatformL": lvl2PlatformL,
         "lvl3Platform": lvl3Platform,
         "lvl2PlatformR": lvl2PlatformR,
