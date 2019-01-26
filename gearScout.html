@@ -44,6 +44,8 @@
         };
         firebase.initializeApp(config);
         var database = firebase.database(); */
+    var order = [];
+    
     window.dataLayer = window.dataLayer || [];
 
     function gtag() {
@@ -722,8 +724,6 @@
   </script>
 
   <script>
-    var order = [];
-    
     function checkboxClicked(elem) {
       var used = false;
       for (var i = 0; i < order.length; i ++) {
