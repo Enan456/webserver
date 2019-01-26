@@ -506,15 +506,12 @@
   <script>
     var allSenders = [];
     var pathData = [];
+    var online;
 
     var connectedRef = firebase.database().ref(".info/connected");
-    var online = connectedRef;
-    console.log(online);
-
     connectedRef.on("value", function(snap) {
       if (snap.val() === true) {
         online = true;
-        console.log(online);
         for (var i = 0; i < allSenders.length; i ++) {
           firebase.database().ref('scoutgear-2018/' + pathData[i][0] + "/" + pathData[i][1] + "/" + pathData[i][2] + "/" + pathData[i][3] + "/").push(
             allSenders[i]).catch(
