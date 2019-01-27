@@ -514,7 +514,7 @@
         console.log("time to send");
         online = true;
         while (allSenders.length > 0) {
-          firebase.database().ref('scoutgear-2018/' + pathData[0][0] + "/" + pathData[0][1] + "/" + pathData[0][2] + "/" + pathData[0][3] + "/").push(
+          firebase.database().ref(pathData[0][0] + "/" + pathData[0][1] + "/" + pathData[0][2] + "/" + pathData[0][3] + "/").push(
             allSenders[0]).catch(
             function (error) {
               if (error) {
@@ -701,7 +701,7 @@
 
       if (online) {
         console.log("sending...");
-        firebase.database().ref('scoutgear-2018/' + yourteam + "/" + regional + "/" + scoutteam + "/" + match + "/").push(
+        firebase.database().ref(yourteam + "/" + regional + "/" + scoutteam + "/" + match + "/").push(
             sender).catch(
             function (error) {
               if (error) {
