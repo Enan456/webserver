@@ -536,20 +536,20 @@
                     averages.push(["", 0]);
                 }
 
-                Object.keys(scoutData).forEach(function(key1) {
+                Object.entries(scoutData).forEach(function(in1) {
                     var index = 0;
-                    Object.keys(scoutData.key1).forEach(function(key2) {
-                        Object.keys(scoutData.key1.key2).forEach(function(key3) {
+                    Object.entries(in1[1]).forEach(function(in2) {
+                        Object.entries(in2[1]).forEach(function(in3) {
                             if (averages[index][0] == "") {
-                                averages[index][0] = key3;
+                                averages[index][0] = in3[0];
                             }
-                            if (scoutData.key1.key2.key3 == "true") {
-                                averages[index][1] += 1 / Object.keys(scoutData).length;
+                            if (in3[1] == "true") {
+                                averages[index][1] += 1 / Object.keys(in1[1]).length;
                                 index ++;
-                            } else if (!scoutData.key1.key2.key3.isNaN()) {
-                                averages[index][1] += scoutData.key1.key2 / Object.keys(scoutData).length;
+                            } else if (!in3[1].isNaN()) {
+                                averages[index][1] += in3[1] / Object.keys(in1[1]).length;
                                 index ++;
-                            } else if (scoutData.key1.key2.key3 == "false") {
+                            } else if (in3[1] == "false") {
                                 index ++;
                             }
                         });
