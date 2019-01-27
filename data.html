@@ -546,7 +546,7 @@
                             if (in3[1] == "true") {
                                 averages[index][1] += 1 / Object.keys(in1[1]).length;
                                 index ++;
-                            } else if (!in3[1].isNaN()) {
+                            } else if (typeof in3[1] == "number") {
                                 averages[index][1] += in3[1] / Object.keys(in1[1]).length;
                                 index ++;
                             } else if (in3[1] == "false") {
