@@ -529,13 +529,14 @@
                 const regional = document.getElementById("regional").value;
                 const scoutteam = document.getElementById("scoutteam").value;
 
+                /*
                 var scoutData = firebase.database().ref("/" + yourTeam + "/" + regional + "/" + scoutteam);
                 
                 var averages = [];
                 for (var i = 0; i < 76; i ++) {
                     averages.push(["", 0]);
                 }
-
+                
                 Object.entries(scoutData).forEach(function(in1) {
                     var index = 0;
                     Object.entries(in1[1]).forEach(function(in2) {
@@ -587,6 +588,7 @@
                         }
                     }
                 }
+                */
 
                 var userDataRef = firebase.database().ref("/" + yourTeam + "/" + regional).orderByKey();
                 userDataRef.once("value").then(function (snapshot) {
