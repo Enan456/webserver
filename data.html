@@ -77,13 +77,19 @@
 
     <script>
         function load_team() {
-const yourTeam = document.getElementById("yourteam");
-const regional = document.getElementById("regional");
-const scoutteam = document.getElementById("scoutteam");
+            const yourTeam = document.getElementById("yourteam");
+            const regional = document.getElementById("regional");
+            const scoutteam = document.getElementById("scoutteam");
+            function check_checkbox(checkbox){
+                if(checkbox = true){
+                    return ":checked";
+                }else{
+                    return " "
+                }
+            }
 
 
-
-            var userDataRef = firebase.database().ref("/"+ yourTeam + "/" + regional ).orderByKey();
+            var userDataRef = firebase.database().ref("/" + yourTeam + "/" + regional).orderByKey();
             userDataRef.once("value").then(function (snapshot) {
                 snapshot.forEach(function (childSnapshot) {
                     var key = childSnapshot.key;
@@ -98,10 +104,8 @@ const scoutteam = document.getElementById("scoutteam");
                 });
             });
         }
+
     </script>
-
-
-
 </body>
 
 </html>
