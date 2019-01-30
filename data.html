@@ -501,6 +501,7 @@
                     }
                 }
 
+                var classes = [];
                 var averages = [];
                 for (var i = 0; i < 76; i ++) {
                     averages.push(["", 0]);
@@ -512,9 +513,8 @@
                         match.forEach(function (tag) {
                             var index = 0;
                             tag.forEach(function (dataPoint) {
-                                console.log(dataPoint.val());
                                 if (averages[index][0] == "") {
-                                    averages[index][0] = dataPoint.key();
+                                    averages[index][0] = dataPoint.key;
                                 }
                                 if (dataPoint.val() == "true") {
                                     averages[index][1] += 1 / matches.length;
@@ -530,6 +530,10 @@
                     });
                 });
 
+                var classes = ["platform1", "platform2", "platform3", "port", "rocket", "rocketHatch", "roverHatch"];
+
+                var elements = [];
+                
                 for (var i = 0; i < classes.length; i ++) {
                     for (var j = 0; j < document.getElementsByClassName(classes[i]).length; j ++) {
                         elements.push(document.getElementsByClassName(classes[i])[j]);
