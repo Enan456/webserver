@@ -58,8 +58,8 @@
                 <div class="margin-main">
                     <h1 id="control-2498188">Good Bot Points</h1>
                     <div class="input-field col-md-6 col-sm-12">
-                        <input id="startingPosition" type="text" class="validate">
-                        <label for="startingPosition">Starting Position (0-2)</label>
+                        <input id="startingPos" type="text" class="validate">
+                        <label for="startingPos">Starting Position (0-2)</label>
                     </div>
 
                     <div class="input-field col-md-6 col-sm-12">
@@ -89,23 +89,25 @@
 
                     <button onclick="findGBP()">Calculate</button>
                    
+                    <p id="GBPoutput">Insufficient Data</p>
+
                 </div>
 
         </form>
-        <script>
-            document.body.className += ' fade-out';
 
+        <!-- GBP script -->
+        <script>
             function findGBP() {
 
-                var startingPosition = document.getElementById("startingPosition").value
-                var hatchRocket = document.getElementById("hatchRocket").value
+                var startingPos = document.getElementById("startingPos").value;
+                var hatchRocket = document.getElementById("hatchRocket").value;
                 var cargoRocket = document.getElementById("cargoRocket").value;
                 var hatchCS = document.getElementById("hatchCS").value;
                 var RocketCS = document.getElementById("RocketCS").value;
                 var climb = document.getElementById("climb").value;
                 
-                if (startingPosition === null) {
-                    startingPosition = 0;
+                if (startingPos === null) {
+                    startingPos = 0;
                 }
                 if (hatchRocket === null) {
                     hatchRocket = 0;
@@ -116,15 +118,45 @@
                 if (hatchCS === null) {
                     hatchCS = 0;
                 }
-                if (RocketCS === null) {
-                    RocketCS = 0;
+                if (cargoCS === null) {
+                    cargoCS = 0;
                 }
                 if (climb === null) {
                     climb = 0;
                 }
 
+                var ptsPerStartingPos = 3;
+                var ptsPerHatchRocket = 2;
+                var ptsPerCargoRocket = 3;
+                var ptsPerHatchCS = 2;
+                var ptsPerCargoCS = 3;
+
+                var maxStartingPos = 3;
+                var maxHatchRocket = 12;
+                var maxCargoRocket = 12;
+                var maxHatchCS = 8;
+                var maxCargoCS = 8;
+                var maxClimb = 3;
+
+                var rankStartingPos = 1;
+                var rankHatchRocket = 1;
+                var rankCargoRocket = 1;
+                var rankHatchCS = 1;
+                var rankCargoCS = 1;
+                var rankClimb = 1;
+
+                var numerator = ((startingPos*ptsPerStartingPos)/(maxStartingPos*rankStartingPos))+((hatchRocket*ptsPerHatchRocket)/(maxHatchRocket*rankHatchRocket))+((cargoRocket*ptsPerCargoRocket)/(maxCargoRocket*rankCargoRocket))+((hatchCS*ptsPerHatchCS)/(maxHatchCS*rankCargoCS))+((cargoCS*ptsPerCargoCS)/(maxCargoCS*rankCargoCS))+((0.15+1.65*climb+0.75*(climb^2))/(maxClimb*rankClimb));
+                var denominator = (ptsPerStartingPos/rankStartingPos)+(ptsPerHatchRocket/rankHatchRocket)+(ptsPerCargoRocket/rankCargoRocket)+(ptsPerHatchCS/rankHatchCS)+(ptsPerCargoCS/rankCargoCS)+((0.15+1.65*maxClimb+0.75*(maxClimb^2))/rankClimb);
+                var GBP = numerator / denominator;
+
+                document.getElementById("GBPoutput").innerHTML = GBP;
 
             }
+        </script>
+
+
+        <script>
+            document.body.className += ' fade-out';
         </script>
         <script>
             $(function () {
@@ -163,7 +195,7 @@
     </div>
     <div class="footer-copyright">
         <div class="container">
-            <p> Version 1.5, December 2018 </p>
+            <p> January 2019 </p>
         </div>
     </div>
 </footer>
