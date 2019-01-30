@@ -288,4 +288,8 @@
 
 .container {
 	width: 100%;
-}
+  }
+
+  .containeravg{
+	  background-color: #616161
+  }
