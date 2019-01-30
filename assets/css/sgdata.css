@@ -230,7 +230,7 @@
 	padding-top: calc(100% - 10px);
 	background-repeat: no-repeat;
 	margin: 0px;
-	-webkit-appearance: button !important;
+	
   }
   
   #lRCHCargo {
@@ -291,7 +291,7 @@
 	border: 0px;
 	border-radius: 0%;
 	background-repeat: no-repeat;
-	-webkit-appearance: button !important;
+	
 	margin: 0px;
   }
   
@@ -309,7 +309,7 @@
 	border: 0px;
 	border-radius: 0%;
 	background-repeat: no-repeat;
-	-webkit-appearance: button !important;
+	
 	margin: 0px;
   }
   
@@ -327,7 +327,7 @@
 	border: 0px;
 	border-radius: 0%;
 	background-repeat: no-repeat;
-	-webkit-appearance: button !important;
+	
 	margin: 0px;
   }
   
@@ -344,7 +344,7 @@
 	padding-top: calc(100% - 7px);
 	background-repeat: no-repeat;
 	margin: 0px;
-	-webkit-appearance: button !important;
+	
   }
   
   .port:checked {
@@ -361,7 +361,7 @@
 	padding-top: calc(100% - 8px);
 	background-repeat: no-repeat;
 	margin: 0px;
-	-webkit-appearance: button !important;
+	
   }
   
   .roverHatch:checked {
@@ -378,7 +378,7 @@
 	padding-top: calc(100% - 8px);
 	background-repeat: no-repeat;
 	margin: 0px;
-	-webkit-appearance: button !important;
+	
   }
   
   .rocketHatch:checked {
