@@ -497,7 +497,7 @@
                     if (checkbox = true) {
                         return ":checked";
                     } else {
-                        return " "
+                        return " ";
                     }
                 }
 
@@ -506,28 +506,27 @@
                     averages.push([" ", 0]);
                 }
 
+                var numMatches = 0;
+
                 var userDataRef = firebase.database().ref("/" + yourTeam + "/" + regional + "/" + scoutteam).orderByKey();
                 userDataRef.once("value").then(function (matches) {
                     matches.forEach(function (match) {
+                        numMatches ++;
+                        console.log(numMatches);
                         match.forEach(function (tag) {
                             var index = 0;
                             tag.forEach(function (dataPoint) {
-                                console.log("key: " + dataPoint.key);
-                                console.log("value: " + dataPoint.val());
-                                console.log("index: " + index);
-                                console.log("average tag: " + averages[index][0]);
-                                console.log(dataPoint.key == averages[index][0]);
                                 if (dataPoint.val() == "true") {
                                     if (averages[index][0] == " ") {
                                         averages[index][0] = dataPoint.key;
                                     }
-                                    averages[index][1] += 1 / matches.length;
+                                    averages[index][1] += 1;
                                     index ++;
                                 } else if (dataPoint.val() == "0" || dataPoint.val() == "1" || dataPoint.val() == "2") {
                                     if (averages[index][0] == " ") {
                                         averages[index][0] = dataPoint.key;
                                     }
-                                    averages[index][1] += dataPoint.val() / matches.length;
+                                    averages[index][1] += parseInt(dataPoint.val());
                                     index ++;
                                 } else if (dataPoint.val() == "false") {
                                     if (averages[index][0] == " ") {
@@ -539,6 +538,14 @@
                         });
                     });
                 });
+
+                for (var i = 0; i < averages.length; i ++) {
+                    averages[i][1] /= numMatches;
+                }
+
+                console.log(numMatches);
+
+                console.log(averages);
 
                 var classes = ["platform1", "platform2", "platform3", "port", "rocket", "rocketHatch", "roverHatch"];
 
@@ -552,6 +559,8 @@
 
                 for (var i = 0; i < elements.length; i ++) {
                     for (var j = 0; j < averages.length; j ++) {
+                        //console.log(elements[i].id);
+                        //console.log(averages[j][0]);
                         if (elements[i].id == averages[j][0]) {
                             console.log(averages[j][0] + ": " + averages[j][1]);
                             if (elements[i].className == "rocket") {
