@@ -48,10 +48,11 @@
 </head>
 
 
-<body style= "background-color: #02243E !important;">
-<!--   <audio id="my_audio" src="videoplayback.mp3" loop="loop"></audio>
+<body style="background-color: #02243E !important;">
+    <!--   <audio id="my_audio" src="videoplayback.mp3" loop="loop"></audio>
     in case of error blame Adriana Watson
- -->    <center>
+ -->
+    <center>
         <title>Good Bot Points</title>
         <form>
             <center>
@@ -88,7 +89,7 @@
                     </div>
 
                     <button type="button" onclick="findGBP()">Calculate</button>
-                   
+
                     <p id="GBPoutput">Insufficient Data</p>
 
                 </div>
@@ -103,9 +104,9 @@
                 var hatchRocket = document.getElementById("hatchRocket").value;
                 var cargoRocket = document.getElementById("cargoRocket").value;
                 var hatchCS = document.getElementById("hatchCS").value;
-                var RocketCS = document.getElementById("RocketCS").value;
+                var cargoCS = document.getElementById("cargoCS").value;
                 var climb = document.getElementById("climb").value;
-                
+
                 if (startingPos === null) {
                     startingPos = 0;
                 }
@@ -145,8 +146,14 @@
                 var rankCargoCS = 1;
                 var rankClimb = 1;
 
-                var numerator = ((startingPos*ptsPerStartingPos)/(maxStartingPos*rankStartingPos))+((hatchRocket*ptsPerHatchRocket)/(maxHatchRocket*rankHatchRocket))+((cargoRocket*ptsPerCargoRocket)/(maxCargoRocket*rankCargoRocket))+((hatchCS*ptsPerHatchCS)/(maxHatchCS*rankCargoCS))+((cargoCS*ptsPerCargoCS)/(maxCargoCS*rankCargoCS))+((0.15+1.65*climb+0.75*(climb^2))/(maxClimb*rankClimb));
-                var denominator = (ptsPerStartingPos/rankStartingPos)+(ptsPerHatchRocket/rankHatchRocket)+(ptsPerCargoRocket/rankCargoRocket)+(ptsPerHatchCS/rankHatchCS)+(ptsPerCargoCS/rankCargoCS)+((0.15+1.65*maxClimb+0.75*(maxClimb^2))/rankClimb);
+                var numerator = ((startingPos * ptsPerStartingPos) / (maxStartingPos * rankStartingPos)) + ((
+                    hatchRocket * ptsPerHatchRocket) / (maxHatchRocket * rankHatchRocket)) + ((cargoRocket *
+                    ptsPerCargoRocket) / (maxCargoRocket * rankCargoRocket)) + ((hatchCS * ptsPerHatchCS) / (
+                    maxHatchCS * rankCargoCS)) + ((cargoCS * ptsPerCargoCS) / (maxCargoCS * rankCargoCS)) + ((0.15 +
+                    1.65 * climb + 0.75 * (climb ^ 2)) / (maxClimb * rankClimb));
+                var denominator = (ptsPerStartingPos / rankStartingPos) + (ptsPerHatchRocket / rankHatchRocket) + (
+                    ptsPerCargoRocket / rankCargoRocket) + (ptsPerHatchCS / rankHatchCS) + (ptsPerCargoCS /
+                    rankCargoCS) + ((0.15 + 1.65 * maxClimb + 0.75 * (maxClimb ^ 2)) / rankClimb);
                 var GBP = numerator / denominator;
 
                 document.getElementById("GBPoutput").innerHTML = GBP;
