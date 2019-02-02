@@ -134,7 +134,7 @@
                 var ptsPerHatchCS = 2;
                 var ptsPerCargoCS = 3;
 
-                var maxStartingPos = 3;
+                var maxStartingPos = 2;
                 var maxHatchRocket = 12;
                 var maxCargoRocket = 12;
                 var maxHatchCS = 8;
@@ -148,13 +148,13 @@
                 var rankCargoCS = 1;
                 var rankClimb = 1;
 
-                var numerator = ((startingPos * ptsPerStartingPos) / (maxStartingPos * rankStartingPos)) + ((hatchRocket * ptsPerHatchRocket) / (maxHatchRocket * rankHatchRocket)) + ((cargoRocket *  ptsPerCargoRocket) / (maxCargoRocket * rankCargoRocket)) + ((hatchCS * ptsPerHatchCS) / (maxHatchCS * rankCargoCS)) + ((cargoCS * ptsPerCargoCS) / (maxCargoCS * rankCargoCS)) + ((0.15 +1.65 * climb + 0.75 * (climb ^ 2)) / (maxClimb * rankClimb));
-                var denominator = (ptsPerStartingPos / rankStartingPos) + (ptsPerHatchRocket / rankHatchRocket) + (ptsPerCargoRocket / rankCargoRocket) + (ptsPerHatchCS / rankHatchCS) + (ptsPerCargoCS / rankCargoCS) + ((0.15 + 1.65 * maxClimb + 0.75 * maxClimb ^ 2) / (maxClimb * rankClimb));
+                var numerator = ((startingPos * ptsPerStartingPos) / (maxStartingPos * rankStartingPos)) + ((hatchRocket * ptsPerHatchRocket) / (maxHatchRocket * rankHatchRocket)) + ((cargoRocket *  ptsPerCargoRocket) / (maxCargoRocket * rankCargoRocket)) + ((hatchCS * ptsPerHatchCS) / (maxHatchCS * rankCargoCS)) + ((cargoCS * ptsPerCargoCS) / (maxCargoCS * rankCargoCS)) + ((0.15 +1.65 * climb + 0.75 * Math.pow(climb, 2)) / (maxClimb * rankClimb));
+                var denominator = (ptsPerStartingPos / rankStartingPos) + (ptsPerHatchRocket / rankHatchRocket) + (ptsPerCargoRocket / rankCargoRocket) + (ptsPerHatchCS / rankHatchCS) + (ptsPerCargoCS / rankCargoCS) + ((0.15 + 1.65 * maxClimb + 0.75 * Math.pow(maxClimb, 2)) / (maxClimb * rankClimb));
                 var GBP = Math.round((numerator / denominator) * 10000) / 100;
 
                 document.getElementById("GBPoutput").innerHTML = GBP + "%";
-                document.getElementById("debug").innerHTML = ((0.15 +1.65 * climb + 0.75 * climb ^ 2) / (maxClimb * rankClimb));
-                document.getElementById("debug2").innerHTML = ((0.15 + 1.65 * maxClimb + 0.75 * maxClimb ^ 2) / (maxClimb * rankClimb));
+                document.getElementById("debug").innerHTML = ((0.15 +1.65 * climb + 0.75 * Math.pow(climb, 2)) / (maxClimb * rankClimb));
+                document.getElementById("debug2").innerHTML = ((0.15 + 1.65 * maxClimb + 0.75 * Math.pow(maxClimb, 2)) / (maxClimb * rankClimb));
 
             }
         </script>
