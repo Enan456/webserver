@@ -109,22 +109,22 @@
                 var cargoCS = document.getElementById("cargoCS").value;
                 var climb = document.getElementById("climb").value;
 
-                if (startingPos === null) {
+                if (startingPos === "") {
                     startingPos = 0;
                 }
-                if (hatchRocket === null) {
+                if (hatchRocket === "") {
                     hatchRocket = 0;
                 }
-                if (cargoRocket === null) {
+                if (cargoRocket === "") {
                     cargoRocket = 0;
                 }
-                if (hatchCS === null) {
+                if (hatchCS === "") {
                     hatchCS = 0;
                 }
-                if (cargoCS === null) {
+                if (cargoCS === "") {
                     cargoCS = 0;
                 }
-                if (climb === null) {
+                if (climb === "") {
                     climb = 0;
                 }
 
@@ -133,6 +133,7 @@
                 var ptsPerCargoRocket = 3;
                 var ptsPerHatchCS = 2;
                 var ptsPerCargoCS = 3;
+                var ptsPerClimb = [0, 3, 3, 4];
 
                 var maxStartingPos = 2;
                 var maxHatchRocket = 12;
@@ -148,14 +149,11 @@
                 var rankCargoCS = 1;
                 var rankClimb = 1;
 
-                var numerator = ((startingPos * ptsPerStartingPos) / (maxStartingPos * rankStartingPos)) + ((hatchRocket * ptsPerHatchRocket) / (maxHatchRocket * rankHatchRocket)) + ((cargoRocket *  ptsPerCargoRocket) / (maxCargoRocket * rankCargoRocket)) + ((hatchCS * ptsPerHatchCS) / (maxHatchCS * rankCargoCS)) + ((cargoCS * ptsPerCargoCS) / (maxCargoCS * rankCargoCS)) + ((0.15 +1.65 * climb + 0.75 * Math.pow(climb, 2)) / (maxClimb * rankClimb));
-                var denominator = (ptsPerStartingPos / rankStartingPos) + (ptsPerHatchRocket / rankHatchRocket) + (ptsPerCargoRocket / rankCargoRocket) + (ptsPerHatchCS / rankHatchCS) + (ptsPerCargoCS / rankCargoCS) + ((0.15 + 1.65 * maxClimb + 0.75 * Math.pow(maxClimb, 2)) / (maxClimb * rankClimb));
+                var numerator = ((startingPos * ptsPerStartingPos) / (maxStartingPos * rankStartingPos)) + ((hatchRocket * ptsPerHatchRocket) / (maxHatchRocket * rankHatchRocket)) + ((cargoRocket *  ptsPerCargoRocket) / (maxCargoRocket * rankCargoRocket)) + ((hatchCS * ptsPerHatchCS) / (maxHatchCS * rankCargoCS)) + ((cargoCS * ptsPerCargoCS) / (maxCargoCS * rankCargoCS)) + ((climb * ptsPerClimb[climb]) / (maxClimb * rankClimb));
+                var denominator = (ptsPerStartingPos / rankStartingPos) + (ptsPerHatchRocket / rankHatchRocket) + (ptsPerCargoRocket / rankCargoRocket) + (ptsPerHatchCS / rankHatchCS) + (ptsPerCargoCS / rankCargoCS) + (ptsPerClimb[maxClimb] / rankClimb);
                 var GBP = Math.round((numerator / denominator) * 10000) / 100;
 
                 document.getElementById("GBPoutput").innerHTML = GBP + "%";
-                document.getElementById("debug").innerHTML = ((0.15 +1.65 * climb + 0.75 * Math.pow(climb, 2)) / (maxClimb * rankClimb));
-                document.getElementById("debug2").innerHTML = ((0.15 + 1.65 * maxClimb + 0.75 * Math.pow(maxClimb, 2)) / (maxClimb * rankClimb));
-
             }
         </script>
 
