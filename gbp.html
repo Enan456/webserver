@@ -109,22 +109,22 @@
                 var cargoCS = document.getElementById("cargoCS").value;
                 var climb = document.getElementById("climb").value;
 
-                if (startingPos === null) {
+                if (startingPos === "") {
                     startingPos = 0;
                 }
-                if (hatchRocket === null) {
+                if (hatchRocket === "") {
                     hatchRocket = 0;
                 }
-                if (cargoRocket === null) {
+                if (cargoRocket === "") {
                     cargoRocket = 0;
                 }
-                if (hatchCS === null) {
+                if (hatchCS === "") {
                     hatchCS = 0;
                 }
-                if (cargoCS === null) {
+                if (cargoCS === "") {
                     cargoCS = 0;
                 }
-                if (climb === null) {
+                if (climb === "") {
                     climb = 0;
                 }
 
@@ -154,7 +154,6 @@
                 var GBP = Math.round((numerator / denominator) * 10000) / 100;
 
                 document.getElementById("GBPoutput").innerHTML = GBP + "%";
-
             }
         </script>
 
