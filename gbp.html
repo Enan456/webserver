@@ -154,9 +154,9 @@
                 var denominator = (ptsPerStartingPos / rankStartingPos) + (ptsPerHatchRocket / rankHatchRocket) + (
                     ptsPerCargoRocket / rankCargoRocket) + (ptsPerHatchCS / rankHatchCS) + (ptsPerCargoCS /
                     rankCargoCS) + ((0.15 + 1.65 * maxClimb + 0.75 * (maxClimb ^ 2)) / rankClimb);
-                var GBP = numerator / denominator;
+                var GBP = round((numerator / denominator) * 10000) / 100;
 
-                document.getElementById("GBPoutput").innerHTML = GBP;
+                document.getElementById("GBPoutput").innerHTML = GBP + "%";
 
             }
         </script>
