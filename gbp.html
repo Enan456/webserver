@@ -16,26 +16,26 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112760702-1"></script>
     <script>
-        /* var config = {
-        apiKey: "AIzaSyAGjIhyS5eGmUvZysE46CuWFjeX0T-ykWA",
-        authDomain: "scoutgear-2018.firebaseapp.com",
-        databaseURL: "https://scoutgear-2018.firebaseio.com",
-        projectId: "scoutgear-2018",
-        storageBucket: "scoutgear-2018.appspot.com",
-        messagingSenderId: "269363065314"
-    };
-    firebase.initializeApp(config);
-    var database = firebase.database(); */
-
-        window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-        dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-
-    gtag('config', 'UA-112760702-1');
-</script>
+            var config = {
+            apiKey: "AIzaSyAGjIhyS5eGmUvZysE46CuWFjeX0T-ykWA",
+            authDomain: "scoutgear-2018.firebaseapp.com",
+            databaseURL: "https://scoutgear-2018.firebaseio.com",
+            projectId: "scoutgear-2018",
+            storageBucket: "scoutgear-2018.appspot.com",
+            messagingSenderId: "269363065314"
+        };
+        firebase.initializeApp(config);
+        var database = firebase.database();
+    
+            window.dataLayer = window.dataLayer || [];
+    
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+    
+        gtag('config', 'UA-112760702-1');
+    </script>
     <script src="service_worker.js"></script>
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/icons/favicon-32x32.png">
@@ -58,34 +58,20 @@
             <center>
                 <div class="margin-main">
                     <h1 id="control-2498188">Good Bot Points</h1>
+
                     <div class="input-field col-md-6 col-sm-12">
-                        <input id="startingPos" type="text" class="validate">
-                        <label for="startingPos">Starting Position (0-2)</label>
+                        <input id="yourteam" type="text" class="validate">
+                        <label for="yourteam">Team You Are In</label>
+                    </div>
+
+                    <div class="input-field col-md-12 col-sm-12">
+                        <input id="regional" type="text" class="validate">
+                        <label for="regional">Regional Code</label>
                     </div>
 
                     <div class="input-field col-md-6 col-sm-12">
-                        <input id="hatchRocket" type="text" class="validate">
-                        <label for="hatchRocket">Hatches on Rockets (0-12)</label>
-                    </div>
-
-                    <div class="input-field col-md-6 col-sm-12">
-                        <input id="cargoRocket" type="text" class="validate">
-                        <label for="cargoRocket">Cargo in Rockets (0-12)</label>
-                    </div>
-
-                    <div class="input-field col-md-6 col-sm-12">
-                        <input id="hatchCS" type="text" class="validate">
-                        <label for="hatchCS">Hatches on Cargo Ship (0-8)</label>
-                    </div>
-
-                    <div class="input-field col-md-6 col-sm-12">
-                        <input id="cargoCS" type="text" class="validate">
-                        <label for="cargoCS">Cargo in Cargo Ship (0-8)</label>
-                    </div>
-
-                    <div class="input-field col-md-6 col-sm-12">
-                        <input id="climb" type="text" class="validate">
-                        <label for="climb">Climbing Position (0-3)</label>
+                        <input id="scoutteam" type="text" class="validate">
+                        <label for="scoutteam">Team You want data for</label>
                     </div>
 
                     <button type="button" onclick="findGBP()" class="btn waves-effect waves-light">Calculate</button>
@@ -98,60 +84,151 @@
 
         <!-- GBP script -->
         <script>
+            var averages = [];
+            for (var i = 0; i < 6; i ++) {
+                averages.push(0);
+            }
+
+            var numMatches = 0;
+
+            function Bool(initialValue) {
+                var bool = !!initialValue;
+                var listeners = [];
+                var returnVal = function(value) {
+                    if (arguments.length) {
+                        var oldValue = bool;
+                        bool = !!value;
+                        listeners.forEach(function (listener, i, list) {
+                            listener.call(returnVal, { oldValue: oldValue, newValue: bool });
+                        });
+                    }
+                    return bool
+                };
+                returnVal.addListener = function(fn) {
+                    if (typeof fn == "function") {
+                        listeners.push(fn);
+                    }
+                    else {
+                        throw "Not a function!";
+                    }
+                };
+                return returnVal;
+            }
+
+            var clicked = Bool(false);
+            clicked.addListener(function (e) {
+                if (e.oldValue != e.newValue) {
+                    for (var i = 0; i < averages.length; i ++) {
+                        averages[i] = Math.round(averages[i] / numMatches);
+                    }
+
+                    console.log("numMatches: " + numMatches);
+
+                    console.log("averages: " + averages);
+
+                    var ptsPerStartingPos = 3;
+                    var ptsPerHatchRocket = 2;
+                    var ptsPerCargoRocket = 3;
+                    var ptsPerHatchCS = 2;
+                    var ptsPerCargoCS = 3;
+                    var ptsPerClimb = [0, 3, 3, 4];
+
+                    var maxStartingPos = 2;
+                    var maxHatchRocket = 12;
+                    var maxCargoRocket = 12;
+                    var maxHatchCS = 8;
+                    var maxCargoCS = 8;
+                    var maxClimb = 3;
+
+                    var rankStartingPos = 1;
+                    var rankHatchRocket = 1;
+                    var rankCargoRocket = 1;
+                    var rankHatchCS = 1;
+                    var rankCargoCS = 1;
+                    var rankClimb = 1;
+
+                    var numerator = ((averages[0] * ptsPerStartingPos) / (maxStartingPos * rankStartingPos)) + ((averages[1] * ptsPerHatchRocket) / (maxHatchRocket * rankHatchRocket)) + ((averages[2] *  ptsPerCargoRocket) / (maxCargoRocket * rankCargoRocket)) + ((averages[3] * ptsPerHatchCS) / (maxHatchCS * rankCargoCS)) + ((averages[4] * ptsPerCargoCS) / (maxCargoCS * rankCargoCS)) + ((averages[5] * ptsPerClimb[averages[5]]) / (maxClimb * rankClimb));
+                    var denominator = (ptsPerStartingPos / rankStartingPos) + (ptsPerHatchRocket / rankHatchRocket) + (ptsPerCargoRocket / rankCargoRocket) + (ptsPerHatchCS / rankHatchCS) + (ptsPerCargoCS / rankCargoCS) + (ptsPerClimb[maxClimb] / rankClimb);
+                    console.log(numerator);
+                    console.log(denominator);
+                    var GBP = Math.round((numerator / denominator) * 10000) / 100;
+
+                    document.getElementById("GBPoutput").innerHTML = GBP + "%";
+                }
+            });
+
             function findGBP() {
-
-                var startingPos = document.getElementById("startingPos").value;
-                var hatchRocket = document.getElementById("hatchRocket").value;
-                var cargoRocket = document.getElementById("cargoRocket").value;
-                var hatchCS = document.getElementById("hatchCS").value;
-                var cargoCS = document.getElementById("cargoCS").value;
-                var climb = document.getElementById("climb").value;
-
-                if (startingPos === "") {
-                    startingPos = 0;
-                }
-                if (hatchRocket === "") {
-                    hatchRocket = 0;
-                }
-                if (cargoRocket === "") {
-                    cargoRocket = 0;
-                }
-                if (hatchCS === "") {
-                    hatchCS = 0;
-                }
-                if (cargoCS === "") {
-                    cargoCS = 0;
-                }
-                if (climb === "") {
-                    climb = 0;
+                averages = [];
+                for (var i = 0; i < 6; i ++) {
+                    averages.push(0);
                 }
 
-                var ptsPerStartingPos = 3;
-                var ptsPerHatchRocket = 2;
-                var ptsPerCargoRocket = 3;
-                var ptsPerHatchCS = 2;
-                var ptsPerCargoCS = 3;
-                var ptsPerClimb = [0, 3, 3, 4];
+                numMatches = 0;
 
-                var maxStartingPos = 2;
-                var maxHatchRocket = 12;
-                var maxCargoRocket = 12;
-                var maxHatchCS = 8;
-                var maxCargoCS = 8;
-                var maxClimb = 3;
+                const yourTeam = document.getElementById("yourteam").value;
+                const regional = document.getElementById("regional").value;
+                const scoutteam = document.getElementById("scoutteam").value;
 
-                var rankStartingPos = 1;
-                var rankHatchRocket = 1;
-                var rankCargoRocket = 1;
-                var rankHatchCS = 1;
-                var rankCargoCS = 1;
-                var rankClimb = 1;
-
-                var numerator = ((startingPos * ptsPerStartingPos) / (maxStartingPos * rankStartingPos)) + ((hatchRocket * ptsPerHatchRocket) / (maxHatchRocket * rankHatchRocket)) + ((cargoRocket *  ptsPerCargoRocket) / (maxCargoRocket * rankCargoRocket)) + ((hatchCS * ptsPerHatchCS) / (maxHatchCS * rankCargoCS)) + ((cargoCS * ptsPerCargoCS) / (maxCargoCS * rankCargoCS)) + ((climb * ptsPerClimb[climb]) / (maxClimb * rankClimb));
-                var denominator = (ptsPerStartingPos / rankStartingPos) + (ptsPerHatchRocket / rankHatchRocket) + (ptsPerCargoRocket / rankCargoRocket) + (ptsPerHatchCS / rankHatchCS) + (ptsPerCargoCS / rankCargoCS) + (ptsPerClimb[maxClimb] / rankClimb);
-                var GBP = Math.round((numerator / denominator) * 10000) / 100;
-
-                document.getElementById("GBPoutput").innerHTML = GBP + "%";
+                var userDataRef = firebase.database().ref("/" + yourTeam + "/" + regional + "/" + scoutteam).orderByKey();
+                userDataRef.once("value").then(function (matches) {
+                    matches.forEach(function (match) {
+                        match.forEach(function (tag) {
+                            numMatches ++;
+                            tag.forEach(function (dataPoint) {
+                                if (dataPoint.key.substring(0, 1) == "S") {
+                                    if (dataPoint.key.substring(5, 13) == "Platform") {
+                                        if (dataPoint.val() == "true") {
+                                            averages[0] += parseInt(dataPoint.key.substring(4, 5));
+                                        }
+                                    } else if (dataPoint.key.substring(dataPoint.key.length - 5) == "Cargo") {
+                                        if (dataPoint.key.substring(2, 3) == "R") {
+                                            averages[2] += parseInt(dataPoint.val());
+                                        } else {
+                                            if (dataPoint.val() == "true") {
+                                                averages[4] ++;
+                                            }
+                                        }
+                                    } else if (dataPoint.key.substring(dataPoint.key.length - 5) == "Hatch") {
+                                        if (dataPoint.key.substring(2, 3) == "R") {
+                                            if (dataPoint.val() == "true") {
+                                                averages[1] ++;
+                                            }
+                                        } else {
+                                            if (dataPoint.val() == "true") {
+                                                averages[3] ++;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    if (dataPoint.key.substring(4, 12) == "Platform") {
+                                        if (dataPoint.val() == "true") {
+                                            averages[5] += parseInt(dataPoint.key.substring(3, 4));
+                                        }
+                                    } else if (dataPoint.key.substring(dataPoint.key.length - 5) == "Cargo") {
+                                        if (dataPoint.key.substring(1, 2) == "R") {
+                                            averages[2] += parseInt(dataPoint.val());
+                                        } else {
+                                            if (dataPoint.val() == "true") {
+                                                averages[4] ++;
+                                            }
+                                        }
+                                    } else if (dataPoint.key.substring(dataPoint.key.length - 5) == "Hatch") {
+                                        if (dataPoint.key.substring(1, 2) == "R") {
+                                            if (dataPoint.val() == "true") {
+                                                averages[1] ++;
+                                            }
+                                        } else {
+                                            if (dataPoint.val() == "true") {
+                                                averages[3] ++;
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        });
+                    });
+                    clicked(!clicked());
+                });
             }
         </script>
 

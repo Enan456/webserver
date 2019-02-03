@@ -567,6 +567,13 @@
             });
 
             function load_team() {
+                averages = [];
+                for (var i = 0; i < 6; i ++) {
+                    averages.push(0);
+                }
+
+                numMatches = 0;
+
                 const yourTeam = document.getElementById("yourteam").value;
                 const regional = document.getElementById("regional").value;
                 const scoutteam = document.getElementById("scoutteam").value;
