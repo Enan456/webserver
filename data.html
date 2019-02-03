@@ -496,6 +496,21 @@
 
             var numMatches = 0;
 
+            var classes = ["platform1", "platform2", "platform3", "port", "rocket", "rocketHatch", "roverHatch"];
+
+            var elements = [];
+            var backgrounds = [];
+
+            for (var i = 0; i < classes.length; i ++) {
+                for (var j = 0; j < document.getElementsByClassName(classes[i]).length; j ++) {
+                    elements.push(document.getElementsByClassName(classes[i])[j]);
+                }
+            }
+
+            for (var i = 0; i < elements.length; i ++) {
+                backgrounds.push([elements[i].style.backgroundImage, elements[i].style.bacgroundColor]);
+            }
+
             function Bool(initialValue) {
                 var bool = !!initialValue;
                 var listeners = [];
@@ -530,21 +545,6 @@
                     console.log(numMatches);
 
                     console.log(averages);
-
-                    var classes = ["platform1", "platform2", "platform3", "port", "rocket", "rocketHatch", "roverHatch"];
-
-                    var elements = [];
-                    var backgrounds = [];
-                    
-                    for (var i = 0; i < classes.length; i ++) {
-                        for (var j = 0; j < document.getElementsByClassName(classes[i]).length; j ++) {
-                            elements.push(document.getElementsByClassName(classes[i])[j]);
-                        }
-                    }
-
-                    for (var i = 0; i < elements.length; i ++) {
-                        backgrounds.push([elements[i].style.backgroundImage, elements[i].style.bacgroundColor]);
-                    }
 
                     for (var i = 0; i < elements.length; i ++) {
                         for (var j = 0; j < averages.length; j ++) {
