@@ -6,7 +6,7 @@
   "display": "standalone",
   "orientation": "portrait",
   "Scope": "/",
-  "start_url": "gearScout.html",
+  "start_url": "https://enan.rocks/gearscout",
   "icons": [
     {
       "src": "assets/images/icons/icon-72x72.png",
