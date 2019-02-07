@@ -2,13 +2,13 @@
 'use strict';
 
 
-const CACHE_VERSION2 = 1;
-let CURRENT_CACHES2 = {
-  offline: 'offline-v' + CACHE_VERSION2
+const CACHE_VERSION = 1;
+let CURRENT_CACHES = {
+  offline: 'offline-v' + CACHE_VERSION
 };
-const OFFLINE_URL2 = 'geardata.html';
+const OFFLINE_URL = 'geardata.html';
 
-function createCacheBustedRequest2(url) {
+function createCacheBustedRequest(url) {
   let request = new Request(url, {cache: 'reload'});
   if ('cache' in request) {
     return request;
@@ -22,17 +22,17 @@ function createCacheBustedRequest2(url) {
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    fetch(createCacheBustedRequest2(OFFLINE_URL2)).then(function(response) {
-      return caches.open(CURRENT_CACHES2.offline).then(function(cache) {
-        return cache.put(OFFLINE_URL2, response);
+    fetch(createCacheBustedRequest(OFFLINE_URL)).then(function(response) {
+      return caches.open(CURRENT_CACHES.offline).then(function(cache) {
+        return cache.put(OFFLINE_URL, response);
       });
     })
   );
 });
 
 self.addEventListener('activate', event => {
-  let expectedCacheNames = Object.keys(CURRENT_CACHES2).map(function(key) {
-    return CURRENT_CACHES2[key];
+  let expectedCacheNames = Object.keys(CURRENT_CACHES).map(function(key) {
+    return CURRENT_CACHES[key];
   });
 
   event.waitUntil(
@@ -59,7 +59,7 @@ self.addEventListener('fetch', event => {
       fetch(event.request).catch(error => {
 
         console.log('Fetch failed; returning offline page instead.', error);
-        return caches.match(OFFLINE_URL2);
+        return caches.match(OFFLINE_URL);
       })
     );
   }
