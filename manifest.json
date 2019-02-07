@@ -4,7 +4,7 @@
   "theme_color": "#02243e",
   "background_color": "#02243e",
   "display": "standalone",
-  "orientation": "portrait",
+  "orientation": "landscape",
   "Scope": "/",
   "start_url": "https://enan.rocks/gearscout",
   "icons": [
