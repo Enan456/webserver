@@ -6,7 +6,7 @@
   "display": "standalone",
   "orientation": "landscape",
   "Scope": "/",
-  "start_url": "https://enan.rocks/data",
+  "start_url": "https://enan.rocks/geardata",
   "icons": [
     {
       "src": "assets/images/icons/icon-72x72.png",
