@@ -7,6 +7,7 @@ let CURRENT_CACHES = {
   offline: 'offline-v' + CACHE_VERSION
 };
 const OFFLINE_URL = 'gearScout.html';
+const OFFLINE_URL2 = 'geardata.html';
 
 function createCacheBustedRequest(url) {
   let request = new Request(url, {cache: 'reload'});
@@ -25,6 +26,16 @@ self.addEventListener('install', event => {
     fetch(createCacheBustedRequest(OFFLINE_URL)).then(function(response) {
       return caches.open(CURRENT_CACHES.offline).then(function(cache) {
         return cache.put(OFFLINE_URL, response);
+      });
+    })
+  );
+});
+
+self.addEventListener('install', event => {
+  event.waitUntil(
+    fetch(createCacheBustedRequest(OFFLINE_URL2)).then(function(response) {
+      return caches.open(CURRENT_CACHES.offline).then(function(cache) {
+        return cache.put(OFFLINE_URL2, response);
       });
     })
   );
@@ -60,6 +71,23 @@ self.addEventListener('fetch', event => {
 
         console.log('Fetch failed; returning offline page instead.', error);
         return caches.match(OFFLINE_URL);
+      })
+    );
+  }
+
+});
+
+self.addEventListener('fetch', event => {
+
+  if (event.request.mode === 'navigate' ||
+      (event.request.method === 'GET' &&
+       event.request.headers.get('accept').includes('text/html'))) {
+    console.log('Handling fetch event for', event.request.url);
+    event.respondWith(
+      fetch(event.request).catch(error => {
+
+        console.log('Fetch failed; returning offline page instead.', error);
+        return caches.match(OFFLINE_URL2);
       })
     );
   }
