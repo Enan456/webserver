@@ -678,3 +678,203 @@ input[type=search]:not(.browser-default):focus.valid~label,
 textarea.materialize-textarea:focus.valid~label {
   color: #FE5000;
 }
+
+input.valid:not([type]),
+input.valid:not([type]):focus,
+input.valid[type=text]:not(.browser-default),
+input.valid[type=text]:not(.browser-default):focus,
+input.valid[type=password]:not(.browser-default),
+input.valid[type=password]:not(.browser-default):focus,
+input.valid[type=email]:not(.browser-default),
+input.valid[type=email]:not(.browser-default):focus,
+input.valid[type=url]:not(.browser-default),
+input.valid[type=url]:not(.browser-default):focus,
+input.valid[type=time]:not(.browser-default),
+input.valid[type=time]:not(.browser-default):focus,
+input.valid[type=date]:not(.browser-default),
+input.valid[type=date]:not(.browser-default):focus,
+input.valid[type=datetime]:not(.browser-default),
+input.valid[type=datetime]:not(.browser-default):focus,
+input.valid[type=datetime-local]:not(.browser-default),
+input.valid[type=datetime-local]:not(.browser-default):focus,
+input.valid[type=tel]:not(.browser-default),
+input.valid[type=tel]:not(.browser-default):focus,
+input.valid[type=number]:not(.browser-default),
+input.valid[type=number]:not(.browser-default):focus,
+input.valid[type=search]:not(.browser-default),
+input.valid[type=search]:not(.browser-default):focus,
+textarea.materialize-textarea.valid,
+textarea.materialize-textarea.valid:focus,
+.select-wrapper.valid>input.select-dropdown {
+  border-bottom: 1px solid #FE5000;
+  -webkit-box-shadow: 0 1px 0 0 #FE5000;
+  box-shadow: 0 1px 0 0 #FE5000;
+}
+
+input:not([type]).valid~.helper-text:after,
+input:not([type]):focus.valid~.helper-text:after,
+input[type=text]:not(.browser-default).valid~.helper-text:after,
+input[type=text]:not(.browser-default):focus.valid~.helper-text:after,
+input[type=password]:not(.browser-default).valid~.helper-text:after,
+input[type=password]:not(.browser-default):focus.valid~.helper-text:after,
+input[type=email]:not(.browser-default).valid~.helper-text:after,
+input[type=email]:not(.browser-default):focus.valid~.helper-text:after,
+input[type=url]:not(.browser-default).valid~.helper-text:after,
+input[type=url]:not(.browser-default):focus.valid~.helper-text:after,
+input[type=time]:not(.browser-default).valid~.helper-text:after,
+input[type=time]:not(.browser-default):focus.valid~.helper-text:after,
+input[type=date]:not(.browser-default).valid~.helper-text:after,
+input[type=date]:not(.browser-default):focus.valid~.helper-text:after,
+input[type=datetime]:not(.browser-default).valid~.helper-text:after,
+input[type=datetime]:not(.browser-default):focus.valid~.helper-text:after,
+input[type=datetime-local]:not(.browser-default).valid~.helper-text:after,
+input[type=datetime-local]:not(.browser-default):focus.valid~.helper-text:after,
+input[type=tel]:not(.browser-default).valid~.helper-text:after,
+input[type=tel]:not(.browser-default):focus.valid~.helper-text:after,
+input[type=number]:not(.browser-default).valid~.helper-text:after,
+input[type=number]:not(.browser-default):focus.valid~.helper-text:after,
+input[type=search]:not(.browser-default).valid~.helper-text:after,
+input[type=search]:not(.browser-default):focus.valid~.helper-text:after,
+textarea.materialize-textarea.valid~.helper-text:after,
+textarea.materialize-textarea:focus.valid~.helper-text:after,
+.select-wrapper.valid~.helper-text:after {
+  content: attr(data-success);
+  color: #FE5000;
+}
+
+.input-field .prefix.active {
+	color: #FE5000;
+  }.input-field input[type=search]:focus:not(.browser-default) {
+	background-color: #fff;
+	border: 0;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	color: #FE5000;
+  }
+  
+  .input-field input[type=search]:focus:not(.browser-default)+label i,
+  .input-field input[type=search]:focus:not(.browser-default)~.mdi-navigation-close,
+  .input-field input[type=search]:focus:not(.browser-default)~.material-icons {
+	color: #FE5000;
+  }
+
+  [type="radio"]:checked+span:after,
+[type="radio"].with-gap:checked+span:before,
+[type="radio"].with-gap:checked+span:after {
+  border: 2px solid #FE5000;
+}
+
+[type="radio"]:checked+span:after,
+[type="radio"].with-gap:checked+span:after {
+  background-color: #FE5000;
+}
+
+.switch label input[type=checkbox]:checked+.lever {
+	background-color: #FE5000;
+  }
+
+  .switch label input[type=checkbox]:checked+.lever:after {
+	background-color: #FE5000;
+  }
+
+  select {
+	background-color: rgba(255, 255, 255, 0.9);
+	width: 100%;
+	padding: 5px;
+	border: 1px solid #FE5000;
+	border-radius: 2px;
+	height: 3rem;
+  }
+
+  .select-wrapper input.select-dropdown {
+	position: relative;
+	cursor: pointer;
+	background-color: transparent;
+	border: none;
+	border-bottom: 1px solid #FE5000;
+	outline: none;
+	height: 3rem;
+	line-height: 3rem;
+	width: 100%;
+	font-size: 16px;
+	margin: 0 0 8px 0;
+	padding: 0;
+	display: block;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	z-index: 1;
+  }
+  
+  .select-wrapper input.select-dropdown:focus {
+	border-bottom: 1px solid #FE5000;
+  }
+
+  input[type=range]+.thumb {
+	position: absolute;
+	top: 10px;
+	left: 0;
+	border: none;
+	height: 0;
+	width: 0;
+	border-radius: 50%;
+	background-color: #FE5000;
+	margin-left: 7px;
+	-webkit-transform-origin: 50% 50%;
+	transform-origin: 50% 50%;
+	-webkit-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+  }
+  
+  input[type=range]+.thumb .value {
+	display: block;
+	width: 30px;
+	text-align: center;
+	color: #FE5000;
+	font-size: 0;
+	-webkit-transform: rotate(45deg);
+	transform: rotate(45deg);
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+	border: none;
+	height: 14px;
+	width: 14px;
+	border-radius: 50%;
+	background: #FE5000;
+	-webkit-transition: -webkit-box-shadow .3s;
+	transition: -webkit-box-shadow .3s;
+	transition: box-shadow .3s;
+	transition: box-shadow .3s, -webkit-box-shadow .3s;
+	-webkit-appearance: none;
+	background-color: #FE5000;
+	-webkit-transform-origin: 50% 50%;
+	transform-origin: 50% 50%;
+	margin: -5px 0 0 0;
+  }
+
+  input[type=range]::-moz-range-thumb {
+	border: none;
+	height: 14px;
+	width: 14px;
+	border-radius: 50%;
+	background: #FE5000;
+	-webkit-transition: -webkit-box-shadow .3s;
+	transition: -webkit-box-shadow .3s;
+	transition: box-shadow .3s;
+	transition: box-shadow .3s, -webkit-box-shadow .3s;
+	margin-top: -5px;
+  }
+
+  input[type=range]::-ms-thumb {
+	border: none;
+	height: 14px;
+	width: 14px;
+	border-radius: 50%;
+	background: #FE5000;
+	-webkit-transition: -webkit-box-shadow .3s;
+	transition: -webkit-box-shadow .3s;
+	transition: box-shadow .3s;
+	transition: box-shadow .3s, -webkit-box-shadow .3s;
+  }
