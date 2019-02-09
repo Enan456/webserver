@@ -164,8 +164,7 @@
             </script>
             		<div id="myDiv" style="width:100%;height:100%"></div>
                     <script>
-                    userDataRef.once("value").then(function (matches) {
-                            matches.forEach(function (match) {  
+                    Plotly.d3.csv('https://console.firebase.google.com/u/0/project/scoutgear-2018/database/scoutgear-2018/data', function(err, rows){
       function unpack(rows, key) {
           return rows.map(function(row) 
           { return row[key]; });
