@@ -293,3 +293,365 @@
   .containeravg{
 	  background-color: #616161
   }
+  input {
+	color: #FE5000;
+  }
+  
+  p {
+	color: white;
+  }
+  
+  h1 {
+	color: white;
+	border-left-style: solid;
+	border-right-style: solid;
+	border-top-style: solid;
+	border-bottom-style: solid;
+	border-color: white;
+	background-color: #FE5000;
+	font-family: 'Roboto', sans-serif;
+	border-radius: 40px;
+	text-align: center;
+	width: 90%;
+  }
+  
+  h2 {
+	color: white;
+	border-left-style: solid;
+	border-right-style: solid;
+	border-top-style: solid;
+	border-bottom-style: solid;
+	border-color: white;
+	background-color: #FE5000;
+	font-family: 'Roboto', sans-serif;
+	border-radius: 40px;
+	text-align: center;
+	width: 50%;
+  }
+  
+  body {
+	background-color: #02243E;
+  
+  }
+  
+  html {
+	background-color: #02243E;
+  }
+  
+  
+  .margin-main {
+	margin: 0% 3%;
+  }
+
+  .materialize-red.lighten-2 {
+	background-color: #FE5000 !important;
+  }
+  
+  .materialize-red-text.text-lighten-2 {
+	color: #FE5000 !important;
+  }
+
+  .teal.lighten-1 {
+	background-color: #FE5000 !important;
+  }
+  
+  .teal-text.text-lighten-1 {
+	color: #FE5000 !important;
+  }
+
+  .green {
+	background-color: #FE5000 !important;
+  }
+  
+  .green-text {
+	color: #FE5000 !important;
+  }
+
+  .blue-grey {
+	background-color: #FE5000 !important;
+  }
+  
+  .blue-grey-text {
+	color: #FE5000 !important;
+  }
+  
+  .blue-grey.lighten-5 {
+	background-color: #FE5000 !important;
+  }
+  
+  .blue-grey-text.text-lighten-5 {
+	color: #FE5000 !important;
+  }
+  
+  .blue-grey.lighten-4 {
+	background-color: #FE5000 !important;
+  }
+  
+  .blue-grey-text.text-lighten-4 {
+	color: #FE5000 !important;
+  }
+  
+  .blue-grey.lighten-3 {
+	background-color: #FE5000 !important;
+  }
+  
+  .blue-grey-text.text-lighten-3 {
+	color: #FE5000 !important;
+  }
+  
+  .blue-grey.lighten-2 {
+	background-color: #FE5000 !important;
+  }
+  
+  .blue-grey-text.text-lighten-2 {
+	color: #FE5000 !important;
+  }
+  
+  .blue-grey.lighten-1 {
+	background-color: #FE5000 !important;
+  }
+  
+  .blue-grey-text.text-lighten-1 {
+	color: #FE5000 !important;
+  }
+  
+  .blue-grey.darken-1 {
+	background-color: #FE5000 !important;
+  }
+  
+  .blue-grey-text.text-darken-1 {
+	color: #FE5000 !important;
+  }
+  
+  .blue-grey.darken-2 {
+	background-color: #FE5000 !important;
+  }
+  
+  .blue-grey-text.text-darken-2 {
+	color: #FE5000 !important;
+  }
+  
+  .blue-grey.darken-3 {
+	background-color: #FE5000 !important;
+  }
+  
+  .blue-grey-text.text-darken-3 {
+	color: #FE5000 !important;
+  }
+  
+  .blue-grey.darken-4 {
+	background-color: #FE5000 !important;
+  }
+  
+  .blue-grey-text.text-darken-4 {
+	color: #FE5000 !important;
+  }
+
+  blockquote {
+	margin: 20px 0;
+	padding-left: 1.5rem;
+	border-left: 5px solid #FE5000;
+  }
+
+  .pagination li.active {
+	background-color: #FE5000;
+  }
+
+  .page-footer {
+	padding-top: 20px;
+	color: #fff;
+	background-color: #FE5000;
+  }
+
+  .collection .collection-item.active {
+	background-color: #FE5000;
+	color: #eafaf9;
+  }
+
+  .collection a.collection-item {
+	display: block;
+	-webkit-transition: .25s;
+	transition: .25s;
+	color: #FE5000;
+  }
+
+  .secondary-content {
+	float: right;
+	color: #FE5000;
+  }
+
+  .progress .determinate {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	background-color: #FE5000;
+	-webkit-transition: width .3s linear;
+	transition: width .3s linear;
+  }
+  
+  .progress .indeterminate {
+	background-color: #FE5000;
+  }
+
+  span.badge.new {
+	font-weight: 300;
+	font-size: 0.8rem;
+	color: #fff;
+	background-color: #FE5000;
+	border-radius: 2px;
+  }
+
+  nav {
+	color: #fff;
+	background-color: #FE5000;
+	width: 100%;
+	height: 56px;
+	line-height: 56px;
+  }
+
+  .tabs .tab a:hover,
+.tabs .tab a.active {
+  background-color: transparent;
+  color: #FE5000;
+}
+
+.btn.disabled,
+.disabled.btn-large,
+.disabled.btn-small,
+.btn-floating.disabled,
+.btn-large.disabled,
+.btn-small.disabled,
+.btn-flat.disabled,
+.btn:disabled,
+.btn-large:disabled,
+.btn-small:disabled,
+.btn-floating:disabled,
+.btn-large:disabled,
+.btn-small:disabled,
+.btn-flat:disabled,
+.btn[disabled],
+.btn-large[disabled],
+.btn-small[disabled],
+.btn-floating[disabled],
+.btn-large[disabled],
+.btn-small[disabled],
+.btn-flat[disabled] {
+  pointer-events: none;
+  background-color: #DFDFDF !important;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  color: #FE5000 !important;
+  cursor: default;
+}
+
+.btn:focus,
+.btn-large:focus,
+.btn-small:focus,
+.btn-floating:focus {
+  background-color: #FE5000;
+}
+
+.btn,
+.btn-large,
+.btn-small {
+  text-decoration: none;
+  color: #fff;
+  background-color: #FE5000;
+  text-align: center;
+  letter-spacing: .5px;
+  -webkit-transition: background-color .2s ease-out;
+  transition: background-color .2s ease-out;
+  cursor: pointer;
+}
+
+.btn:hover,
+.btn-large:hover,
+.btn-small:hover {
+  background-color: #FE5000;
+}
+
+.btn-floating {
+  display: inline-block;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  padding: 0;
+  background-color: #FE5000;
+  border-radius: 50%;
+  -webkit-transition: background-color .3s;
+  transition: background-color .3s;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.btn-floating:hover {
+  background-color: #FE5000;
+}
+
+.fixed-action-btn .fab-backdrop {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1;
+	width: 40px;
+	height: 40px;
+	background-color: #FE5000;
+	border-radius: 50%;
+	-webkit-transform: scale(0);
+	transform: scale(0);
+  }
+
+  input:not([type]):focus:not([readonly]),
+input[type=text]:not(.browser-default):focus:not([readonly]),
+input[type=password]:not(.browser-default):focus:not([readonly]),
+input[type=email]:not(.browser-default):focus:not([readonly]),
+input[type=url]:not(.browser-default):focus:not([readonly]),
+input[type=time]:not(.browser-default):focus:not([readonly]),
+input[type=date]:not(.browser-default):focus:not([readonly]),
+input[type=datetime]:not(.browser-default):focus:not([readonly]),
+input[type=datetime-local]:not(.browser-default):focus:not([readonly]),
+input[type=tel]:not(.browser-default):focus:not([readonly]),
+input[type=number]:not(.browser-default):focus:not([readonly]),
+input[type=search]:not(.browser-default):focus:not([readonly]),
+textarea.materialize-textarea:focus:not([readonly]) {
+  border-bottom: 1px solid #FE5000;
+  -webkit-box-shadow: 0 1px 0 0 #FE5000;
+  box-shadow: 0 1px 0 0 #FE5000;
+}
+
+input:not([type]):focus:not([readonly])+label,
+input[type=text]:not(.browser-default):focus:not([readonly])+label,
+input[type=password]:not(.browser-default):focus:not([readonly])+label,
+input[type=email]:not(.browser-default):focus:not([readonly])+label,
+input[type=url]:not(.browser-default):focus:not([readonly])+label,
+input[type=time]:not(.browser-default):focus:not([readonly])+label,
+input[type=date]:not(.browser-default):focus:not([readonly])+label,
+input[type=datetime]:not(.browser-default):focus:not([readonly])+label,
+input[type=datetime-local]:not(.browser-default):focus:not([readonly])+label,
+input[type=tel]:not(.browser-default):focus:not([readonly])+label,
+input[type=number]:not(.browser-default):focus:not([readonly])+label,
+input[type=search]:not(.browser-default):focus:not([readonly])+label,
+textarea.materialize-textarea:focus:not([readonly])+label {
+  color: #FE5000;
+}
+
+input:not([type]):focus.valid~label,
+input[type=text]:not(.browser-default):focus.valid~label,
+input[type=password]:not(.browser-default):focus.valid~label,
+input[type=email]:not(.browser-default):focus.valid~label,
+input[type=url]:not(.browser-default):focus.valid~label,
+input[type=time]:not(.browser-default):focus.valid~label,
+input[type=date]:not(.browser-default):focus.valid~label,
+input[type=datetime]:not(.browser-default):focus.valid~label,
+input[type=datetime-local]:not(.browser-default):focus.valid~label,
+input[type=tel]:not(.browser-default):focus.valid~label,
+input[type=number]:not(.browser-default):focus.valid~label,
+input[type=search]:not(.browser-default):focus.valid~label,
+textarea.materialize-textarea:focus.valid~label {
+  color: #FE5000;
+}
