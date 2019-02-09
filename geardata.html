@@ -54,10 +54,56 @@
             navigator.serviceWorker.register('service_worker2.js');
         }
     </script>
-
+    <style>
+            div.sticky {
+          position: -webkit-sticky;
+          position: sticky;
+          top: 0;
+        }
+            ul {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          background-color: #8a9385;
+          border-radius: 40px;
+          border-color: white;
+        }
+        
+        li {
+          float: left;
+        }
+        
+        li a {
+          display: block;
+          color: white;
+          text-align: center;
+          padding: 20px 16px;
+          text-decoration: none;
+          font-family: 'Roboto', sans-serif;
+        }
+        
+        li a:hover:not(.active) {
+          background-color: #717a6c;
+          font-family: 'Roboto', sans-serif;
+        }
+        
+        .active {
+          background-color: #FE5000;
+        }
+          </style>
 </head>
 
 <body>
+        <br>
+        <div class="sticky">
+        <ul>
+            <li><b><a class="active">GearData</a></b></li>
+            <li><a href="https://enan.rocks/gearscout">GearScout</a></li>
+            <li><a href="https://github.com/Enan456/webserver">Github</a></li>
+            <li><a href="http://oswegofirst.org">Team Website</a></li>
+          </ul>
+        </div>
     <center>
         <!-- Use these form inputs to grab data -->
         <div class="margin-main">
