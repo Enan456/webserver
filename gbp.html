@@ -26,14 +26,14 @@
         };
         firebase.initializeApp(config);
         var database = firebase.database();
-    
+
             window.dataLayer = window.dataLayer || [];
-    
+
         function gtag() {
             dataLayer.push(arguments);
         }
         gtag('js', new Date());
-    
+
         gtag('config', 'UA-112760702-1');
     </script>
     <script src="service_worker.js"></script>
@@ -43,17 +43,62 @@
     <link rel="manifest" href="manifest.json">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
+    <style>
+      ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #8a9385;
+    border-radius: 40px;
+    border-color: white;
+  }
 
+  li {
+    float: left;
+  }
+
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 16px 16px;
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  li a:hover:not(.active) {
+    background-color: #717a6c;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .active1 {
+    background-color: #FE5000;
+  }
+    </style>
 
 </head>
 
 
 <body style="background-color: #02243E !important;">
+
+  <br>
+  <div class="meh">
+  <ul>
+      <li><b><a class="active1">Good Bot Points</a></b></li>
+      <li><a href="https://enan.rocks/gearscout">GearScout</a></li>
+      <li><a href="https://enan.rocks/geardata">GearData</a></li>
+      <li><a href="https://github.com/Enan456/webserver">Github</a></li>
+      <li><a href="http://oswegofirst.org">Team Website</a></li>
+      <li><a href="https://enan.rocks/graph">Graph</a></li>
+      <li><a href="https://enan.rocks/averagedata">Average Data</a></li>
+      <li><a href="https://goo.gl/forms/f5KFmSU9XfPQvHIL2">Bug Report</a></li>
+    </ul>
+  </div>
     <!--   <audio id="my_audio" src="videoplayback.mp3" loop="loop"></audio>
     in case of error blame Adriana Watson
  -->
     <center>
-        <title>Good Bot Points</title>
         <form>
             <center>
                 <div class="margin-main">
@@ -260,22 +305,4 @@
         </script> -->
     </center>
 </body>
-<br>
-<br>
-<footer class="page-footer">
-    <div class="container">
-        <div class="row">
-            <center>
-                <h5 class="white-text">Credits</h5>
-                <p class="grey-text text-lighten-4">2338 Programming</p>
-            </center>
-        </div>
-    </div>
-    <div class="footer-copyright">
-        <div class="container">
-            <p> Feburary 2019 </p>
-        </div>
-    </div>
-</footer>
-
 </html>
