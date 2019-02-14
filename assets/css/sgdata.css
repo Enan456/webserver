@@ -366,6 +366,11 @@
 	margin: 0% 3%;
   }
 
+	.match-display{
+		background-color: #696969;
+		border: 3px black;
+	}
+
   .materialize-red.lighten-2 {
 	background-color: #FE5000 !important;
   }
