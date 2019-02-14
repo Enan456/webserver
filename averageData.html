@@ -49,15 +49,59 @@
     <link rel="manifest" href="manifest.json">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
-
+    <head>
+            <style>
+              ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #8a9385;
+            border-radius: 40px;
+            border-color: white;
+          }
+          
+          li {
+            float: left;
+          }
+          
+          li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 16px 16px;
+            text-decoration: none;
+            font-family: 'Roboto', sans-serif;
+          }
+          
+          li a:hover:not(.active) {
+            background-color: #717a6c;
+            font-family: 'Roboto', sans-serif;
+          }
+          
+          .active1 {
+            background-color: #FE5000;
+          }
 
 </head>
 
 <body>
+        <div class="meh">
+                <ul>
+                    <li><b><a class="active1">GearData Average</a></b></li>
+                    <li><a href="https://enan.rocks/gearscout">GearScout</a></li>
+                    <li><a href="https://enan.rocks/geardata">GearData</a></li>
+                    <li><a href="https://github.com/Enan456/webserver">Github</a></li>
+                    <li><a href="http://oswegofirst.org">Team Website</a></li>
+                    <li><a href="https://enan.rocks/graph">Graph</a></li>
+                    <li><a href="https://enan.rocks/gbp">Good Bot Points</a></li>
+                    <li><a href="https://goo.gl/forms/xWH7qymDUqnGq2mh1">Bug Report</a></li>
+                  </ul>
+                </div>
     <center>
         <!-- Use these form inputs to grab data -->
         <div class="margin-main">
-            <h1>Data</h1>
+            
             <div class="input-field col-md-6 col-sm-12">
                 <input id="yourteam" type="text" class="validate">
                 <label for="yourteam">Team You Are In</label>
