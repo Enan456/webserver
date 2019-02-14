@@ -136,7 +136,8 @@
                     const yourTeam = document.getElementById("yourteam").value;
                     const regional = document.getElementById("regional").value;
                     const scoutteam = document.getElementById("scoutteam").value;
-
+                    var frm = document.getElementsByName('margin-main')[0];
+                    frm.innerHTML=null;
                     function setStyle(data) {
                         if (data.key.substring(4, 12) == "Platform" || data.key.substring(5, 13) == "Platform") {
                             if (data.val() == "true") {
