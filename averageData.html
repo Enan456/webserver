@@ -22,25 +22,15 @@
     <script src="interim.js"></script>
     <script>
         var config = {
-            apiKey: "AIzaSyAGjIhyS5eGmUvZysE46CuWFjeX0T-ykWA",
-            authDomain: "scoutgear-2018.firebaseapp.com",
-            databaseURL: "https://scoutgear-2018.firebaseio.com",
-            projectId: "scoutgear-2018",
-            storageBucket: "scoutgear-2018.appspot.com",
-            messagingSenderId: "269363065314"
-        };
-        var backupConfig = {
-            apiKey: "AIzaSyB6szrLwJpELAoav_FGES_UX12MrQKp-Sk",
-            authDomain: "scoutgear-2019-backup.firebaseapp.com",
-            databaseUrl: "https://scoutgear-2019-backup.firebaseio.com/",
-            projectId: "scoutgear-2019-backup",
-            storageBucket: "scoutgear-2019-backup.appspot.com",
-            messagingSenderId: "23170624982"
-        };
-        firebase.initializeApp(config);
-        var database = firebase.database();
-        firebase.initializeApp(backupConfig);
-        var backupDatabase = firebase.database();
+        apiKey: "AIzaSyAGjIhyS5eGmUvZysE46CuWFjeX0T-ykWA",
+        authDomain: "scoutgear-2018.firebaseapp.com",
+        databaseURL: "https://scoutgear-2018.firebaseio.com",
+        projectId: "scoutgear-2018",
+        storageBucket: "scoutgear-2018.appspot.com",
+        messagingSenderId: "269363065314"
+    };
+    firebase.initializeApp(config);
+    var database = firebase.database();
 
         window.dataLayer = window.dataLayer || [];
 
@@ -587,27 +577,6 @@
         </center>
 
         <script>
-            var online;
-            var onlineBackup;
-
-            var connectedRef = database.ref(".info/connected");
-            connectedRef.on("value", function(snap) {
-                if (snap.val() === true) {
-                    online = true;
-                } else {
-                    online = false;
-                }
-            });
-
-            var connectedRefBackup = backupDatabase.ref(".info/connected");
-            connectedRefBackup.on("value", function(snap) {
-                if (snap.val() === true) {
-                    onlineBackup = true;
-                } else {
-                    online = false;
-                }
-            });
-    
             var averages = [];
             for (var i = 0; i < 76; i++) {
                 averages.push([" ", 0]);
@@ -758,177 +727,90 @@
                     }
                 }
 
-                if (online) {
-                    var userDataRef = database.ref("/" + yourTeam + "/" + regional + "/" + scoutteam).orderByKey();
-                    userDataRef.once("value").then(function (matches) {
-                        matches.forEach(function (match) {
-                            match.forEach(function (tag) {
-                                var index = 0;
-                                numMatches++;
-                                var hatches = 0;
-                                var cargo = 0;
-                                tag.forEach(function (dataPoint) {
-                                    if (dataPoint.val() == "true") {
-                                        if (averages[index][0] == " ") {
-                                            averages[index][0] = dataPoint.key;
-                                        }
-                                        averages[index][1] += 1;
-                                        index++;
-                                    } else if (dataPoint.val() == "0" || dataPoint.val() ==
-                                        "1" || dataPoint.val() == "2") {
-                                        if (averages[index][0] == " ") {
-                                            averages[index][0] = dataPoint.key;
-                                        }
-                                        averages[index][1] += parseInt(dataPoint.val());
-                                        index++;
-                                    } else if (dataPoint.val() == "false") {
-                                        if (averages[index][0] == " ") {
-                                            averages[index][0] = dataPoint.key;
-                                        }
-                                        index++;
+                var userDataRef = firebase.database().ref("/" + yourTeam + "/" + regional + "/" + scoutteam).orderByKey();
+                userDataRef.once("value").then(function (matches) {
+                    matches.forEach(function (match) {
+                        match.forEach(function (tag) {
+                            var index = 0;
+                            numMatches++;
+                            var hatches = 0;
+                            var cargo = 0;
+                            tag.forEach(function (dataPoint) {
+                                if (dataPoint.val() == "true") {
+                                    if (averages[index][0] == " ") {
+                                        averages[index][0] = dataPoint.key;
                                     }
-                                    if (dataPoint.key.substring(0, 1) == "S") {
-                                        if (dataPoint.key.substring(dataPoint.key.length - 5) == "Cargo") {
-                                            if (dataPoint.key.substring(2, 3) == "R") {
-                                                averageData[1] += parseInt(dataPoint.val());
-                                                cargo += parseInt(dataPoint.val());
-                                            } else {
-                                                if (dataPoint.val() == "true") {
-                                                    averageData[1] ++;
-                                                    cargo ++;
-                                                }
-                                            }
-                                        } else if (dataPoint.key.substring(dataPoint.key.length - 5) == "Hatch") {
-                                            if (dataPoint.key.substring(2, 3) == "R") {
-                                                if (dataPoint.val() == "true") {
-                                                    averageData[0] ++;
-                                                    hatches ++;
-                                                }
-                                            } else {
-                                                if (dataPoint.val() == "true") {
-                                                    averageData[0] ++;
-                                                    hatches ++;
-                                                }
+                                    averages[index][1] += 1;
+                                    index++;
+                                } else if (dataPoint.val() == "0" || dataPoint.val() ==
+                                    "1" || dataPoint.val() == "2") {
+                                    if (averages[index][0] == " ") {
+                                        averages[index][0] = dataPoint.key;
+                                    }
+                                    averages[index][1] += parseInt(dataPoint.val());
+                                    index++;
+                                } else if (dataPoint.val() == "false") {
+                                    if (averages[index][0] == " ") {
+                                        averages[index][0] = dataPoint.key;
+                                    }
+                                    index++;
+                                }
+                                if (dataPoint.key.substring(0, 1) == "S") {
+                                    if (dataPoint.key.substring(dataPoint.key.length - 5) == "Cargo") {
+                                        if (dataPoint.key.substring(2, 3) == "R") {
+                                            averageData[1] += parseInt(dataPoint.val());
+                                            cargo += parseInt(dataPoint.val());
+                                        } else {
+                                            if (dataPoint.val() == "true") {
+                                                averageData[1] ++;
+                                                cargo ++;
                                             }
                                         }
-                                    } else {
-                                        if (dataPoint.key.substring(dataPoint.key.length - 5) == "Cargo") {
-                                            if (dataPoint.key.substring(1, 2) == "R") {
-                                                averageData[1] += parseInt(dataPoint.val());
-                                                cargo += parseInt(dataPoint.val());
-                                            } else {
-                                                if (dataPoint.val() == "true") {
-                                                    averageData[1] ++;
-                                                    cargo ++;
-                                                }
+                                    } else if (dataPoint.key.substring(dataPoint.key.length - 5) == "Hatch") {
+                                        if (dataPoint.key.substring(2, 3) == "R") {
+                                            if (dataPoint.val() == "true") {
+                                                averageData[0] ++;
+                                                hatches ++;
                                             }
-                                        } else if (dataPoint.key.substring(dataPoint.key.length - 5) == "Hatch") {
-                                            if (dataPoint.key.substring(1, 2) == "R") {
-                                                if (dataPoint.val() == "true") {
-                                                    averageData[0] ++;
-                                                    hatches ++;
-                                                }
-                                            } else {
-                                                if (dataPoint.val() == "true") {
-                                                    averageData[0] ++;
-                                                    hatches ++;
-                                                }
+                                        } else {
+                                            if (dataPoint.val() == "true") {
+                                                averageData[0] ++;
+                                                hatches ++;
                                             }
                                         }
                                     }
-                                });
-                                highestData[0] = hatches > highestData[0] ? hatches : highestData[0];
-                                highestData[1] = cargo > highestData[1] ? cargo : highestData[1];
+                                } else {
+                                    if (dataPoint.key.substring(dataPoint.key.length - 5) == "Cargo") {
+                                        if (dataPoint.key.substring(1, 2) == "R") {
+                                            averageData[1] += parseInt(dataPoint.val());
+                                            cargo += parseInt(dataPoint.val());
+                                        } else {
+                                            if (dataPoint.val() == "true") {
+                                                averageData[1] ++;
+                                                cargo ++;
+                                            }
+                                        }
+                                    } else if (dataPoint.key.substring(dataPoint.key.length - 5) == "Hatch") {
+                                        if (dataPoint.key.substring(1, 2) == "R") {
+                                            if (dataPoint.val() == "true") {
+                                                averageData[0] ++;
+                                                hatches ++;
+                                            }
+                                        } else {
+                                            if (dataPoint.val() == "true") {
+                                                averageData[0] ++;
+                                                hatches ++;
+                                            }
+                                        }
+                                    }
+                                }
                             });
+                            highestData[0] = hatches > highestData[0] ? hatches : highestData[0];
+                            highestData[1] = cargo > highestData[1] ? cargo : highestData[1];
                         });
-                        clicked(!clicked());
                     });
-                } else if (onlineBackup) {
-                    var userDataRef = backupDatabase.ref("/" + yourTeam + "/" + regional + "/" + scoutteam).orderByKey();
-                    userDataRef.once("value").then(function (matches) {
-                        matches.forEach(function (match) {
-                            match.forEach(function (tag) {
-                                var index = 0;
-                                numMatches++;
-                                var hatches = 0;
-                                var cargo = 0;
-                                tag.forEach(function (dataPoint) {
-                                    if (dataPoint.val() == "true") {
-                                        if (averages[index][0] == " ") {
-                                            averages[index][0] = dataPoint.key;
-                                        }
-                                        averages[index][1] += 1;
-                                        index++;
-                                    } else if (dataPoint.val() == "0" || dataPoint.val() ==
-                                        "1" || dataPoint.val() == "2") {
-                                        if (averages[index][0] == " ") {
-                                            averages[index][0] = dataPoint.key;
-                                        }
-                                        averages[index][1] += parseInt(dataPoint.val());
-                                        index++;
-                                    } else if (dataPoint.val() == "false") {
-                                        if (averages[index][0] == " ") {
-                                            averages[index][0] = dataPoint.key;
-                                        }
-                                        index++;
-                                    }
-                                    if (dataPoint.key.substring(0, 1) == "S") {
-                                        if (dataPoint.key.substring(dataPoint.key.length - 5) == "Cargo") {
-                                            if (dataPoint.key.substring(2, 3) == "R") {
-                                                averageData[1] += parseInt(dataPoint.val());
-                                                cargo += parseInt(dataPoint.val());
-                                            } else {
-                                                if (dataPoint.val() == "true") {
-                                                    averageData[1] ++;
-                                                    cargo ++;
-                                                }
-                                            }
-                                        } else if (dataPoint.key.substring(dataPoint.key.length - 5) == "Hatch") {
-                                            if (dataPoint.key.substring(2, 3) == "R") {
-                                                if (dataPoint.val() == "true") {
-                                                    averageData[0] ++;
-                                                    hatches ++;
-                                                }
-                                            } else {
-                                                if (dataPoint.val() == "true") {
-                                                    averageData[0] ++;
-                                                    hatches ++;
-                                                }
-                                            }
-                                        }
-                                    } else {
-                                        if (dataPoint.key.substring(dataPoint.key.length - 5) == "Cargo") {
-                                            if (dataPoint.key.substring(1, 2) == "R") {
-                                                averageData[1] += parseInt(dataPoint.val());
-                                                cargo += parseInt(dataPoint.val());
-                                            } else {
-                                                if (dataPoint.val() == "true") {
-                                                    averageData[1] ++;
-                                                    cargo ++;
-                                                }
-                                            }
-                                        } else if (dataPoint.key.substring(dataPoint.key.length - 5) == "Hatch") {
-                                            if (dataPoint.key.substring(1, 2) == "R") {
-                                                if (dataPoint.val() == "true") {
-                                                    averageData[0] ++;
-                                                    hatches ++;
-                                                }
-                                            } else {
-                                                if (dataPoint.val() == "true") {
-                                                    averageData[0] ++;
-                                                    hatches ++;
-                                                }
-                                            }
-                                        }
-                                    }
-                                });
-                                highestData[0] = hatches > highestData[0] ? hatches : highestData[0];
-                                highestData[1] = cargo > highestData[1] ? cargo : highestData[1];
-                            });
-                        });
-                        clicked(!clicked());
-                    });
-                }
+                    clicked(!clicked());
+                });
             };
         </script>
 </body>
