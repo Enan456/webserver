@@ -22,16 +22,26 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112760702-1"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script>
-        var config = {
+      var config = {
         apiKey: "AIzaSyAGjIhyS5eGmUvZysE46CuWFjeX0T-ykWA",
         authDomain: "scoutgear-2018.firebaseapp.com",
         databaseURL: "https://scoutgear-2018.firebaseio.com",
         projectId: "scoutgear-2018",
         storageBucket: "scoutgear-2018.appspot.com",
         messagingSenderId: "269363065314"
-    };
-    firebase.initializeApp(config);
-    var database = firebase.database();
+      };
+      var backupConfig = {
+        apiKey: "AIzaSyB6szrLwJpELAoav_FGES_UX12MrQKp-Sk",
+        authDomain: "scoutgear-2019-backup.firebaseapp.com",
+        databaseUrl: "https://scoutgear-2019-backup.firebaseio.com/",
+        projectId: "scoutgear-2019-backup",
+        storageBucket: "scoutgear-2019-backup.appspot.com",
+        messagingSenderId: "23170624982"
+      };
+      firebase.initializeApp(config);
+      var database = firebase.database();
+      firebase.initializeApp(backupConfig);
+      var backupDatabase = firebase.database();
 
         window.dataLayer = window.dataLayer || [];
 
@@ -134,7 +144,26 @@
 
             </div>
             <script>
+              var online;
+            var onlineBackup;
 
+            var connectedRef = database.ref(".info/connected");
+            connectedRef.on("value", function(snap) {
+                if (snap.val() === true) {
+                    online = true;
+                } else {
+                    online = false;
+                }
+            });
+
+            var connectedRefBackup = backupDatabase.ref(".info/connected");
+            connectedRefBackup.on("value", function(snap) {
+                if (snap.val() === true) {
+                    onlineBackup = true;
+                } else {
+                    online = false;
+                }
+            });
 
                 function load_team() {
                     const yourTeam = document.getElementById("yourteam").value;
@@ -154,8 +183,8 @@
                         return " ";
                     }
 
-
-                    var userDataRef = firebase.database().ref("/" + yourTeam + "/" + regional + "/" + scoutteam).orderByKey();
+                    if (online) {
+                      var userDataRef = database.ref("/" + yourTeam + "/" + regional + "/" + scoutteam).orderByKey();
                     userDataRef.once("value").then(function (matches) {
                             matches.forEach(function (match) {
                                     numMatches++;
@@ -164,8 +193,22 @@
 
                                                 });
                                     });
-                            }); clicked(!clicked());
+                            clicked(!clicked());
                     });
+                    } else if (onlineBackup) {
+                      var userDataRef = backupDatabase.ref("/" + yourTeam + "/" + regional + "/" + scoutteam).orderByKey();
+                    userDataRef.once("value").then(function (matches) {
+                            matches.forEach(function (match) {
+                                    numMatches++;
+                                    console.log(match.toString());
+                                    match.forEach(function (tag) {
+
+                                                });
+                                    });
+                            clicked(!clicked());
+                    });
+                    }
+                    
                 };
             </script>
             		<div id="myDiv" style="width:100%;height:100%"></div>

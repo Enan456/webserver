@@ -23,15 +23,25 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112760702-1"></script>
     <script>
         var config = {
-        apiKey: "AIzaSyAGjIhyS5eGmUvZysE46CuWFjeX0T-ykWA",
-        authDomain: "scoutgear-2018.firebaseapp.com",
-        databaseURL: "https://scoutgear-2018.firebaseio.com",
-        projectId: "scoutgear-2018",
-        storageBucket: "scoutgear-2018.appspot.com",
-        messagingSenderId: "269363065314"
-    };
-    firebase.initializeApp(config);
-    var database = firebase.database();
+            apiKey: "AIzaSyAGjIhyS5eGmUvZysE46CuWFjeX0T-ykWA",
+            authDomain: "scoutgear-2018.firebaseapp.com",
+            databaseURL: "https://scoutgear-2018.firebaseio.com",
+            projectId: "scoutgear-2018",
+            storageBucket: "scoutgear-2018.appspot.com",
+            messagingSenderId: "269363065314"
+        };
+        var backupConfig = {
+            apiKey: "AIzaSyB6szrLwJpELAoav_FGES_UX12MrQKp-Sk",
+            authDomain: "scoutgear-2019-backup.firebaseapp.com",
+            databaseUrl: "https://scoutgear-2019-backup.firebaseio.com/",
+            projectId: "scoutgear-2019-backup",
+            storageBucket: "scoutgear-2019-backup.appspot.com",
+            messagingSenderId: "23170624982"
+        };
+        firebase.initializeApp(config);
+        var database = firebase.database();
+        firebase.initializeApp(backupConfig);
+        var backupDatabase = firebase.database();
 
         window.dataLayer = window.dataLayer || [];
 
@@ -135,6 +145,27 @@
 
             </div>
             <script>
+                var online;
+                var onlineBackup;
+    
+                var connectedRef = database.ref(".info/connected");
+                connectedRef.on("value", function(snap) {
+                    if (snap.val() === true) {
+                        online = true;
+                    } else {
+                        online = false;
+                    }
+                });
+    
+                var connectedRefBackup = backupDatabase.ref(".info/connected");
+                connectedRefBackup.on("value", function(snap) {
+                    if (snap.val() === true) {
+                        onlineBackup = true;
+                    } else {
+                        online = false;
+                    }
+                });
+
                 function load_team() {
                     const yourTeam = document.getElementById("yourteam").value;
                     const regional = document.getElementById("regional").value;
@@ -203,181 +234,359 @@
                         return "try again";
                     };
 
-                    var userDataRef = firebase.database().ref("/" + yourTeam + "/" + regional + "/" + scoutteam).orderByKey();
-                    userDataRef.once("value").then(function (matches) {
-                        var matchNum = 0;
-                        matches.forEach(function (match) {
-                            match.forEach(function (tag) {
-                                matchNum++;
-                                var styles = [];
-                                tag.forEach(function (dataPoint) {
-                                    if (dataPoint.key == "yourname") {
-                                        styles.push(dataPoint.val());
-                                    } else if (setStyle(dataPoint) != "try again") {
-                                        styles.push(setStyle(dataPoint));
-                                    }
+                    if (online) {
+                        var userDataRef = database.ref("/" + yourTeam + "/" + regional + "/" + scoutteam).orderByKey();
+                        userDataRef.once("value").then(function (matches) {
+                            var matchNum = 0;
+                            matches.forEach(function (match) {
+                                match.forEach(function (tag) {
+                                    matchNum++;
+                                    var styles = [];
+                                    tag.forEach(function (dataPoint) {
+                                        if (dataPoint.key == "yourname") {
+                                            styles.push(dataPoint.val());
+                                        } else if (setStyle(dataPoint) != "try again") {
+                                            styles.push(setStyle(dataPoint));
+                                        }
+                                    });
+                                    var template = '<div id= match-"' + styles[76] +
+                                        '<div class="match-display"> <center>   <h2>Sandstorm: Match ' +
+                                        matchNum +
+                                        '</h2> </center> <div class="container">   <center><!--flex-grid 1 --><div class="flex-grid">  <div class="col-5">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="Slvl2PlatformL" class="platform2' +
+                                        styles[20] +
+                                        '">  </div>  <div class="col-2" id="checkbox"> <p id="Slvl3Platform" class="platform3' +
+                                        styles[22] +
+                                        '">  </div>  <div class="col-1" id="checkbox"> <p id="Slvl2PlatformR" class="platform2' +
+                                        styles[21] +
+                                        '">  </div>  <div class="col-5">    <p></p>  </div></div><!--flex-grid 2 --><div class="flex-grid">  <div class="col-5">    <p></p>  </div>  <div class="col-4" id="checkbox"> <p id="Slvl1Platform" class="platform1' +
+                                        styles[19] +
+                                        '">  </div>  <div class="col-5">    <p></p>  </div></div><!--Spacing--><div class="flex-grid">  <br></div><!--flex-grid 3 --><div class="flex-grid">  <div class="col-5">    <p></p>  </div>  <div class="col-1">    <p class="LeftRover"></p>  </div>  <div class="col-1" id="checkbox"> <p id="ScCTLHatch" class="roverHatch' +
+                                        styles[2] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="ScCTRHatch" class="roverHatch' +
+                                        styles[3] +
+                                        '" value="2">  </div>  <div class="col-1">    <p class="RightRover"></p>  </div>  <div class="col-5">    <p></p>  </div></div><!--flex-grid 4 --><div class="flex-grid">  <div class="col-5">    <p></p>  </div>  <div class="col-1">    <p class="RoverBox"></p>  </div>  <div class="col-1" id="checkbox"> <p id="ScCHTLCargo" class="port' +
+                                        styles[0] +
+                                        '">  </div>  <div class="col-1" id="checkbox"> <p id="ScCHTRCargo" class="port' +
+                                        styles[1] +
+                                        '">  </div>  <div class="col-1">    <p class="RoverBox"></p>  </div>  <div class="col-5">    <p></p>  </div></div><!--flex-grid 5 --><div class="flex-grid">  <div class="col-1">    <p class="RightLeft"></p>  </div>  <div class="col-1" id="checkbox"> <p id="SlRRHHatch" class="rocketHatch' +
+                                        styles[16] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SlRRMHatch" class="rocketHatch' +
+                                        styles[18] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SlRRLHatch" class="rocketHatch' +
+                                        styles[17] +
+                                        '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="SlCLTHatch" class="roverHatch' +
+                                        styles[9] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SlCCTCargo" class="port' +
+                                        styles[6] +
+                                        '">  </div>  <div class="col-1" id="checkbox"> <p id="SrCCTCargo" class="port' +
+                                        styles[25] +
+                                        '">  </div>  <div class="col-1" id="checkbox"> <p id="SrCLTHatch" class="roverHatch' +
+                                        styles[26] +
+                                        '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="SrRRLHatch" class="rocketHatch' +
+                                        styles[36] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SrRRMHatch" class="rocketHatch' +
+                                        styles[37] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SrRRHHatch" class="rocketHatch' +
+                                        styles[35] +
+                                        '" value="2">  </div>  <div class="col-1">    <p class="LeftRight"></p>  </div></div><!--flex-grid 6 --><div class="flex-grid">  <div class="col-1">    <p class="Ports"></p>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="SlRCHCargo" class="rocket' +
+                                        styles[10] +
+                                        '"></button>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="SlRCMCargo" class="rocket' +
+                                        styles[12] +
+                                        '"></button>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="SlRCLCargo" class="rocket' +
+                                        styles[11] +
+                                        '"></button>  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="SlCLMHatch" class="roverHatch' +
+                                        styles[8] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SlCCMCargo" class="port' +
+                                        styles[5] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SrCCMCargo" class="port' +
+                                        styles[24] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SrCRMHatch" class="roverHatch' +
+                                        styles[28] +
+                                        '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="SrRCLCargo" class="rocket' +
+                                        styles[30] +
+                                        '"></button>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="SrRCMCargo" class="rocket' +
+                                        styles[31] +
+                                        '"></button>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="SrRCHCargo" class="rocket' +
+                                        styles[29] +
+                                        '"></button>  </div>  <div class="col-1">    <p class="Ports"></p>  </div></div><!--flex-grid 7 --><div class="flex-grid">  <div class="col-1">    <p class="LeftLeft"></p>  </div>  <div class="col-1" id="checkbox"> <p id="SlRLHHatch" class="rocketHatch' +
+                                        styles[13] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SlRLMHatch" class="rocketHatch' +
+                                        styles[15] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SlRLLHatch" class="rocketHatch' +
+                                        styles[14] +
+                                        '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="SlCLLHatch" class="roverHatch' +
+                                        styles[7] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SlCCLCargo" class="port' +
+                                        styles[4] +
+                                        '" value="2">   </div>  <div class="col-1" id="checkbox"> <p id="SrCCLCargo" class="port' +
+                                        styles[23] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SrCRLHatch" class="roverHatch' +
+                                        styles[27] +
+                                        '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="SrRLHHatch" class="rocketHatch' +
+                                        styles[32] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SrRLMHatch" class="rocketHatch' +
+                                        styles[34] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SrRLLHatch" class="rocketHatch' +
+                                        styles[33] +
+                                        '" value="2">  </div>  <div class="col-1">    <p class="RightRight"></p>  </div></div>   </center> </div> <br> <br> <center>   <h2>Rest of the Game</h2> </center> <div class="container">   <center><!--flex-grid 1 --><div class="flex-grid">  <div class="col-5">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="lvl2PlatformL" class="platform2' +
+                                        styles[58] +
+                                        '" >  </div>  <div class="col-2" id="checkbox"> <p id="lvl3Platform" class="platform3' +
+                                        styles[60] +
+                                        '">  </div>  <div class="col-1" id="checkbox"> <p id="lvl2PlatformR" class="platform2' +
+                                        styles[59] +
+                                        '">  </div>  <div class="col-5">    <p></p>  </div></div><!--flex-grid 2 --><div class="flex-grid">  <div class="col-5">    <p></p>  </div>  <div class="col-4" id="checkbox"> <p id="lvl1Platform" class="platform1' +
+                                        styles[57] +
+                                        '">  </div>  <div class="col-5">    <p></p>  </div></div><!--Spacing--><div class="flex-grid">  <br></div><!--flex-grid 3 --><div class="flex-grid">  <div class="col-5">    <p></p>  </div>  <div class="col-1">    <p class="LeftRover"></p>  </div>  <div class="col-1" id="checkbox"> <p id="cCTLHatch" class="roverHatch' +
+                                        styles[40] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="cCTRHatch" class="roverHatch' +
+                                        styles[41] +
+                                        '" value="2">  </div>  <div class="col-1">    <p class="RightRover"></p>  </div>  <div class="col-5">    <p></p>  </div></div><!--flex-grid 4 --><div class="flex-grid">  <div class="col-5">    <p></p>  </div>  <div class="col-1">    <p class="RoverBox"></p>  </div>  <div class="col-1" id="checkbox"> <p id="cCHTLCargo" class="port' +
+                                        styles[38] +
+                                        '">  </div>  <div class="col-1" id="checkbox"> <p id="cCHTRCargo" class="port' +
+                                        styles[39] +
+                                        '">  </div>  <div class="col-1">    <p class="RoverBox"></p>  </div>  <div class="col-5">    <p></p>  </div></div><!--flex-grid 5 --><div class="flex-grid">  <div class="col-1">    <p class="RightLeft"></p>  </div>  <div class="col-1" id="checkbox"> <p id="lRRHHatch" class="rocketHatch' +
+                                        styles[54] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="lRRMHatch" class="rocketHatch' +
+                                        styles[56] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="lRRLHatch" class="rocketHatch' +
+                                        styles[55] +
+                                        '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="lCLTHatch" class="roverHatch' +
+                                        styles[47] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="lCCTCargo" class="port' +
+                                        styles[44] +
+                                        '">  </div>  <div class="col-1" id="checkbox"> <p id="rCCTCargo" class="port' +
+                                        styles[63] +
+                                        '">  </div>  <div class="col-1" id="checkbox"> <p id="rCLTHatch" class="roverHatch' +
+                                        styles[64] +
+                                        '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="rRRLHatch" class="rocketHatch' +
+                                        styles[74] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="rRRMHatch" class="rocketHatch' +
+                                        styles[75] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="rRRHHatch" class="rocketHatch' +
+                                        styles[73] +
+                                        '" value="2">  </div>  <div class="col-1">    <p class="LeftRight"></p>  </div></div><!--flex-grid 6 --><div class="flex-grid">  <div class="col-1">    <p class="Ports"></p>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="lRCHCargo" class="rocket' +
+                                        styles[48] +
+                                        '"></button>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="lRCMCargo" class="rocket' +
+                                        styles[50] +
+                                        '"></button>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="lRCLCargo" class="rocket' +
+                                        styles[49] +
+                                        '"></button>  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="lCLMHatch" class="roverHatch' +
+                                        styles[46] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="lCCMCargo" class="port' +
+                                        styles[43] +
+                                        '">  </div>  <div class="col-1" id="checkbox"> <p id="rCCMCargo" class="port' +
+                                        styles[62] +
+                                        '">  </div>  <div class="col-1" id="checkbox"> <p id="rCRMHatch" class="roverHatch' +
+                                        styles[66] +
+                                        '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="rRCLCargo" class="rocket' +
+                                        styles[68] +
+                                        '"></button>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="rRCMCargo" class="rocket' +
+                                        styles[69] +
+                                        '"></button>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="rRCHCargo" class="rocket' +
+                                        styles[67] +
+                                        '"></button>  </div>  <div class="col-1">    <p class="Ports"></p>  </div></div><!--flex-grid 7 --><div class="flex-grid">  <div class="col-1">    <p class="LeftLeft"></p>  </div>  <div class="col-1" id="checkbox"> <p id="lRLHHatch" class="rocketHatch' +
+                                        styles[51] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="lRLMHatch" class="rocketHatch' +
+                                        styles[53] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="lRLLHatch" class="rocketHatch' +
+                                        styles[52] +
+                                        '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="lCLLHatch" class="roverHatch' +
+                                        styles[45] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="lCCLCargo" class="port' +
+                                        styles[42] +
+                                        '">  </div>  <div class="col-1" id="checkbox"> <p id="rCCLCargo" class="port' +
+                                        styles[61] +
+                                        '">  </div>  <div class="col-1" id="checkbox"> <p id="rCRLHatch" class="roverHatch' +
+                                        styles[65] +
+                                        '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="rRLHHatch" class="rocketHatch' +
+                                        styles[70] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="rRLMHatch" class="rocketHatch' +
+                                        styles[72] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="rRLLHatch" class="rocketHatch' +
+                                        styles[71] +
+                                        '" value="2">  </div>  <div class="col-1">    <p class="RightRight"></p>  </div></div>   </center> </div>    </div>    <center></div> <br> <br> <br> <br> <br>';
+                                    match = document.getElementById("main-content");
+                                    match.innerHTML += template;
                                 });
-                                var template = '<div id= match-"' + styles[76] +
-                                    '<div class="match-display"> <center>   <h2>Sandstorm: Match ' +
-                                    matchNum +
-                                    '</h2> </center> <div class="container">   <center><!--flex-grid 1 --><div class="flex-grid">  <div class="col-5">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="Slvl2PlatformL" class="platform2' +
-                                    styles[20] +
-                                    '">  </div>  <div class="col-2" id="checkbox"> <p id="Slvl3Platform" class="platform3' +
-                                    styles[22] +
-                                    '">  </div>  <div class="col-1" id="checkbox"> <p id="Slvl2PlatformR" class="platform2' +
-                                    styles[21] +
-                                    '">  </div>  <div class="col-5">    <p></p>  </div></div><!--flex-grid 2 --><div class="flex-grid">  <div class="col-5">    <p></p>  </div>  <div class="col-4" id="checkbox"> <p id="Slvl1Platform" class="platform1' +
-                                    styles[19] +
-                                    '">  </div>  <div class="col-5">    <p></p>  </div></div><!--Spacing--><div class="flex-grid">  <br></div><!--flex-grid 3 --><div class="flex-grid">  <div class="col-5">    <p></p>  </div>  <div class="col-1">    <p class="LeftRover"></p>  </div>  <div class="col-1" id="checkbox"> <p id="ScCTLHatch" class="roverHatch' +
-                                    styles[2] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="ScCTRHatch" class="roverHatch' +
-                                    styles[3] +
-                                    '" value="2">  </div>  <div class="col-1">    <p class="RightRover"></p>  </div>  <div class="col-5">    <p></p>  </div></div><!--flex-grid 4 --><div class="flex-grid">  <div class="col-5">    <p></p>  </div>  <div class="col-1">    <p class="RoverBox"></p>  </div>  <div class="col-1" id="checkbox"> <p id="ScCHTLCargo" class="port' +
-                                    styles[0] +
-                                    '">  </div>  <div class="col-1" id="checkbox"> <p id="ScCHTRCargo" class="port' +
-                                    styles[1] +
-                                    '">  </div>  <div class="col-1">    <p class="RoverBox"></p>  </div>  <div class="col-5">    <p></p>  </div></div><!--flex-grid 5 --><div class="flex-grid">  <div class="col-1">    <p class="RightLeft"></p>  </div>  <div class="col-1" id="checkbox"> <p id="SlRRHHatch" class="rocketHatch' +
-                                    styles[16] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SlRRMHatch" class="rocketHatch' +
-                                    styles[18] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SlRRLHatch" class="rocketHatch' +
-                                    styles[17] +
-                                    '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="SlCLTHatch" class="roverHatch' +
-                                    styles[9] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SlCCTCargo" class="port' +
-                                    styles[6] +
-                                    '">  </div>  <div class="col-1" id="checkbox"> <p id="SrCCTCargo" class="port' +
-                                    styles[25] +
-                                    '">  </div>  <div class="col-1" id="checkbox"> <p id="SrCLTHatch" class="roverHatch' +
-                                    styles[26] +
-                                    '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="SrRRLHatch" class="rocketHatch' +
-                                    styles[36] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SrRRMHatch" class="rocketHatch' +
-                                    styles[37] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SrRRHHatch" class="rocketHatch' +
-                                    styles[35] +
-                                    '" value="2">  </div>  <div class="col-1">    <p class="LeftRight"></p>  </div></div><!--flex-grid 6 --><div class="flex-grid">  <div class="col-1">    <p class="Ports"></p>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="SlRCHCargo" class="rocket' +
-                                    styles[10] +
-                                    '"></button>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="SlRCMCargo" class="rocket' +
-                                    styles[12] +
-                                    '"></button>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="SlRCLCargo" class="rocket' +
-                                    styles[11] +
-                                    '"></button>  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="SlCLMHatch" class="roverHatch' +
-                                    styles[8] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SlCCMCargo" class="port' +
-                                    styles[5] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SrCCMCargo" class="port' +
-                                    styles[24] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SrCRMHatch" class="roverHatch' +
-                                    styles[28] +
-                                    '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="SrRCLCargo" class="rocket' +
-                                    styles[30] +
-                                    '"></button>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="SrRCMCargo" class="rocket' +
-                                    styles[31] +
-                                    '"></button>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="SrRCHCargo" class="rocket' +
-                                    styles[29] +
-                                    '"></button>  </div>  <div class="col-1">    <p class="Ports"></p>  </div></div><!--flex-grid 7 --><div class="flex-grid">  <div class="col-1">    <p class="LeftLeft"></p>  </div>  <div class="col-1" id="checkbox"> <p id="SlRLHHatch" class="rocketHatch' +
-                                    styles[13] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SlRLMHatch" class="rocketHatch' +
-                                    styles[15] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SlRLLHatch" class="rocketHatch' +
-                                    styles[14] +
-                                    '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="SlCLLHatch" class="roverHatch' +
-                                    styles[7] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SlCCLCargo" class="port' +
-                                    styles[4] +
-                                    '" value="2">   </div>  <div class="col-1" id="checkbox"> <p id="SrCCLCargo" class="port' +
-                                    styles[23] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SrCRLHatch" class="roverHatch' +
-                                    styles[27] +
-                                    '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="SrRLHHatch" class="rocketHatch' +
-                                    styles[32] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SrRLMHatch" class="rocketHatch' +
-                                    styles[34] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SrRLLHatch" class="rocketHatch' +
-                                    styles[33] +
-                                    '" value="2">  </div>  <div class="col-1">    <p class="RightRight"></p>  </div></div>   </center> </div> <br> <br> <center>   <h2>Rest of the Game</h2> </center> <div class="container">   <center><!--flex-grid 1 --><div class="flex-grid">  <div class="col-5">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="lvl2PlatformL" class="platform2' +
-                                    styles[58] +
-                                    '" >  </div>  <div class="col-2" id="checkbox"> <p id="lvl3Platform" class="platform3' +
-                                    styles[60] +
-                                    '">  </div>  <div class="col-1" id="checkbox"> <p id="lvl2PlatformR" class="platform2' +
-                                    styles[59] +
-                                    '">  </div>  <div class="col-5">    <p></p>  </div></div><!--flex-grid 2 --><div class="flex-grid">  <div class="col-5">    <p></p>  </div>  <div class="col-4" id="checkbox"> <p id="lvl1Platform" class="platform1' +
-                                    styles[57] +
-                                    '">  </div>  <div class="col-5">    <p></p>  </div></div><!--Spacing--><div class="flex-grid">  <br></div><!--flex-grid 3 --><div class="flex-grid">  <div class="col-5">    <p></p>  </div>  <div class="col-1">    <p class="LeftRover"></p>  </div>  <div class="col-1" id="checkbox"> <p id="cCTLHatch" class="roverHatch' +
-                                    styles[40] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="cCTRHatch" class="roverHatch' +
-                                    styles[41] +
-                                    '" value="2">  </div>  <div class="col-1">    <p class="RightRover"></p>  </div>  <div class="col-5">    <p></p>  </div></div><!--flex-grid 4 --><div class="flex-grid">  <div class="col-5">    <p></p>  </div>  <div class="col-1">    <p class="RoverBox"></p>  </div>  <div class="col-1" id="checkbox"> <p id="cCHTLCargo" class="port' +
-                                    styles[38] +
-                                    '">  </div>  <div class="col-1" id="checkbox"> <p id="cCHTRCargo" class="port' +
-                                    styles[39] +
-                                    '">  </div>  <div class="col-1">    <p class="RoverBox"></p>  </div>  <div class="col-5">    <p></p>  </div></div><!--flex-grid 5 --><div class="flex-grid">  <div class="col-1">    <p class="RightLeft"></p>  </div>  <div class="col-1" id="checkbox"> <p id="lRRHHatch" class="rocketHatch' +
-                                    styles[54] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="lRRMHatch" class="rocketHatch' +
-                                    styles[56] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="lRRLHatch" class="rocketHatch' +
-                                    styles[55] +
-                                    '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="lCLTHatch" class="roverHatch' +
-                                    styles[47] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="lCCTCargo" class="port' +
-                                    styles[44] +
-                                    '">  </div>  <div class="col-1" id="checkbox"> <p id="rCCTCargo" class="port' +
-                                    styles[63] +
-                                    '">  </div>  <div class="col-1" id="checkbox"> <p id="rCLTHatch" class="roverHatch' +
-                                    styles[64] +
-                                    '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="rRRLHatch" class="rocketHatch' +
-                                    styles[74] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="rRRMHatch" class="rocketHatch' +
-                                    styles[75] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="rRRHHatch" class="rocketHatch' +
-                                    styles[73] +
-                                    '" value="2">  </div>  <div class="col-1">    <p class="LeftRight"></p>  </div></div><!--flex-grid 6 --><div class="flex-grid">  <div class="col-1">    <p class="Ports"></p>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="lRCHCargo" class="rocket' +
-                                    styles[48] +
-                                    '"></button>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="lRCMCargo" class="rocket' +
-                                    styles[50] +
-                                    '"></button>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="lRCLCargo" class="rocket' +
-                                    styles[49] +
-                                    '"></button>  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="lCLMHatch" class="roverHatch' +
-                                    styles[46] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="lCCMCargo" class="port' +
-                                    styles[43] +
-                                    '">  </div>  <div class="col-1" id="checkbox"> <p id="rCCMCargo" class="port' +
-                                    styles[62] +
-                                    '">  </div>  <div class="col-1" id="checkbox"> <p id="rCRMHatch" class="roverHatch' +
-                                    styles[66] +
-                                    '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="rRCLCargo" class="rocket' +
-                                    styles[68] +
-                                    '"></button>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="rRCMCargo" class="rocket' +
-                                    styles[69] +
-                                    '"></button>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="rRCHCargo" class="rocket' +
-                                    styles[67] +
-                                    '"></button>  </div>  <div class="col-1">    <p class="Ports"></p>  </div></div><!--flex-grid 7 --><div class="flex-grid">  <div class="col-1">    <p class="LeftLeft"></p>  </div>  <div class="col-1" id="checkbox"> <p id="lRLHHatch" class="rocketHatch' +
-                                    styles[51] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="lRLMHatch" class="rocketHatch' +
-                                    styles[53] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="lRLLHatch" class="rocketHatch' +
-                                    styles[52] +
-                                    '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="lCLLHatch" class="roverHatch' +
-                                    styles[45] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="lCCLCargo" class="port' +
-                                    styles[42] +
-                                    '">  </div>  <div class="col-1" id="checkbox"> <p id="rCCLCargo" class="port' +
-                                    styles[61] +
-                                    '">  </div>  <div class="col-1" id="checkbox"> <p id="rCRLHatch" class="roverHatch' +
-                                    styles[65] +
-                                    '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="rRLHHatch" class="rocketHatch' +
-                                    styles[70] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="rRLMHatch" class="rocketHatch' +
-                                    styles[72] +
-                                    '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="rRLLHatch" class="rocketHatch' +
-                                    styles[71] +
-                                    '" value="2">  </div>  <div class="col-1">    <p class="RightRight"></p>  </div></div>   </center> </div>    </div>    <center></div> <br> <br> <br> <br> <br>';
-                                match = document.getElementById("main-content");
-                                match.innerHTML += template;
                             });
                         });
-                    });
+                    } else if (onlineBackup) {
+                        var userDataRef = backupDatabase.ref("/" + yourTeam + "/" + regional + "/" + scoutteam).orderByKey();
+                        userDataRef.once("value").then(function (matches) {
+                            var matchNum = 0;
+                            matches.forEach(function (match) {
+                                match.forEach(function (tag) {
+                                    matchNum++;
+                                    var styles = [];
+                                    tag.forEach(function (dataPoint) {
+                                        if (dataPoint.key == "yourname") {
+                                            styles.push(dataPoint.val());
+                                        } else if (setStyle(dataPoint) != "try again") {
+                                            styles.push(setStyle(dataPoint));
+                                        }
+                                    });
+                                    var template = '<div id= match-"' + styles[76] +
+                                        '<div class="match-display"> <center>   <h2>Sandstorm: Match ' +
+                                        matchNum +
+                                        '</h2> </center> <div class="container">   <center><!--flex-grid 1 --><div class="flex-grid">  <div class="col-5">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="Slvl2PlatformL" class="platform2' +
+                                        styles[20] +
+                                        '">  </div>  <div class="col-2" id="checkbox"> <p id="Slvl3Platform" class="platform3' +
+                                        styles[22] +
+                                        '">  </div>  <div class="col-1" id="checkbox"> <p id="Slvl2PlatformR" class="platform2' +
+                                        styles[21] +
+                                        '">  </div>  <div class="col-5">    <p></p>  </div></div><!--flex-grid 2 --><div class="flex-grid">  <div class="col-5">    <p></p>  </div>  <div class="col-4" id="checkbox"> <p id="Slvl1Platform" class="platform1' +
+                                        styles[19] +
+                                        '">  </div>  <div class="col-5">    <p></p>  </div></div><!--Spacing--><div class="flex-grid">  <br></div><!--flex-grid 3 --><div class="flex-grid">  <div class="col-5">    <p></p>  </div>  <div class="col-1">    <p class="LeftRover"></p>  </div>  <div class="col-1" id="checkbox"> <p id="ScCTLHatch" class="roverHatch' +
+                                        styles[2] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="ScCTRHatch" class="roverHatch' +
+                                        styles[3] +
+                                        '" value="2">  </div>  <div class="col-1">    <p class="RightRover"></p>  </div>  <div class="col-5">    <p></p>  </div></div><!--flex-grid 4 --><div class="flex-grid">  <div class="col-5">    <p></p>  </div>  <div class="col-1">    <p class="RoverBox"></p>  </div>  <div class="col-1" id="checkbox"> <p id="ScCHTLCargo" class="port' +
+                                        styles[0] +
+                                        '">  </div>  <div class="col-1" id="checkbox"> <p id="ScCHTRCargo" class="port' +
+                                        styles[1] +
+                                        '">  </div>  <div class="col-1">    <p class="RoverBox"></p>  </div>  <div class="col-5">    <p></p>  </div></div><!--flex-grid 5 --><div class="flex-grid">  <div class="col-1">    <p class="RightLeft"></p>  </div>  <div class="col-1" id="checkbox"> <p id="SlRRHHatch" class="rocketHatch' +
+                                        styles[16] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SlRRMHatch" class="rocketHatch' +
+                                        styles[18] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SlRRLHatch" class="rocketHatch' +
+                                        styles[17] +
+                                        '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="SlCLTHatch" class="roverHatch' +
+                                        styles[9] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SlCCTCargo" class="port' +
+                                        styles[6] +
+                                        '">  </div>  <div class="col-1" id="checkbox"> <p id="SrCCTCargo" class="port' +
+                                        styles[25] +
+                                        '">  </div>  <div class="col-1" id="checkbox"> <p id="SrCLTHatch" class="roverHatch' +
+                                        styles[26] +
+                                        '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="SrRRLHatch" class="rocketHatch' +
+                                        styles[36] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SrRRMHatch" class="rocketHatch' +
+                                        styles[37] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SrRRHHatch" class="rocketHatch' +
+                                        styles[35] +
+                                        '" value="2">  </div>  <div class="col-1">    <p class="LeftRight"></p>  </div></div><!--flex-grid 6 --><div class="flex-grid">  <div class="col-1">    <p class="Ports"></p>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="SlRCHCargo" class="rocket' +
+                                        styles[10] +
+                                        '"></button>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="SlRCMCargo" class="rocket' +
+                                        styles[12] +
+                                        '"></button>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="SlRCLCargo" class="rocket' +
+                                        styles[11] +
+                                        '"></button>  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="SlCLMHatch" class="roverHatch' +
+                                        styles[8] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SlCCMCargo" class="port' +
+                                        styles[5] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SrCCMCargo" class="port' +
+                                        styles[24] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SrCRMHatch" class="roverHatch' +
+                                        styles[28] +
+                                        '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="SrRCLCargo" class="rocket' +
+                                        styles[30] +
+                                        '"></button>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="SrRCMCargo" class="rocket' +
+                                        styles[31] +
+                                        '"></button>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="SrRCHCargo" class="rocket' +
+                                        styles[29] +
+                                        '"></button>  </div>  <div class="col-1">    <p class="Ports"></p>  </div></div><!--flex-grid 7 --><div class="flex-grid">  <div class="col-1">    <p class="LeftLeft"></p>  </div>  <div class="col-1" id="checkbox"> <p id="SlRLHHatch" class="rocketHatch' +
+                                        styles[13] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SlRLMHatch" class="rocketHatch' +
+                                        styles[15] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SlRLLHatch" class="rocketHatch' +
+                                        styles[14] +
+                                        '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="SlCLLHatch" class="roverHatch' +
+                                        styles[7] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SlCCLCargo" class="port' +
+                                        styles[4] +
+                                        '" value="2">   </div>  <div class="col-1" id="checkbox"> <p id="SrCCLCargo" class="port' +
+                                        styles[23] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SrCRLHatch" class="roverHatch' +
+                                        styles[27] +
+                                        '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="SrRLHHatch" class="rocketHatch' +
+                                        styles[32] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SrRLMHatch" class="rocketHatch' +
+                                        styles[34] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="SrRLLHatch" class="rocketHatch' +
+                                        styles[33] +
+                                        '" value="2">  </div>  <div class="col-1">    <p class="RightRight"></p>  </div></div>   </center> </div> <br> <br> <center>   <h2>Rest of the Game</h2> </center> <div class="container">   <center><!--flex-grid 1 --><div class="flex-grid">  <div class="col-5">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="lvl2PlatformL" class="platform2' +
+                                        styles[58] +
+                                        '" >  </div>  <div class="col-2" id="checkbox"> <p id="lvl3Platform" class="platform3' +
+                                        styles[60] +
+                                        '">  </div>  <div class="col-1" id="checkbox"> <p id="lvl2PlatformR" class="platform2' +
+                                        styles[59] +
+                                        '">  </div>  <div class="col-5">    <p></p>  </div></div><!--flex-grid 2 --><div class="flex-grid">  <div class="col-5">    <p></p>  </div>  <div class="col-4" id="checkbox"> <p id="lvl1Platform" class="platform1' +
+                                        styles[57] +
+                                        '">  </div>  <div class="col-5">    <p></p>  </div></div><!--Spacing--><div class="flex-grid">  <br></div><!--flex-grid 3 --><div class="flex-grid">  <div class="col-5">    <p></p>  </div>  <div class="col-1">    <p class="LeftRover"></p>  </div>  <div class="col-1" id="checkbox"> <p id="cCTLHatch" class="roverHatch' +
+                                        styles[40] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="cCTRHatch" class="roverHatch' +
+                                        styles[41] +
+                                        '" value="2">  </div>  <div class="col-1">    <p class="RightRover"></p>  </div>  <div class="col-5">    <p></p>  </div></div><!--flex-grid 4 --><div class="flex-grid">  <div class="col-5">    <p></p>  </div>  <div class="col-1">    <p class="RoverBox"></p>  </div>  <div class="col-1" id="checkbox"> <p id="cCHTLCargo" class="port' +
+                                        styles[38] +
+                                        '">  </div>  <div class="col-1" id="checkbox"> <p id="cCHTRCargo" class="port' +
+                                        styles[39] +
+                                        '">  </div>  <div class="col-1">    <p class="RoverBox"></p>  </div>  <div class="col-5">    <p></p>  </div></div><!--flex-grid 5 --><div class="flex-grid">  <div class="col-1">    <p class="RightLeft"></p>  </div>  <div class="col-1" id="checkbox"> <p id="lRRHHatch" class="rocketHatch' +
+                                        styles[54] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="lRRMHatch" class="rocketHatch' +
+                                        styles[56] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="lRRLHatch" class="rocketHatch' +
+                                        styles[55] +
+                                        '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="lCLTHatch" class="roverHatch' +
+                                        styles[47] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="lCCTCargo" class="port' +
+                                        styles[44] +
+                                        '">  </div>  <div class="col-1" id="checkbox"> <p id="rCCTCargo" class="port' +
+                                        styles[63] +
+                                        '">  </div>  <div class="col-1" id="checkbox"> <p id="rCLTHatch" class="roverHatch' +
+                                        styles[64] +
+                                        '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="rRRLHatch" class="rocketHatch' +
+                                        styles[74] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="rRRMHatch" class="rocketHatch' +
+                                        styles[75] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="rRRHHatch" class="rocketHatch' +
+                                        styles[73] +
+                                        '" value="2">  </div>  <div class="col-1">    <p class="LeftRight"></p>  </div></div><!--flex-grid 6 --><div class="flex-grid">  <div class="col-1">    <p class="Ports"></p>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="lRCHCargo" class="rocket' +
+                                        styles[48] +
+                                        '"></button>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="lRCMCargo" class="rocket' +
+                                        styles[50] +
+                                        '"></button>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="lRCLCargo" class="rocket' +
+                                        styles[49] +
+                                        '"></button>  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="lCLMHatch" class="roverHatch' +
+                                        styles[46] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="lCCMCargo" class="port' +
+                                        styles[43] +
+                                        '">  </div>  <div class="col-1" id="checkbox"> <p id="rCCMCargo" class="port' +
+                                        styles[62] +
+                                        '">  </div>  <div class="col-1" id="checkbox"> <p id="rCRMHatch" class="roverHatch' +
+                                        styles[66] +
+                                        '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="rRCLCargo" class="rocket' +
+                                        styles[68] +
+                                        '"></button>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="rRCMCargo" class="rocket' +
+                                        styles[69] +
+                                        '"></button>  </div>  <div class="col-1" id="button"> <button value=0 type="button" id="rRCHCargo" class="rocket' +
+                                        styles[67] +
+                                        '"></button>  </div>  <div class="col-1">    <p class="Ports"></p>  </div></div><!--flex-grid 7 --><div class="flex-grid">  <div class="col-1">    <p class="LeftLeft"></p>  </div>  <div class="col-1" id="checkbox"> <p id="lRLHHatch" class="rocketHatch' +
+                                        styles[51] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="lRLMHatch" class="rocketHatch' +
+                                        styles[53] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="lRLLHatch" class="rocketHatch' +
+                                        styles[52] +
+                                        '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="lCLLHatch" class="roverHatch' +
+                                        styles[45] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="lCCLCargo" class="port' +
+                                        styles[42] +
+                                        '">  </div>  <div class="col-1" id="checkbox"> <p id="rCCLCargo" class="port' +
+                                        styles[61] +
+                                        '">  </div>  <div class="col-1" id="checkbox"> <p id="rCRLHatch" class="roverHatch' +
+                                        styles[65] +
+                                        '" value="2">  </div>  <div class="col-1">    <p></p>  </div>  <div class="col-1" id="checkbox"> <p id="rRLHHatch" class="rocketHatch' +
+                                        styles[70] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="rRLMHatch" class="rocketHatch' +
+                                        styles[72] +
+                                        '" value="2">  </div>  <div class="col-1" id="checkbox"> <p id="rRLLHatch" class="rocketHatch' +
+                                        styles[71] +
+                                        '" value="2">  </div>  <div class="col-1">    <p class="RightRight"></p>  </div></div>   </center> </div>    </div>    <center></div> <br> <br> <br> <br> <br>';
+                                    match = document.getElementById("main-content");
+                                    match.innerHTML += template;
+                                });
+                            });
+                        });
+                    }
                 };
             </script>
 </body>

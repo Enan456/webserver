@@ -540,8 +540,18 @@ li a:hover:not(.active) {
                 storageBucket: "scoutgear-2018.appspot.com",
                 messagingSenderId: "269363065314"
               };
+              var backupConfig = {
+                apiKey: "AIzaSyB6szrLwJpELAoav_FGES_UX12MrQKp-Sk",
+                authDomain: "scoutgear-2019-backup.firebaseapp.com",
+                databaseUrl: "https://scoutgear-2019-backup.firebaseio.com/",
+                projectId: "scoutgear-2019-backup",
+                storageBucket: "scoutgear-2019-backup.appspot.com",
+                messagingSenderId: "23170624982"
+              };
               firebase.initializeApp(config);
               var database = firebase.database();
+              firebase.initializeApp(backupConfig);
+              var backupDatabase = firebase.database();
               console.log("fixed up")
               </script>
               <br>
@@ -554,14 +564,17 @@ li a:hover:not(.active) {
     var allSenders = [];
     var pathData = [];
     var online;
+    var allSendersBackup = [];
+    var pathDataBackup = [];
+    var onlineBackup;
 
-    var connectedRef = firebase.database().ref(".info/connected");
+    var connectedRef = database.ref(".info/connected");
     connectedRef.on("value", function(snap) {
       if (snap.val() === true) {
         console.log("time to send");
         online = true;
         while (allSenders.length > 0) {
-          firebase.database().ref(pathData[0][0] + "/" + pathData[0][1] + "/" + pathData[0][2] + "/" + pathData[0][3] + "/").push(
+          database.ref(pathData[0][0] + "/" + pathData[0][1] + "/" + pathData[0][2] + "/" + pathData[0][3] + "/").push(
             allSenders[0]).catch(
             function (error) {
               if (error) {
@@ -572,6 +585,30 @@ li a:hover:not(.active) {
             });
           allSenders.splice(0, 1);
           pathData.splice(0, 1);
+        }
+      } else {
+        console.log("you went offline");
+        online = false;
+      }
+    });
+
+    var connectedRefBackup = backupDatabase.ref(".info/connected");
+    connectedRefBackup.on("value", function(snap) {
+      if (snap.val() === true) {
+        console.log("time to send");
+        onlineBackup = true;
+        while (allSendersBackup.length > 0) {
+          backupDatabase.ref(pathDataBackup[0][0] + "/" + pathDataBackup[0][1] + "/" + pathDataBackup[0][2] + "/" + pathDataBackup[0][3] + "/").push(
+            allSendersBackup[0]).catch(
+            function (error) {
+              if (error) {
+                console.log('Error spilling the tea, sorry fam' + error);
+              } else {
+                console.log('succsess')
+              }
+            });
+          allSendersBackup.splice(0, 1);
+          pathDataBackup.splice(0, 1);
         }
       } else {
         console.log("you went offline");
@@ -752,7 +789,7 @@ li a:hover:not(.active) {
 
       if (online) {
         console.log("sending...");
-        firebase.database().ref(yourteam + "/" + regional + "/" + scoutteam + "/" + match + "/").push(
+        database.ref(yourteam + "/" + regional + "/" + scoutteam + "/" + match + "/").push(
             sender).catch(
             function (error) {
               if (error) {
@@ -764,6 +801,23 @@ li a:hover:not(.active) {
       } else {
         allSenders.push(sender);
         pathData.push([yourteam, regional, scoutteam, match]);
+        console.log("offline, sorry");
+      }
+
+      if (onlineBackup) {
+        console.log("sending...");
+        backupDatabase.ref(yourteam + "/" + regional + "/" + scoutteam + "/" + match + "/").push(
+            sender).catch(
+            function (error) {
+              if (error) {
+                console.log('Error spilling the tea, sorry fam' + error);
+              } else {
+                console.log('succsess')
+              }
+            });
+      } else {
+        allSendersBackup.push(sender);
+        pathDataBackup.push([yourteam, regional, scoutteam, match]);
         console.log("offline, sorry");
       }
 
