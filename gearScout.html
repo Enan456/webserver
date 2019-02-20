@@ -4,11 +4,6 @@
 
 <head>
   <style>
-    div.sticky {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-}
     ul {
   list-style-type: none;
   margin: 0;
@@ -17,6 +12,7 @@
   background-color: #8a9385;
   border-radius: 40px;
   border-color: white;
+  width: 90%;
 }
 
 li {
@@ -37,7 +33,7 @@ li a:hover:not(.active) {
   font-family: 'Roboto', sans-serif;
 }
 
-.active {
+.active1 {
   background-color: #FE5000;
 }
   </style>
@@ -111,36 +107,41 @@ li a:hover:not(.active) {
     in case of error blame Adriana Watson
  -->
 <br>
-<div class="sticky">
+<center>
+<div class="meh">
 <ul>
-    <li><b><a class="active">GearScout 2.0</a></b></li>
+    <li><b><a class="active1">GearScout 2.0</a></b></li>
     <li><a href="https://enan.rocks/geardata">GearData</a></li>
     <li><a href="https://github.com/Enan456/webserver">Github</a></li>
     <li><a href="http://oswegofirst.org">Team Website</a></li>
+    <li><a href="https://enan.rocks/graph">Graph</a></li>
+    <li><a href="https://enan.rocks/averagedata">Average Data</a></li>
+    <li><a href="https://enan.rocks/gbp">Good Bot Points</a></li>
+    <li><a href="https://goo.gl/forms/xWH7qymDUqnGq2mh1">Bug Report</a></li>
   </ul>
 </div>
-
+</center>
   <form name="main">
     <div class="margin-main">
       <div class="input-field">
-        <input id="yourname" type="text" class="validate" required>
+        <input id="yourname" type="text" class="validate" >
         <label for="yourname">Name</label>
       </div>
       <div class="input-field">
-        <input id="match" type="text" class="validate"required>
+        <input id="match" type="text" class="validate">
         <label for="match"><label for=""></label>Match</label>
       </div>
       <div class="input-field">
-        <input id="yourteam" type="text" class="validate" required>
+        <input id="yourteam" type="text" class="validate" >
         <label for="yourteam">Team You Are In</label>
       </div>
       <div class="input-field">
-        <input id="scoutteam" type="text" class="validate" required>
+        <input id="scoutteam" type="text" class="validate" >
         <label for="scoutteam">Team You Are Scouting</label>
       </div>
       <div class="input-field">
         <div class="input-field">
-          <input id="regional" type="text" class="validate" required>
+          <input id="regional" type="text" class="validate" >
           <label for="regional">Regional Code</label>
         </div>
       </div>

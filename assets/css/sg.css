@@ -329,7 +329,10 @@
 		border-radius: 40px;
 		text-align: center;
 		width: 50%;
-		font-size: -webkit-xxx-large;
+<<<<<<< Updated upstream
+		font-size: 48px;
+=======
+>>>>>>> Stashed changes
 	}
 	
 	body {
@@ -1016,7 +1019,7 @@ input[type=tel]:not(.browser-default):focus:not([readonly])+label,
 input[type=number]:not(.browser-default):focus:not([readonly])+label,
 input[type=search]:not(.browser-default):focus:not([readonly])+label,
 textarea.materialize-textarea:focus:not([readonly])+label {
-  color: #FE5000;
+  color: white;
 }
 
 input:not([type]):focus.valid~label,
@@ -1032,7 +1035,7 @@ input[type=tel]:not(.browser-default):focus.valid~label,
 input[type=number]:not(.browser-default):focus.valid~label,
 input[type=search]:not(.browser-default):focus.valid~label,
 textarea.materialize-textarea:focus.valid~label {
-  color: #FE5000;
+  color: white;
 }
 
 input:not([type]):focus.invalid~label,

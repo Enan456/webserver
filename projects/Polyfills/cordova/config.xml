@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="rocks.enan" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>GearScout</name>
+    <description>
+        A sample Apache Cordova application that responds to the deviceready event.
+    </description>
+    <author email="dev@cordova.apache.org" href="http://cordova.io">
+        Apache Cordova Team
+    </author>
+    <content src="https://enan.rocks/gearscout" />
+    <plugin name="cordova-plugin-whitelist" spec="1" />
+    <access origin="*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+        <icon density="hdpi" src="/assets/images/icons/icon-72x72.png" />
+        <icon density="xhdpi" src="/assets/images/icons/icon-96x96.png" />
+        <icon density="xxhdpi" src="/assets/images/icons/icon-144x144.png" />
+        <icon density="xxxhdpi" src="/assets/images/icons/icon-192x192.png" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+        <icon height="72" src="/assets/images/icons/icon-72x72.png" width="72" />
+        <icon height="144" src="/assets/images/icons/icon-144x144.png" width="144" />
+        <icon height="152" src="/assets/images/icons/icon-152x152.png" width="152" />
+    </platform>
+    <preference name="Orientation" value="landscape" />
+    <preference name="Fullscreen" value="false" />
+    <allow-navigation hap-rule="yes" href="https://enan.rocks/*" />
+    <platform name="windows">
+    </platform>
+    <platform name="wp8">
+    </platform>
+</widget>

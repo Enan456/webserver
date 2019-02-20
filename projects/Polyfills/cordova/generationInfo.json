@@ -1,0 +1,10 @@
+{
+    "generationTool": "pwabuilder-api",
+    "generationToolVersion": "2.0.1-rc.0",
+    "platformId": "cordova",
+    "platformPackage": "pwabuilder-cordova",
+    "platformVersion": "2.0.0-rc.1",
+    "generatedFrom": "Website Wizard",
+    "generationDate": "2019-02-14 02:03:06 Z",
+    "generatedURL": "https://enan.rocks/manifest.json"
+}
