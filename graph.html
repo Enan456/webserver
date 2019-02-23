@@ -1,220 +1,420 @@
 <!DOCTYPE html>
 <html lang="en">
-    <title>GearData</title>
+<title>GearData</title>
 <head>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="assets/css/materialize.css" media="screen,projection" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#02243E" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <meta name="Description" content="GearScout - The Scouting App For Any Team">
-    <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase.js"></script>
-    <script type="text/javascript" src="assets/js/materialize.js"></script>
-    <style src="assets/css/bootstrap.min.css"></style>
-    <style src="assets/css/style.css"></style>
-    <link type="text/css" rel="stylesheet" href="assets/css/sgdata.css" rel="stylesheet">
-    <style src="assets/css/materialize.css"></style>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link type="text/css" rel="stylesheet" href="assets/css/materialize.css" media="screen,projection" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="theme-color" content="#02243E" />
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<meta name="Description" content="GearScout - The Scouting App For Any Team">
+	<script src="https://www.gstatic.com/firebasejs/5.0.0/firebase.js"></script>
+	<script type="text/javascript" src="assets/js/materialize.js"></script>
+	<style src="assets/css/bootstrap.min.css"></style>
+	<style src="assets/css/style.css"></style>
+	<link type="text/css" rel="stylesheet" href="assets/css/sgdata.css" rel="stylesheet">
+	<style src="assets/css/materialize.css"></style>
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112760702-1"></script>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script>
-        var config = {
-        apiKey: "AIzaSyAGjIhyS5eGmUvZysE46CuWFjeX0T-ykWA",
-        authDomain: "scoutgear-2018.firebaseapp.com",
-        databaseURL: "https://scoutgear-2018.firebaseio.com",
-        projectId: "scoutgear-2018",
-        storageBucket: "scoutgear-2018.appspot.com",
-        messagingSenderId: "269363065314"
-    };
-    firebase.initializeApp(config);
-    var database = firebase.database();
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-112760702-1"></script>
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+	<script>
+		var config = {
+				apiKey: "AIzaSyAGjIhyS5eGmUvZysE46CuWFjeX0T-ykWA",
+				authDomain: "scoutgear-2018.firebaseapp.com",
+				databaseURL: "https://scoutgear-2018.firebaseio.com",
+				projectId: "scoutgear-2018",
+				storageBucket: "scoutgear-2018.appspot.com",
+				messagingSenderId: "269363065314"
+		};
+		firebase.initializeApp(config);
+		var database = firebase.database();
 
-        window.dataLayer = window.dataLayer || [];
+				window.dataLayer = window.dataLayer || [];
 
-    function gtag() {
-        dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
+		function gtag() {
+				dataLayer.push(arguments);
+		}
+		gtag('js', new Date());
 
-    gtag('config', 'UA-112760702-1');
-</script>
-    <script src="assets/js/sg.js"></script>
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/icons/favicon-16x16.png">
-    <link rel="manifest" href="manifest.json">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
-    <script src="service_worker2.js"></script>
-    <script>
-      if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('service_worker2.js');
-        }
-    </script>
-    <style>
-            div.sticky {
-          position: -webkit-sticky;
-          position: sticky;
-          top: 0;
-        }
-            ul {
-          list-style-type: none;
-          margin: 0;
-          padding: 0;
-          overflow: hidden;
-          background-color: #8a9385;
-          border-radius: 40px;
-          border-color: white;
-          width: 90%;
-        }
+		gtag('config', 'UA-112760702-1');
+	</script>
+	<script src="assets/js/sg.js"></script>
+	<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/assets/images/icons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/assets/images/icons/favicon-16x16.png">
+	<link rel="manifest" href="manifest.json">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="theme-color" content="#ffffff">
+	<script src="service_worker2.js"></script>
+	<script>
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker.register('service_worker2.js');
+		}
+	</script>
+	<style>
+		div.sticky {
+			position: -webkit-sticky;
+			position: sticky;
+			top: 0;
+		}
+		ul {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			background-color: #8a9385;
+			border-radius: 40px;
+			border-color: white;
+			width: 90%;
+		}
 
-        li {
-          float: left;
-        }
+		li {
+			float: left;
+		}
 
-        li a {
-          display: block;
-          color: white;
-          text-align: center;
-          padding: 16px 16px;
-          text-decoration: none;
-          font-family: 'Roboto', sans-serif;
-        }
+		li a {
+			display: block;
+			color: white;
+			text-align: center;
+			padding: 16px 16px;
+			text-decoration: none;
+			font-family: 'Roboto', sans-serif;
+		}
 
-        li a:hover:not(.active) {
-          background-color: #717a6c;
-          font-family: 'Roboto', sans-serif;
-        }
+		li a:hover:not(.active) {
+			background-color: #717a6c;
+			font-family: 'Roboto', sans-serif;
+		}
 
-        .active {
-          background-color: #FE5000;
-        }
-          </style>
+		.active {
+			background-color: #FE5000;
+		}
+	</style>
 </head>
 
 <body>
-        <br>
-        <center>
-        <div class="sticky">
-        <ul>
-            <li><b><a class="active">GearData</a></b></li>
-            <li><a href="https://enan.rocks/geardata">GearData</a></li>
-            <li><a href="https://github.com/Enan456/webserver">Github</a></li>
-            <li><a href="http://oswegofirst.org">Team Website</a></li>
-            <li><a href="https://enan.rocks/averagedata">Average Data</a></li>
-            <li><a href="https://enan.rocks/gbp">Good Bot Points</a></li>
-            <li><a href="https://goo.gl/forms/f5KFmSU9XfPQvHIL2">Bug Report</a></li>
-          </ul>
-        </div>
-    </center>
-    <center>
-        <!-- Use these form inputs to grab data -->
-        <div class="margin-main">
-            <h1>Data</h1>
-            <div class="input-field col-md-6 col-sm-12">
-                <input id="yourteam" type="text" class="validate">
-                <label for="yourteam">Team You Are In</label>
-            </div>
-            <div class="input-field col-md-12 col-sm-12">
-                <input id="regional" type="text" class="validate">
-                <label for="regional">Regional Code</label>
-            </div>
-            <div class="input-field col-md-6 col-sm-12">
-                <input id="scoutteam" type="text" class="validate">
-                <label for="scoutteam">Team You want data for</label>
-            </div>
-            <button class="btn waves-effect waves-light" type="submit" onclick=load_team()>Get My Data
-                <i class="material-icons right">send</i>
-            </button>
-            <div id="main-content" class="main-content">
+	<br>
+	<center>
+		<div class="sticky">
+			<ul>
+				<li><b><a class="active">GearData</a></b></li>
+				<li><a href="https://enan.rocks/geardata">GearData</a></li>
+				<li><a href="https://github.com/Enan456/webserver">Github</a></li>
+				<li><a href="http://oswegofirst.org">Team Website</a></li>
+				<li><a href="https://enan.rocks/averagedata">Average Data</a></li>
+				<li><a href="https://enan.rocks/gbp">Good Bot Points</a></li>
+				<li><a href="https://goo.gl/forms/f5KFmSU9XfPQvHIL2">Bug Report</a></li>
+			</ul>
+		</div>
+	</center>
+	<center>
+		<!-- Use these form inputs to grab data -->
+		<div class="margin-main">
+			<h1>Data</h1>
+			<div class="input-field col-md-6 col-sm-12">
+				<input id="yourteam" type="text" class="validate">
+				<label for="yourteam">Team You Are In</label>
+			</div>
+			<div class="input-field col-md-12 col-sm-12">
+				<input id="regional" type="text" class="validate">
+				<label for="regional">Regional Code</label>
+			</div>
+			<div class="input-field col-md-6 col-sm-12">
+				<input id="scoutteam" type="text" class="validate">
+				<label for="scoutteam">Team You want data for</label>
+			</div>
+			<button class="btn waves-effect waves-light" type="submit" onclick=load_team()>Get My Data
+				<i class="material-icons right">send</i>
+			</button>
+			<div id="main-content" class="main-content">
 
-            </div>
-            <script>
+			</div>
+			<script>
+				var traces = [];
+				var layout = {
+					dragmode: true,
+					margin: {
+						l: 0,
+						r: 0,
+						b: 0,
+						t: 20
+					}
+				};
 
+				function Bool(initialValue) {
+					var bool = !!initialValue;
+					var listeners = [];
+					var returnVal = function(value) {
+						if (arguments.length) {
+							var oldValue = bool;
+							bool = !!value;
+							listeners.forEach(function (listener, i, list) {
+								listener.call(returnVal, { oldValue: oldValue, newValue: bool });
+							});
+						}
+						return bool
+					};
+					returnVal.addListener = function(fn) {
+						if (typeof fn == "function") {
+							listeners.push(fn);
+						}
+						else {
+							throw "Not a function!";
+						}
+					};
+					return returnVal;
+				}
 
-                function load_team() {
-                    const yourTeam = document.getElementById("yourteam").value;
-                    const regional = document.getElementById("regional").value;
-                    const scoutteam = document.getElementById("scoutteam").value;
+				function load_team() {
+					const yourTeam = document.getElementById("yourteam").value;
+					const regional = document.getElementById("regional").value;
+					const scoutteam = document.getElementById("scoutteam").value;
 
-                    function check_checkbox(checkbox) {
-                        console.log(checkbox);
-                        if (checkbox == true) {
-                            return "Checked";
-                        } else {
-                            return " ";
-                        }
-                    }
-
-                    function click_button(button) {
-                        return " ";
-                    }
-
-
-                    var userDataRef = firebase.database().ref("/" + yourTeam + "/" + regional + "/" + scoutteam).orderByKey();
-                    userDataRef.once("value").then(function (matches) {
-                            matches.forEach(function (match) {
-                                    numMatches++;
-                                    console.log(match.toString());
-                                    match.forEach(function (tag) {
-
-                                                });
-                                    });
-                            }); clicked(!clicked());
-                    });
-                };
+					var userDataRef = firebase.database().ref("/" + yourTeam + "/" + regional + "/" + scoutteam).orderByKey();
+					userDataRef.once("value").then(function (matches) {
+						matches.forEach(function (match) {
+							match.forEach(function (tag) {
+								traces.push({
+									x: [],
+									y: [],
+									z: [],
+									mode: 'lines+markers',
+									type: 'scatter3d'
+                                });
+                                console.log(tag.val());
+                                if (tag.val().Slvl1Platform == "true") {
+                                    traces[traces.length - 1].y.push(0);
+                                    traces[traces.length - 1].z.push(0);
+                                    traces[traces.length - 1].x.push(-3);
+                                } else if (tag.val().Slvl2PlatformL == "true") {
+                                    traces[traces.length - 1].y.push(-1);
+                                    traces[traces.length - 1].z.push(0.5);
+                                    traces[traces.length - 1].x.push(-4);
+                                } else if (tag.val().Slvl2PlatformR == "true") {
+                                    traces[traces.length - 1].y.push(1);
+                                    traces[traces.length - 1].z.push(0.5);
+                                    traces[traces.length - 1].x.push(-4);
+                                } else if (tag.val().Slvl3Platform == "true") {
+                                    traces[traces.length - 1].y.push(0);
+                                    traces[traces.length - 1].z.push(1.5);
+                                    traces[traces.length - 1].x.push(-4);
+                                }
+								tag.val().order.forEach(function (key) {
+                                    var curKey = key.substring(0, 1) == "S" ? key.substring(1) : key;
+									switch (curKey) {
+                                        case "cCTLHatch":
+                                            traces[traces.length - 1].y.push(-0.5);
+                                            traces[traces.length - 1].z.push(1);
+                                            traces[traces.length - 1].x.push(0);
+                                            break;
+                                        case "cCTRHatch":
+                                            traces[traces.length - 1].y.push(0.5);
+                                            traces[traces.length - 1].z.push(1);
+                                            traces[traces.length - 1].x.push(0);
+                                            break;
+                                        case "cCHTLCargo":
+                                            traces[traces.length - 1].y.push(-0.5);
+                                            traces[traces.length - 1].z.push(1);
+                                            traces[traces.length - 1].x.push(1);
+                                            break;
+                                        case "cCHTRCargo":
+                                            traces[traces.length - 1].y.push(0.5);
+                                            traces[traces.length - 1].z.push(1);
+                                            traces[traces.length - 1].x.push(1);
+                                            break;
+                                        case "lRRHHatch":
+                                            traces[traces.length - 1].y.push(-4);
+                                            traces[traces.length - 1].z.push(3);
+                                            traces[traces.length - 1].x.push(2);
+                                            break;
+                                        case "lRRMHatch":
+                                            traces[traces.length - 1].y.push(-4);
+                                            traces[traces.length - 1].z.push(2);
+                                            traces[traces.length - 1].x.push(2);
+                                            break;
+                                        case "lRRLHatch":
+                                            traces[traces.length - 1].y.push(-4);
+                                            traces[traces.length - 1].z.push(1);
+                                            traces[traces.length - 1].x.push(2);
+                                            break;
+                                        case "lCLTHatch":
+                                            traces[traces.length - 1].y.push(-2);
+                                            traces[traces.length - 1].z.push(1);
+                                            traces[traces.length - 1].x.push(2);
+                                            break;
+                                        case "lCCTCargo":
+                                            traces[traces.length - 1].y.push(-1);
+                                            traces[traces.length - 1].z.push(1);
+                                            traces[traces.length - 1].x.push(2);
+                                            break;
+                                        case "rCCTCargo":
+                                            traces[traces.length - 1].y.push(1);
+                                            traces[traces.length - 1].z.push(1);
+                                            traces[traces.length - 1].x.push(2);
+                                            break;
+                                        case "rCLTHatch":
+                                            traces[traces.length - 1].y.push(2);
+                                            traces[traces.length - 1].z.push(1);
+                                            traces[traces.length - 1].x.push(2);
+                                            break;
+                                        case "rRRLHatch":
+                                            traces[traces.length - 1].y.push(4);
+                                            traces[traces.length - 1].z.push(1);
+                                            traces[traces.length - 1].x.push(2);
+                                            break;
+                                        case "rRRMHatch":
+                                            traces[traces.length - 1].y.push(4);
+                                            traces[traces.length - 1].z.push(2);
+                                            traces[traces.length - 1].x.push(2);
+                                            break;
+                                        case "rRRHHatch":
+                                            traces[traces.length - 1].y.push(4);
+                                            traces[traces.length - 1].z.push(3);
+                                            traces[traces.length - 1].x.push(2);
+                                            break;
+                                        case "lRCHCargo":
+                                            traces[traces.length - 1].y.push(-4);
+                                            traces[traces.length - 1].z.push(3);
+                                            traces[traces.length - 1].x.push(3);
+                                            break;
+                                        case "lRCMCargo":
+                                            traces[traces.length - 1].y.push(-4);
+                                            traces[traces.length - 1].z.push(2);
+                                            traces[traces.length - 1].x.push(3);
+                                            break;
+                                        case "lRCLCargo":
+                                            traces[traces.length - 1].y.push(-4);
+                                            traces[traces.length - 1].z.push(1);
+                                            traces[traces.length - 1].x.push(3);
+                                            break;
+                                        case "lCLMHatch":
+                                            traces[traces.length - 1].y.push(-2);
+                                            traces[traces.length - 1].z.push(1);
+                                            traces[traces.length - 1].x.push(3);
+                                            break;
+                                        case "lCCMCargo":
+                                            traces[traces.length - 1].y.push(-1);
+                                            traces[traces.length - 1].z.push(1);
+                                            traces[traces.length - 1].x.push(3);
+                                            break;
+                                        case "rCCMCargo":
+                                            traces[traces.length - 1].y.push(1);
+                                            traces[traces.length - 1].z.push(1);
+                                            traces[traces.length - 1].x.push(3);
+                                            break;
+                                        case "rCRMHatch":
+                                            traces[traces.length - 1].y.push(2);
+                                            traces[traces.length - 1].z.push(1);
+                                            traces[traces.length - 1].x.push(3);
+                                            break;
+                                        case "rRCLCargo":
+                                            traces[traces.length - 1].y.push(4);
+                                            traces[traces.length - 1].z.push(1);
+                                            traces[traces.length - 1].x.push(3);
+                                            break;
+                                        case "rRCMCargo":
+                                            traces[traces.length - 1].y.push(4);
+                                            traces[traces.length - 1].z.push(2);
+                                            traces[traces.length - 1].x.push(3);
+                                            break;
+                                        case "rRCHCargo":
+                                            traces[traces.length - 1].y.push(4);
+                                            traces[traces.length - 1].z.push(3);
+                                            traces[traces.length - 1].x.push(3);
+                                            break;
+                                        case "lRLHHatch":
+                                            traces[traces.length - 1].y.push(-4);
+                                            traces[traces.length - 1].z.push(3);
+                                            traces[traces.length - 1].x.push(4);
+                                            break;
+                                        case "lRLMHatch":
+                                            traces[traces.length - 1].y.push(-4);
+                                            traces[traces.length - 1].z.push(2);
+                                            traces[traces.length - 1].x.push(4);
+                                            break;
+                                        case "lRLLHatch":
+                                            traces[traces.length - 1].y.push(-4);
+                                            traces[traces.length - 1].z.push(1);
+                                            traces[traces.length - 1].x.push(4);
+                                            break;
+                                        case "lCLLHatch":
+                                            traces[traces.length - 1].y.push(-2);
+                                            traces[traces.length - 1].z.push(1);
+                                            traces[traces.length - 1].x.push(4);
+                                            break;
+                                        case "lCCLCargo":
+                                            traces[traces.length - 1].y.push(-1);
+                                            traces[traces.length - 1].z.push(1);
+                                            traces[traces.length - 1].x.push(4);
+                                            break;
+                                        case "rCCLCargo":
+                                            traces[traces.length - 1].y.push(1);
+                                            traces[traces.length - 1].z.push(1);
+                                            traces[traces.length - 1].x.push(4);
+                                            break;
+                                        case "rCRLHatch":
+                                            traces[traces.length - 1].y.push(2);
+                                            traces[traces.length - 1].z.push(1);
+                                            traces[traces.length - 1].x.push(4);
+                                            break;
+                                        case "rRLHHatch":
+                                            traces[traces.length - 1].y.push(4);
+                                            traces[traces.length - 1].z.push(1);
+                                            traces[traces.length - 1].x.push(4);
+                                            break;
+                                        case "rRLMHatch":
+                                            traces[traces.length - 1].y.push(4);
+                                            traces[traces.length - 1].z.push(2);
+                                            traces[traces.length - 1].x.push(4);
+                                            break;
+                                        case "rRLLHatch":
+                                            traces[traces.length - 1].y.push(4);
+                                            traces[traces.length - 1].z.push(3);
+                                            traces[traces.length - 1].x.push(4);
+                                            break;
+                                    }
+                                });
+                                if (tag.val().lvl1Platform == "true") {
+                                    traces[traces.length - 1].y.push(0);
+                                    traces[traces.length - 1].z.push(0);
+                                    traces[traces.length - 1].x.push(-3);
+                                } else if (tag.val().lvl2PlatformL == "true") {
+                                    traces[traces.length - 1].y.push(-1);
+                                    traces[traces.length - 1].z.push(0.5);
+                                    traces[traces.length - 1].x.push(-4);
+                                } else if (tag.val().lvl2PlatformR == "true") {
+                                    traces[traces.length - 1].y.push(1);
+                                    traces[traces.length - 1].z.push(0.5);
+                                    traces[traces.length - 1].x.push(-4);
+                                } else if (tag.val().lvl3Platform == "true") {
+                                    traces[traces.length - 1].y.push(0);
+                                    traces[traces.length - 1].z.push(1.5);
+                                    traces[traces.length - 1].x.push(-4);
+                                }
+							});
+						});
+						clicked(!clicked());
+					});
+				};
             </script>
-            		<div id="myDiv" style="width:100%;height:100%"></div>
-                    <script>
-                    Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/3d-scatter.csv', function(err, rows){
-      function unpack(rows, key) {
-          return rows.map(function(row)
-          { return row[key]; });
-      }
-var trace1 = {
-  x:unpack(rows, 'x1'),  y: unpack(rows, 'y1'), z: unpack(rows, 'z1'),
-  mode: 'markers',
-  marker: {
-    size: 12,
-    line: {
-      color: 'rgba(217, 217, 217, 0.14)',
-      width: 0.5
-    },
-    opacity: 0.8
-  },
-  type: 'scatter3d'
-};
-var trace2 = {
-  x:unpack(rows, 'x2'),  y: unpack(rows, 'y2'), z: unpack(rows, 'z2'),
-  mode: 'markers',
-  marker: {
-    color: 'rgb(127, 127, 127)',
-    size: 12,
-    symbol: 'circle',
-    line: {
-      color: 'rgb(204, 204, 204)',
-      width: 1
-    },
-    opacity: 0.9
-  },
-  type: 'scatter3d'
-};
-var data = [trace1, trace2];
-var layout = {
-      dragmode: false,
-      margin: {
-        l: 0,
-        r: 0,
-        b: 0,
-        t: 0
-  }};
-Plotly.newPlot('myDiv', data, layout, {showSendToCloud: true});
-});
-                    </script>
+            <br>
+            <br>
+			<div id="myDiv" style="width:100%;height:100%"></div>
+			<script>
+				var clicked = Bool(false);
+				clicked.addListener(function (e) {
+					if (e.oldValue != e.newValue) {
+						Plotly.newPlot('myDiv', traces, layout, {showSendToCloud: true});
+					}
+				});
+            </script>
+            <br>
+            <br>
+		</div>
+	</center>
 </body>
-
 </html>
