@@ -136,7 +136,6 @@
 			<script>
 				var traces = [];
 				var layout = {
-                    title: '',
 					dragmode: true,
 					margin: {
 						l: 0,
@@ -177,7 +176,10 @@
 
 					var userDataRef = firebase.database().ref("/" + yourTeam + "/" + regional + "/" + scoutteam).orderByKey();
 					userDataRef.once("value").then(function (matches) {
+                        var curMatch = 0;
+                        var matchNums = [];
 						matches.forEach(function (match) {
+                            matchNums.push(match.key);
 							match.forEach(function (tag) {
 								traces.push({
 									x: [],
@@ -185,8 +187,11 @@
 									z: [],
                                     text: [],
 									mode: 'lines+markers',
-									type: 'scatter3d'
+									type: 'scatter3d',
+                                    name: 'Match ' + matchNums[curMatch],
+                                    visible: curMatch == 0 ? true : "legendonly"
                                 });
+                                curMatch ++;
                                 console.log(tag.val());
                                 if (tag.val().Slvl1Platform == "true") {
                                     traces[traces.length - 1].y.push(0);
