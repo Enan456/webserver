@@ -216,7 +216,7 @@
                                 }
 								tag.val().order.forEach(function (key) {
                                     var curKey = key.substring(0, 1) == "S" ? key.substring(1) : key;
-                                    traces[traces.length - 1].text.push(curKey);
+                                    traces[traces.length - 1].text.push(key);
 									switch (curKey) {
                                         case "cCTLHatch":
                                             traces[traces.length - 1].y.push(-0.5);
