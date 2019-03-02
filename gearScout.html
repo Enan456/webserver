@@ -834,7 +834,17 @@
         }
     </script>
 
-    <script>
+  <script src="node_modules/parse/dist/parse.min.js"></script>
+
+<script>
+Parse.serverURL = 'https://parse-dashboard.back4app.com/apps/ab695dbe-b471-4af8-b2d7-3e6371822893'; // This is your Server URL
+Parse.initialize(
+  'mPUPbliTbAjnZ2hUaKkaWCtfUkMOv048nZneAW7t',
+  'Oa8W6Xm9w1nwMoovlClVWX6C4rY9aVJEFnMenfOx',
+);
+</script>
+
+  <script>
         var order = ["nothing here yet"];
 
         function checkboxClicked(elem) {
