@@ -835,7 +835,7 @@
     </script>
 
     <script>
-        var order = [];
+        var order = ["nothing here yet"];
 
         function checkboxClicked(elem) {
             var used = false;
@@ -846,6 +846,9 @@
                 }
             }
             if (!used) {
+                if (order[0] == "nothing here yet") {
+                    order.splice(0, 1);
+                }
                 order.push(elem.id);
             }
         };
@@ -862,6 +865,9 @@
                 timesUsed[1]--;
                 order.splice(timesUsed[1], 1);
             } else {
+                if (order[0] == "nothing here yet") {
+                    order.splice(0, 1);
+                }
                 order.push(elem.id);
             }
             elem.value++;
@@ -892,6 +898,9 @@
                 timesUsed[1]--;
                 order.splice(timesUsed[1], 1);
             } else {
+                if (order[0] == "nothing here yet") {
+                    order.splice(0, 1);
+                }
                 order.push(elem.id);
             }
             elem.value++;
@@ -922,6 +931,9 @@
                 timesUsed[1]--;
                 order.splice(timesUsed[1], 1);
             } else {
+                if (order[0] == "nothing here yet") {
+                    order.splice(0, 1);
+                }
                 order.push(elem.id);
             }
             elem.value++;
