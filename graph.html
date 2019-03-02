@@ -182,6 +182,7 @@
 									x: [],
 									y: [],
 									z: [],
+                                    text: [],
 									mode: 'lines+markers',
 									type: 'scatter3d'
                                 });
@@ -190,21 +191,26 @@
                                     traces[traces.length - 1].y.push(0);
                                     traces[traces.length - 1].z.push(0);
                                     traces[traces.length - 1].x.push(-3);
+                                    traces[traces.length - 1].text.push("Start on Level 1 Platform");
                                 } else if (tag.val().Slvl2PlatformL == "true") {
                                     traces[traces.length - 1].y.push(-1);
                                     traces[traces.length - 1].z.push(0.5);
                                     traces[traces.length - 1].x.push(-4);
+                                    traces[traces.length - 1].text.push("Start on Left Level 2 Platform");
                                 } else if (tag.val().Slvl2PlatformR == "true") {
                                     traces[traces.length - 1].y.push(1);
                                     traces[traces.length - 1].z.push(0.5);
                                     traces[traces.length - 1].x.push(-4);
+                                    traces[traces.length - 1].text.push("Start on Right Level 2 Platform");
                                 } else if (tag.val().Slvl3Platform == "true") {
                                     traces[traces.length - 1].y.push(0);
                                     traces[traces.length - 1].z.push(1.5);
                                     traces[traces.length - 1].x.push(-4);
+                                    traces[traces.length - 1].text.push("Start on Level 3 Platform");
                                 }
 								tag.val().order.forEach(function (key) {
                                     var curKey = key.substring(0, 1) == "S" ? key.substring(1) : key;
+                                    traces[traces.length - 1].text.push(curKey);
 									switch (curKey) {
                                         case "cCTLHatch":
                                             traces[traces.length - 1].y.push(-0.5);
@@ -382,18 +388,22 @@
                                     traces[traces.length - 1].y.push(0);
                                     traces[traces.length - 1].z.push(0);
                                     traces[traces.length - 1].x.push(-3);
+                                    traces[traces.length - 1].text.push("Slvl1Platform");
                                 } else if (tag.val().lvl2PlatformL == "true") {
                                     traces[traces.length - 1].y.push(-1);
                                     traces[traces.length - 1].z.push(0.5);
                                     traces[traces.length - 1].x.push(-4);
+                                    traces[traces.length - 1].text.push("Slvl1Platform");
                                 } else if (tag.val().lvl2PlatformR == "true") {
                                     traces[traces.length - 1].y.push(1);
                                     traces[traces.length - 1].z.push(0.5);
                                     traces[traces.length - 1].x.push(-4);
+                                    traces[traces.length - 1].text.push("Slvl1Platform");
                                 } else if (tag.val().lvl3Platform == "true") {
                                     traces[traces.length - 1].y.push(0);
                                     traces[traces.length - 1].z.push(1.5);
                                     traces[traces.length - 1].x.push(-4);
+                                    traces[traces.length - 1].text.push("Slvl1Platform");
                                 }
 							});
 						});
