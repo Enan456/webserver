@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="abb9c97f-4aae-4124-b413-144c9ee240a1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../assets/css/sgdata.css" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/css/sgdata.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../geardata.html" beforeDir="false" afterPath="$PROJECT_DIR$/../geardata.html" afterDir="false" />
-    </list>
+    <list default="true" id="abb9c97f-4aae-4124-b413-144c9ee240a1" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,6 +12,7 @@
     <session id="-1337588678">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
+          <entry key="project.closed" value="1" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.opened" value="1" />
         </counts>
@@ -30,7 +28,9 @@
     <option name="width" value="941" />
     <option name="height" value="1053" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
