@@ -118,35 +118,37 @@
                 <li><a href="https://enan.rocks/graph">Graph</a></li>
                 <li><a href="https://enan.rocks/averagedata">Average Data</a></li>
                 <li><a href="https://enan.rocks/gbp">Good Bot Points</a></li>
-                <li><a href="https://docs.google.com/forms/d/e/1FAIpQLScjU4cU_DMEYTVckf24ngp1Zs-B5Zo6tQvfsxH7lijaLMVP6A/viewform?usp=sf_link">Bug Report</a></li>
+                <li><a href="https://docs.google.com/forms/d/e/1FAIpQLScjU4cU_DMEYTVckf24ngp1Zs-B5Zo6tQvfsxH7lijaLMVP6A/viewform?usp=sf_link">Bug
+                        Report</a></li>
             </ul>
         </div>
     </center>
-    <form name="main">
-        <div class="margin-main">
+    <div class="margin-main">
+        <div class="input-field">
+            <input id="yourname" type="text" class="validate">
+            <label for="yourname">Name</label>
+        </div>
+        <div class="input-field">
+            <input id="match" type="text" class="validate">
+            <label for="match"><label for=""></label>Match</label>
+        </div>
+        <div class="input-field">
+            <input id="yourteam" type="text" class="validate">
+            <label for="yourteam">Team You Are In</label>
+        </div>
+        <div class="input-field">
+            <input id="scoutteam" type="text" class="validate">
+            <label for="scoutteam">Team You Are Scouting</label>
+        </div>
+        <div class="input-field">
             <div class="input-field">
-                <input id="yourname" type="text" class="validate">
-                <label for="yourname">Name</label>
+                <input id="regional" type="text" class="validate">
+                <label for="regional">Regional Code</label>
             </div>
-            <div class="input-field">
-                <input id="match" type="text" class="validate">
-                <label for="match"><label for=""></label>Match</label>
-            </div>
-            <div class="input-field">
-                <input id="yourteam" type="text" class="validate">
-                <label for="yourteam">Team You Are In</label>
-            </div>
-            <div class="input-field">
-                <input id="scoutteam" type="text" class="validate">
-                <label for="scoutteam">Team You Are Scouting</label>
-            </div>
-            <div class="input-field">
-                <div class="input-field">
-                    <input id="regional" type="text" class="validate">
-                    <label for="regional">Regional Code</label>
-                </div>
-            </div>
-            <br>
+        </div>
+        <br>
+        <form name="main">
+
             <center>
                 <h2>Sandstorm</h2>
             </center>
@@ -181,6 +183,8 @@
                     </div>
                     <!--Spacing-->
                     <div class="flex-grid">
+
+                        <!-- RAMPSSSSSSSSSSSSSSSSSSSSSSS -->
                         <br>
                     </div>
                     <!--flex-grid 3 -->
@@ -585,10 +589,10 @@
                     </div>
                 </center>
             </div>
-        </div>
-        <center>
-            <script>
-                /*                 var submit2 = document.getElementById('submit');*/
+    </div>
+    <center>
+        <script>
+            /*                 var submit2 = document.getElementById('submit');*/
               var config = {
                 apiKey: "AIzaSyAGjIhyS5eGmUvZysE46CuWFjeX0T-ykWA",
                 authDomain: "scoutgear-2018.firebaseapp.com",
@@ -601,11 +605,11 @@
               var database = firebase.database();
               console.log("fixed up")
               </script>
-            <br>
-            </br>
-            <button class="btn waves-effect waves-light" type="submit" id="submit" name="action" onclick="writeUserData()">Submit<i
-                    class="material-icons right">send</i></button>
-        </center>
+        <br>
+        </br>
+        <button class="btn waves-effect waves-light" type="submit" id="submit" name="action" onclick="writeUserData()">Submit<i
+                class="material-icons right">send</i></button>
+    </center>
     </form>
     <script>
         var allSenders = [];
@@ -834,17 +838,17 @@
         }
     </script>
 
-  <script src="node_modules/parse/dist/parse.min.js"></script>
+    <script src="node_modules/parse/dist/parse.min.js"></script>
 
-<script>
-Parse.serverURL = 'https://parse-dashboard.back4app.com/apps/ab695dbe-b471-4af8-b2d7-3e6371822893'; // This is your Server URL
-Parse.initialize(
-  'mPUPbliTbAjnZ2hUaKkaWCtfUkMOv048nZneAW7t',
-  'Oa8W6Xm9w1nwMoovlClVWX6C4rY9aVJEFnMenfOx',
-);
-</script>
+    <script>
+        Parse.serverURL = 'https://parse-dashboard.back4app.com/apps/ab695dbe-b471-4af8-b2d7-3e6371822893'; // This is your Server URL
+        Parse.initialize(
+            'mPUPbliTbAjnZ2hUaKkaWCtfUkMOv048nZneAW7t',
+            'Oa8W6Xm9w1nwMoovlClVWX6C4rY9aVJEFnMenfOx',
+        );
+    </script>
 
-  <script>
+    <script>
         var order = ["nothing here yet"];
 
         function checkboxClicked(elem) {
@@ -978,7 +982,9 @@ Parse.initialize(
     </script>
 </body>
 <footer>
-
+    <center>
+        <p>RAMPSSSS MY DUDES</p>
+    </center>
 </footer>
 <br>
 </br>
