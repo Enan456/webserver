@@ -214,177 +214,210 @@
                                 }
 								tag.val().order.forEach(function (key) {
                                     var curKey = key.substring(0, 1) == "S" ? key.substring(1) : key;
-                                    traces[traces.length - 1].text.push(key);
 									switch (curKey) {
                                         case "cCTLHatch":
                                             traces[traces.length - 1].y.push(-0.5);
                                             traces[traces.length - 1].z.push(1);
                                             traces[traces.length - 1].x.push(0);
+                                            traces[traces.length - 1].text.push("CargoShip Front Left Hatch");
                                             break;
                                         case "cCTRHatch":
                                             traces[traces.length - 1].y.push(0.5);
                                             traces[traces.length - 1].z.push(1);
                                             traces[traces.length - 1].x.push(0);
+                                            traces[traces.length - 1].text.push("CargoShip Front Right Hatch");
                                             break;
                                         case "cCHTLCargo":
                                             traces[traces.length - 1].y.push(-0.5);
                                             traces[traces.length - 1].z.push(1);
                                             traces[traces.length - 1].x.push(1);
+                                            traces[traces.length - 1].text.push("CargoShip Front Left Cargo");
                                             break;
                                         case "cCHTRCargo":
                                             traces[traces.length - 1].y.push(0.5);
                                             traces[traces.length - 1].z.push(1);
                                             traces[traces.length - 1].x.push(1);
+                                            traces[traces.length - 1].text.push("CargoShip Front Right Cargo");
                                             break;
                                         case "lRRHHatch":
                                             traces[traces.length - 1].y.push(-4);
                                             traces[traces.length - 1].z.push(3);
                                             traces[traces.length - 1].x.push(2);
+                                            traces[traces.length - 1].text.push("Left Rocket Top Right Hatch");
                                             break;
                                         case "lRRMHatch":
                                             traces[traces.length - 1].y.push(-4);
                                             traces[traces.length - 1].z.push(2);
                                             traces[traces.length - 1].x.push(2);
+                                            traces[traces.length - 1].text.push("Left Rocket Middle Right Hatch");
                                             break;
                                         case "lRRLHatch":
                                             traces[traces.length - 1].y.push(-4);
                                             traces[traces.length - 1].z.push(1);
                                             traces[traces.length - 1].x.push(2);
+                                            traces[traces.length - 1].text.push("Left Rocket Bottom Right Hatch");
                                             break;
                                         case "lCLTHatch":
                                             traces[traces.length - 1].y.push(-2);
                                             traces[traces.length - 1].z.push(1);
                                             traces[traces.length - 1].x.push(2);
+                                            traces[traces.length - 1].text.push("CargoShip Left Far Hatch");
                                             break;
                                         case "lCCTCargo":
                                             traces[traces.length - 1].y.push(-1);
                                             traces[traces.length - 1].z.push(1);
                                             traces[traces.length - 1].x.push(2);
+                                            traces[traces.length - 1].text.push("CargoShip Left Far Cargo");
                                             break;
                                         case "rCCTCargo":
                                             traces[traces.length - 1].y.push(1);
                                             traces[traces.length - 1].z.push(1);
                                             traces[traces.length - 1].x.push(2);
+                                            traces[traces.length - 1].text.push("CargoShip Right Far Cargo");
                                             break;
                                         case "rCLTHatch":
                                             traces[traces.length - 1].y.push(2);
                                             traces[traces.length - 1].z.push(1);
                                             traces[traces.length - 1].x.push(2);
+                                            traces[traces.length - 1].text.push("CargoShip Right Far Hatch");
                                             break;
                                         case "rRRLHatch":
                                             traces[traces.length - 1].y.push(4);
                                             traces[traces.length - 1].z.push(1);
                                             traces[traces.length - 1].x.push(2);
+                                            traces[traces.length - 1].text.push("Right Rocket Bottom Right Hatch");
                                             break;
                                         case "rRRMHatch":
                                             traces[traces.length - 1].y.push(4);
                                             traces[traces.length - 1].z.push(2);
                                             traces[traces.length - 1].x.push(2);
+                                            traces[traces.length - 1].text.push("Right Rocket Middle Right Hatch");
                                             break;
                                         case "rRRHHatch":
                                             traces[traces.length - 1].y.push(4);
                                             traces[traces.length - 1].z.push(3);
                                             traces[traces.length - 1].x.push(2);
+                                            traces[traces.length - 1].text.push("Right Rocket Top Right Hatch");
                                             break;
                                         case "lRCHCargo":
                                             traces[traces.length - 1].y.push(-4);
                                             traces[traces.length - 1].z.push(3);
                                             traces[traces.length - 1].x.push(3);
+                                            traces[traces.length - 1].text.push("Left Rocket Top Cargo");
                                             break;
                                         case "lRCMCargo":
                                             traces[traces.length - 1].y.push(-4);
                                             traces[traces.length - 1].z.push(2);
                                             traces[traces.length - 1].x.push(3);
+                                            traces[traces.length - 1].text.push("Left Rocket Middle Cargo");
                                             break;
                                         case "lRCLCargo":
                                             traces[traces.length - 1].y.push(-4);
                                             traces[traces.length - 1].z.push(1);
                                             traces[traces.length - 1].x.push(3);
+                                            traces[traces.length - 1].text.push("Left Rocket Bottom Cargo");
                                             break;
                                         case "lCLMHatch":
                                             traces[traces.length - 1].y.push(-2);
                                             traces[traces.length - 1].z.push(1);
                                             traces[traces.length - 1].x.push(3);
+                                            traces[traces.length - 1].text.push("CargoShip Left Middle Hatch");
                                             break;
                                         case "lCCMCargo":
                                             traces[traces.length - 1].y.push(-1);
                                             traces[traces.length - 1].z.push(1);
                                             traces[traces.length - 1].x.push(3);
+                                            traces[traces.length - 1].text.push("CargoShip Left Middle Cargo");
                                             break;
                                         case "rCCMCargo":
                                             traces[traces.length - 1].y.push(1);
                                             traces[traces.length - 1].z.push(1);
                                             traces[traces.length - 1].x.push(3);
+                                            traces[traces.length - 1].text.push("CargoShip Right Middle Cargo");
                                             break;
                                         case "rCRMHatch":
                                             traces[traces.length - 1].y.push(2);
                                             traces[traces.length - 1].z.push(1);
                                             traces[traces.length - 1].x.push(3);
+                                            traces[traces.length - 1].text.push("CargoShip Right Middle Hatch");
                                             break;
                                         case "rRCLCargo":
                                             traces[traces.length - 1].y.push(4);
                                             traces[traces.length - 1].z.push(1);
                                             traces[traces.length - 1].x.push(3);
+                                            traces[traces.length - 1].text.push("Right Rocket Low Cargo");
                                             break;
                                         case "rRCMCargo":
                                             traces[traces.length - 1].y.push(4);
                                             traces[traces.length - 1].z.push(2);
                                             traces[traces.length - 1].x.push(3);
+                                            traces[traces.length - 1].text.push("Right Rocket Middle Cargo");
                                             break;
                                         case "rRCHCargo":
                                             traces[traces.length - 1].y.push(4);
                                             traces[traces.length - 1].z.push(3);
                                             traces[traces.length - 1].x.push(3);
+                                            traces[traces.length - 1].text.push("Right Rocket Top Cargo");
                                             break;
                                         case "lRLHHatch":
                                             traces[traces.length - 1].y.push(-4);
                                             traces[traces.length - 1].z.push(3);
                                             traces[traces.length - 1].x.push(4);
+                                            traces[traces.length - 1].text.push("Left Rocket Top Left Hatch");
                                             break;
                                         case "lRLMHatch":
                                             traces[traces.length - 1].y.push(-4);
                                             traces[traces.length - 1].z.push(2);
                                             traces[traces.length - 1].x.push(4);
+                                            traces[traces.length - 1].text.push("Left Rocket Middle Left Hatch");
                                             break;
                                         case "lRLLHatch":
                                             traces[traces.length - 1].y.push(-4);
                                             traces[traces.length - 1].z.push(1);
                                             traces[traces.length - 1].x.push(4);
+                                            traces[traces.length - 1].text.push("Left Rocket Bottom Left Hatch");
                                             break;
                                         case "lCLLHatch":
                                             traces[traces.length - 1].y.push(-2);
                                             traces[traces.length - 1].z.push(1);
                                             traces[traces.length - 1].x.push(4);
+                                            traces[traces.length - 1].text.push("CragoShip Close Left Hatch");
                                             break;
                                         case "lCCLCargo":
                                             traces[traces.length - 1].y.push(-1);
                                             traces[traces.length - 1].z.push(1);
                                             traces[traces.length - 1].x.push(4);
+                                            traces[traces.length - 1].text.push("CragoShip Close Left Cargo");
                                             break;
                                         case "rCCLCargo":
                                             traces[traces.length - 1].y.push(1);
                                             traces[traces.length - 1].z.push(1);
                                             traces[traces.length - 1].x.push(4);
+                                            traces[traces.length - 1].text.push("CragoShip Close Right Cargo");
                                             break;
                                         case "rCRLHatch":
                                             traces[traces.length - 1].y.push(2);
                                             traces[traces.length - 1].z.push(1);
                                             traces[traces.length - 1].x.push(4);
+                                            traces[traces.length - 1].text.push("CragoShip Close Right Hatch");
                                             break;
                                         case "rRLLHatch":
                                             traces[traces.length - 1].y.push(4);
                                             traces[traces.length - 1].z.push(1);
                                             traces[traces.length - 1].x.push(4);
+                                            traces[traces.length - 1].text.push("Right Rocket Bottom Left Hatch");
                                             break;
                                         case "rRLMHatch":
                                             traces[traces.length - 1].y.push(4);
                                             traces[traces.length - 1].z.push(2);
                                             traces[traces.length - 1].x.push(4);
+                                            traces[traces.length - 1].text.push("Right Rocket Middle Left Hatch");
                                             break;
                                         case "rRLHHatch":
                                             traces[traces.length - 1].y.push(4);
                                             traces[traces.length - 1].z.push(3);
                                             traces[traces.length - 1].x.push(4);
+                                            traces[traces.length - 1].text.push("Right Rocket Top Left Hatch");
                                             break;
                                     }
                                 });
