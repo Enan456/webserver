@@ -167,7 +167,7 @@
                     }
 
                     getHTML() {
-                        return '<td></td><td></td><td></td><td></td><td></td><td>' + this.num + '</td>' +
+                        return '<td>' + this.num + '</td>' +
                             '<td>' + this.start + '</td>' +
                             '<td>' + this.cargo + '</td>' +
                             '<td>' + this.hatch + '</td>' +
@@ -239,7 +239,8 @@
                                 totalMatch + '">' + avgHatch.toFixed(2) + '</td><td rowspan="' + totalMatch + '">' + highCargo +
                                 '</td><td rowspan="' + totalMatch + '">' + highHatch + '</td>' + allMatches[0].getHTML() + '</tr>';
                             for (var i = 1; i < allMatches.length; i ++) {
-                                document.getElementById("dataTable").innerHTML += '<tr>' + allMatches[i].getHTML() + '</tr>';
+                                document.getElementById("dataTable").innerHTML += '<tr><td></td><td></td><td></td><td></td><td></td>' +
+                                    allMatches[i].getHTML() + '</tr>';
                             }
                         });
                     });
