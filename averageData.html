@@ -167,11 +167,11 @@
                     }
 
                     getHTML() {
-                        return "<td>" + this.num + "</td>" +
-                            "<td>" + this.start + "</td>" +
-                            "<td>" + this.cargo + "</td>" +
-                            "<td>" + this.hatch + "</td>" +
-                            "<td>" + this.end + "</td>";
+                        return '<td>' + this.num + '</td>' +
+                            '<td>' + this.start + '</td>' +
+                            '<td>' + this.cargo + '</td>' +
+                            '<td>' + this.hatch + '</td>' +
+                            '<td>' + this.end + '</td>';
                     };
                 }
 
@@ -234,12 +234,12 @@
                             });
                             avgCargo /= totalMatch;
                             avgHatch /= totalMatch;
-                            document.getElementById("dataTable").innerHTML += "<tr><td rowspan='" + totalMatch + "'>" +
-                                teamNum + "</td><td rowspan='" + totalMatch + "'>" + avgCargo + "</td><td rowspan='" +
-                                totalMatch + "'>" + avgHatch + "</td><td rowspan='" + totalMatch + "'>" + highCargo +
-                                "</td><td rowspan='" + totalMatch + "'>" + highHatch + "</td>" + allMatches[0].getHTML() + "</tr>";
+                            document.getElementById("dataTable").innerHTML += '<tr><td rowspan="' + totalMatch + '">' +
+                                teamNum + '</td><td rowspan="' + totalMatch + '">' + avgCargo + '</td><td rowspan="' +
+                                totalMatch + '">' + avgHatch + '</td><td rowspan="' + totalMatch + '">' + highCargo +
+                                '</td><td rowspan="' + totalMatch + '">' + highHatch + '</td>' + allMatches[0].getHTML() + '</tr>';
                             for (var i = 1; i < allMatches.length; i ++) {
-                                document.getElementById("dataTable").innerHTML += "<tr>" + allMatches[i].getHTML() + "</tr>";
+                                document.getElementById("dataTable").innerHTML += '<tr>' + allMatches[i].getHTML() + '</tr>';
                             }
                         });
                     });
