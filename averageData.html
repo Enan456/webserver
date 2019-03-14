@@ -139,23 +139,23 @@
             <br><br><br>
 
             <script>
-                var teamNum = 0;
+                var teamNum;
 
-                var avgCargo = 0;
-                var avgHatch = 0;
+                var avgCargo;
+                var avgHatch;
 
-                var highCargo = 0;
-                var highHatch = 0;
+                var highCargo;
+                var highHatch;
 
-                var matchNum = 0;
-                var totalMatch = 0;
+                var matchNum;
+                var totalMatch;
 
-                var allMatches = [];
+                var allMatches;
 
-                var startPlat = "N/A";
-                var matchCargo = 0;
-                var matchHatch = 0;
-                var endPlat = "N/A";
+                var startPlat;
+                var matchCargo;
+                var matchHatch;
+                var endPlat;
 
                 class Match {
                     constructor(num, start, cargo, hatch, end) {
@@ -167,38 +167,12 @@
                     }
 
                     getHTML() {
-                        return "<th>" + this.num + "</th>" +
-                            "<th>" + this.start + "</th>" +
-                            "<th>" + this.cargo + "</th>" +
-                            "<th>" + this.hatch + "</th>" +
-                            "<th>" + this.end + "</th>";
+                        return "<td style='padding-left: 10px'>" + this.num + "</td>" +
+                            "<td>" + this.start + "</td>" +
+                            "<td>" + this.cargo + "</td>" +
+                            "<td>" + this.hatch + "</td>" +
+                            "<td>" + this.end + "</td>";
                     };
-                }
-
-                function Bool(initialValue) {
-                    var bool = !!initialValue;
-                    var listeners = [];
-                    var returnVal = function (value) {
-                        if (arguments.length) {
-                            var oldValue = bool;
-                            bool = !!value;
-                            listeners.forEach(function (listener, i, list) {
-                                listener.call(returnVal, {
-                                    oldValue: oldValue,
-                                    newValue: bool
-                                });
-                            });
-                        }
-                        return bool
-                    };
-                    returnVal.addListener = function (fn) {
-                        if (typeof fn == "function") {
-                            listeners.push(fn);
-                        } else {
-                            throw "Not a function!";
-                        }
-                    };
-                    return returnVal;
                 }
 
                 function load_data() {
@@ -208,7 +182,7 @@
                     var userDataRef = firebase.database().ref("/" + yourTeam + "/" + regional).orderByKey();
                     userDataRef.once("value").then(function (teams) {
                         teams.forEach(function (team) {
-                            teamNum = parseInt(team.key);
+                            teamNum = team.key;
                             totalMatch = 0;
                             allMatches = [];
                             avgCargo = 0;
@@ -217,16 +191,23 @@
                             highHatch = 0;
                             team.forEach(function (match) {
                                 totalMatch ++;
-                                matchNum = parseInt(match.key);
+                                matchNum = match.key;
                                 match.forEach(function (tag) {
                                     startPlat = "N/A";
                                     endPlat = "N/A";
                                     if (tag.val().Slvl1Platform == "true") {
-
+                                        startPlat = "Level 1";
                                     } else if (tag.val().Slvl2PlatformL == "true" || tag.val().Slvl2PlatformR == "true") {
-
+                                        startPlat = "Level 2";
                                     } else if (tag.val().Slvl3Platform == "true") {
-
+                                        startPlat = "Level 3";
+                                    }
+                                    if (tag.val().lvl1Platform == "true") {
+                                        endPlat = "Level 1";
+                                    } else if (tag.val().lvl2PlatformL == "true" || tag.val().lvl2PlatformR == "true") {
+                                        endPlat = "Level 2";
+                                    } else if (tag.val().lvl3Platform == "true") {
+                                        endPlat = "Level 3";
                                     }
                                     matchCargo = 0;
                                     matchHatch = 0;
@@ -239,9 +220,26 @@
                                         }
                                     });
                                 });
+                                avgCargo += matchCargo;
+                                avgHatch += matchHatch;
+                                if (matchCargo > highCargo) {
+                                    highCargo = matchcargo;
+                                }
+                                if (matchHatch > highHatch) {
+                                    highHatch = matchHatch;
+                                }
+                                allMatches.push(new Match(matchNum, statPlat, matchCargo, matchHatch, endPlat));
                             });
+                            avgCargo /= totalMatch;
+                            avgHatch /= totalMatch;
+                            document.getElementByID("dataTable").innerHTML += "<tr><td rowspan='" + totalMatch + "'>" +
+                                teamNum + "</td><td rowspan='" + totalMatch + "'>" + avgCargo + "</td><td rowspan='" +
+                                totalMatch + "'>" + avgHatch + "</td><td rowspan='" + totalMatch + "'>" + highCargo +
+                                "</td><td rowspan='" + totalMatch + "'>" + highHatch + "</td>" + allMatches[0].getHTML() + "</tr>";
+                            for (var i = 1; i < allMatches.length; i ++) {
+                                document.getElementByID("dataTable").innerHTML += "<tr>" + allMatches[i].getHTML() + "</tr>";
+                            }
                         });
-                        clicked(!clicked());
                     });
                 };
             </script>
