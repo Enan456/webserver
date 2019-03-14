@@ -128,7 +128,7 @@
                     <th>Average Hatches</th>
                     <th>Highest Cargo</th>
                     <th>Highest Hatches</th>
-                    <th style="padding-left: 10px">Match Number</th>
+                    <th>Match Number</th>
                     <th>Starting Platform</th>
                     <th>Cargo</th>
                     <th>Hatches</th>
@@ -167,7 +167,7 @@
                     }
 
                     getHTML() {
-                        return "<td style='padding-left: 10px'>" + this.num + "</td>" +
+                        return "<td>" + this.num + "</td>" +
                             "<td>" + this.start + "</td>" +
                             "<td>" + this.cargo + "</td>" +
                             "<td>" + this.hatch + "</td>" +
@@ -211,14 +211,16 @@
                                     }
                                     matchCargo = 0;
                                     matchHatch = 0;
-                                    tag.val().order.forEach(function (elem) {
-                                        if (elem.indexOf("Cargo") !== -1) {
-                                            matchCargo ++;
-                                        }
-                                        if (elem.indexOf("Hatch") !== -1) {
-                                            matchHatch ++;
-                                        }
-                                    });
+                                    if (tag.val().order != undefined) {
+                                        tag.val().order.forEach(function (elem) {
+                                            if (elem.indexOf("Cargo") !== -1) {
+                                                matchCargo ++;
+                                            }
+                                            if (elem.indexOf("Hatch") !== -1) {
+                                                matchHatch ++;
+                                            }
+                                        });
+                                    }
                                 });
                                 avgCargo += matchCargo;
                                 avgHatch += matchHatch;
