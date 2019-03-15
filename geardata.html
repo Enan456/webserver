@@ -214,6 +214,8 @@
                                 tag.forEach(function (dataPoint) {
                                     if (dataPoint.key == "yourname") {
                                         styles.push(dataPoint.val());
+                                    } else if (dataPoint.key == "match") {
+                                        styles.push(datapoint.val());
                                     } else if (setStyle(dataPoint) != "try again") {
                                         styles.push(setStyle(dataPoint));
                                     }
