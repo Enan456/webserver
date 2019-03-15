@@ -206,16 +206,16 @@
 
                     var userDataRef = firebase.database().ref("/" + yourTeam + "/" + regional + "/" + scoutteam).orderByKey();
                     userDataRef.once("value").then(function (matches) {
-                        var matchNum = 0;
+                        var matchNum;
                         matches.forEach(function (match) {
+                            matchNum = match.key;
                             match.forEach(function (tag) {
-                                matchNum++;
                                 var styles = [];
                                 tag.forEach(function (dataPoint) {
                                     if (dataPoint.key == "yourname") {
                                         styles.push(dataPoint.val());
                                     } else if (dataPoint.key == "match") {
-                                        styles.push(datapoint.val());
+                                        styles.push(dataPoint.val());
                                     } else if (setStyle(dataPoint) != "try again") {
                                         styles.push(setStyle(dataPoint));
                                     }
