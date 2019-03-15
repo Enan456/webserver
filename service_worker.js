@@ -9,6 +9,17 @@ let CURRENT_CACHES = {
 const OFFLINE_URL = 'gearScout.html';
 const OFFLINE_URL2 = 'geardata.html';
 
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.0.0/workbox-sw.js');
+
+if (workbox) {
+  console.log(`Yay! Workbox is loaded 🎉`);
+} else {
+  console.log(`Boo! Workbox didn't load 😬`);
+}
+workbox.routing.registerRoute(
+  /\.js$/,
+  …
+);
 function createCacheBustedRequest(url) {
   let request = new Request(url, {cache: 'reload'});
   if ('cache' in request) {
