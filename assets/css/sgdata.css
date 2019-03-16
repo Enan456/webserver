@@ -1483,6 +1483,10 @@ table, th, td {
     color: white;
 }
 
+th {
+    text-align: center;
+}
+
 th, td {
-    padding: 15px;
+    padding: 5px;
 }
