@@ -121,19 +121,24 @@
 
             <br><br><br>
 
-            <table id="dataTable">
-                <tr>
-                    <th>Team Number</th>
-                    <th>Average Cargo</th>
-                    <th>Average Hatches</th>
-                    <th>Highest Cargo</th>
-                    <th>Highest Hatches</th>
-                    <th>Match Number</th>
-                    <th>Starting Platform</th>
-                    <th>Cargo</th>
-                    <th>Hatches</th>
-                    <th>Ending Platfrom</th>
-                </tr>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Team Number</th>
+                        <th>Average Cargo</th>
+                        <th>Average Hatches</th>
+                        <th>Highest Cargo</th>
+                        <th>Highest Hatches</th>
+                        <th>Match Number</th>
+                        <th>Starting Platform</th>
+                        <th>Cargo</th>
+                        <th>Hatches</th>
+                        <th>Ending Platfrom</th>
+                    </tr>
+                </thead>
+                <tbody id="dataTable">
+                    
+                </tbody>
             </table>
 
             <br><br><br>
@@ -239,7 +244,7 @@
                                 totalMatch + '">' + (Math.round(avgHatch * 100) / 100) + '</td><td rowspan="' + totalMatch + '">' + highCargo +
                                 '</td><td rowspan="' + totalMatch + '">' + highHatch + '</td>' + allMatches[0].getHTML() + '</tr>';
                             for (var i = 1; i < allMatches.length; i ++) {
-                                document.getElementById("dataTable").innerHTML += '<tr><td></td><td></td><td></td><td></td><td></td>' +
+                                document.getElementById("dataTable").innerHTML += '<tr>' +
                                     allMatches[i].getHTML() + '</tr>';
                             }
                         });
