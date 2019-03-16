@@ -197,27 +197,61 @@
                             team.forEach(function (match) {
                                 totalMatch ++;
                                 matchNum = match.key;
-                                match.forEach(function (tag) {
+                                if (matchNum.substring(0, 2) == "-L") {
+                                    matchNum = "Unknown";
+                                }
+                                if (matchNum != "Unknown") {
+                                    match.forEach(function (tag) {
+                                        startPlat = "N/A";
+                                        endPlat = "N/A";
+                                        if (tag.val().Slvl1Platform == "true") {
+                                            startPlat = "Level 1";
+                                        } else if (tag.val().Slvl2PlatformL == "true" || tag.val().Slvl2PlatformR == "true") {
+                                            startPlat = "Level 2";
+                                        } else if (tag.val().Slvl3Platform == "true") {
+                                            startPlat = "Level 3";
+                                        }
+                                        if (tag.val().lvl1Platform == "true") {
+                                            endPlat = "Level 1";
+                                        } else if (tag.val().lvl2PlatformL == "true" || tag.val().lvl2PlatformR == "true") {
+                                            endPlat = "Level 2";
+                                        } else if (tag.val().lvl3Platform == "true") {
+                                            endPlat = "Level 3";
+                                        }
+                                        matchCargo = 0;
+                                        matchHatch = 0;
+                                        if (tag.val().order != undefined) {
+                                            tag.val().order.forEach(function (elem) {
+                                                if (elem.indexOf("Cargo") !== -1) {
+                                                    matchCargo ++;
+                                                }
+                                                if (elem.indexOf("Hatch") !== -1) {
+                                                    matchHatch ++;
+                                                }
+                                            });
+                                        }
+                                    });
+                                } else {
                                     startPlat = "N/A";
                                     endPlat = "N/A";
-                                    if (tag.val().Slvl1Platform == "true") {
+                                    if (match.val().Slvl1Platform == "true") {
                                         startPlat = "Level 1";
-                                    } else if (tag.val().Slvl2PlatformL == "true" || tag.val().Slvl2PlatformR == "true") {
+                                    } else if (match.val().Slvl2PlatformL == "true" || match.val().Slvl2PlatformR == "true") {
                                         startPlat = "Level 2";
-                                    } else if (tag.val().Slvl3Platform == "true") {
+                                    } else if (match.val().Slvl3Platform == "true") {
                                         startPlat = "Level 3";
                                     }
-                                    if (tag.val().lvl1Platform == "true") {
+                                    if (match.val().lvl1Platform == "true") {
                                         endPlat = "Level 1";
-                                    } else if (tag.val().lvl2PlatformL == "true" || tag.val().lvl2PlatformR == "true") {
+                                    } else if (match.val().lvl2PlatformL == "true" || match.val().lvl2PlatformR == "true") {
                                         endPlat = "Level 2";
-                                    } else if (tag.val().lvl3Platform == "true") {
+                                    } else if (match.val().lvl3Platform == "true") {
                                         endPlat = "Level 3";
                                     }
                                     matchCargo = 0;
                                     matchHatch = 0;
-                                    if (tag.val().order != undefined) {
-                                        tag.val().order.forEach(function (elem) {
+                                    if (match.val().order != undefined) {
+                                        match.val().order.forEach(function (elem) {
                                             if (elem.indexOf("Cargo") !== -1) {
                                                 matchCargo ++;
                                             }
@@ -226,7 +260,7 @@
                                             }
                                         });
                                     }
-                                });
+                                }
                                 avgCargo += matchCargo;
                                 avgHatch += matchHatch;
                                 if (matchCargo > highCargo) {
