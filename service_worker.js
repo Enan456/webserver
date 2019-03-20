@@ -16,6 +16,13 @@ if (workbox) {
 } else {
   console.log(`Boo! Workbox didn't load 😬`);
 }
+workbox.precaching.precacheAndRoute([
+  '/assets/css/sg.css',
+  '/assets/css/sgdata.css',
+  '/assets/css/bootstrap.min.css',
+  '/assets/js/sg.js',
+  { url: '/index.html', revision: '383676' },
+]);
 workbox.routing.registerRoute(
   /sg.js$/
 );
