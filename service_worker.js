@@ -17,9 +17,13 @@ if (workbox) {
   console.log(`Boo! Workbox didn't load 😬`);
 }
 workbox.routing.registerRoute(
-  /\.js$/,
-  …
+  /sg.js$/,
 );
+workbox.routing.registerRoute(
+  new RegExp('sg.js'),
+  new workbox.strategies.NetworkFirst()
+);
+
 function createCacheBustedRequest(url) {
   let request = new Request(url, {cache: 'reload'});
   if ('cache' in request) {
