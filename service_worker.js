@@ -17,11 +17,20 @@ if (workbox) {
   console.log(`Boo! Workbox didn't load 😬`);
 }
 workbox.routing.registerRoute(
-  /sg.js$/,
+  /sg.js$/
 );
 workbox.routing.registerRoute(
   new RegExp('sg.js'),
   new workbox.strategies.NetworkFirst()
+);
+workbox.routing.registerRoute(
+  // Cache CSS files.
+  /assets/css/sg.css$/
+  // Use cache but update in the background.
+  new workbox.strategies.StaleWhileRevalidate({
+    // Use a custom cache name.
+    cacheName: 'css-cache',
+  })
 );
 
 function createCacheBustedRequest(url) {
