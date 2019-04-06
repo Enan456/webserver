@@ -208,7 +208,9 @@
 
                     var userDataRef = firebase.database().ref("/" + yourTeam + "/" + regional).orderByKey();
                     userDataRef.once("value").then(function (teams) {
+                        var countingStuff = 0;
                         teams.forEach(function (team) {
+                            countingStuff ++;
                             teamNum = team.key;
                             totalMatch = 0;
                             allMatches = [];
@@ -298,9 +300,9 @@
                             document.getElementById("dataTable").innerHTML += '<tr><td>' +
                                 teamNum + '</td><td>' + (Math.round(avgCargo * 100) / 100) + '</td><td>' + (Math.round(avgHatch * 100) / 100) + '</td><td>' + highCargo +
                                 '</td><td>' + highHatch + '</td><td colspan="5" style="padding: 0px"><button class="accordion">Show Matches</button>' + 
-                                '<div class="panel"><table><tbody id="matchBody">';
+                                '<div class="panel"><table><tbody id="matchBody ' + countingStuff + '">';
                             for (var i = 0; i < allMatches.length; i ++) {
-                                document.getElementById("matchBody").innerHTML += '<tr>' +
+                                document.getElementById("matchBody " + countingStuff).innerHTML += '<tr>' +
                                     allMatches[i].getHTML() + '</tr>';
                             }
                             document.getElementById("dataTable").innerHTML += '</tbody></table></div></td>';
