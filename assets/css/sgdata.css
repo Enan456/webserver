@@ -1473,11 +1473,8 @@ textarea.materialize-textarea+label:after,
     transition: .3s color;
 }
 
-table {
-    width: 100%;
-}
-
 table, th, td {
+    width: 100%;
     border: 1px solid whitesmoke;
     border-collapse: collapse;
     color: white;
