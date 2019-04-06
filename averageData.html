@@ -106,6 +106,14 @@
               display: none;
               overflow: hidden;
             }
+            
+            th, td {
+                width: 7.6923%;
+            }
+            
+            .matchThing {
+                width: 16.66666667%;
+            }
           </style>
     </head>
 
@@ -201,12 +209,12 @@
                     }
 
                     getHTML() {
-                        return '<td>' + this.num + '</td>' +
-                            '<td>' + this.start + '</td>' +
-                            '<td>' + this.cargo + '</td>' +
-                            '<td>' + this.hatch + '</td>' +
-                            '<td>' + this.end + '</td>' +
-                            '<td>' + this.score + '</td>';
+                        return '<td class="matchThing">' + this.num + '</td>' +
+                            '<td class="matchThing">' + this.start + '</td>' +
+                            '<td class="matchThing">' + this.cargo + '</td>' +
+                            '<td class="matchThing">' + this.hatch + '</td>' +
+                            '<td class="matchThing">' + this.end + '</td>' +
+                            '<td class="matchThing">' + this.score + '</td>';
                     };
                 }
 
