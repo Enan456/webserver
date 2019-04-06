@@ -298,12 +298,12 @@
                             document.getElementById("dataTable").innerHTML += '<tr><td>' +
                                 teamNum + '</td><td>' + (Math.round(avgCargo * 100) / 100) + '</td><td>' + (Math.round(avgHatch * 100) / 100) + '</td><td>' + highCargo +
                                 '</td><td>' + highHatch + '</td><td colspan="5" style="padding: 0px"><button class="accordion">Show Matches</button>' + 
-                                '<div class="panel"><table>';
+                                '<div class="panel"><table><tbody id="matchBody">';
                             for (var i = 0; i < allMatches.length; i ++) {
-                                document.getElementById("dataTable").innerHTML += '<tr>' +
+                                document.getElementById("matchBody").innerHTML += '<tr>' +
                                     allMatches[i].getHTML() + '</tr>';
                             }
-                            document.getElementById("dataTable").innerHTML += '</table></div></td>';
+                            document.getElementById("dataTable").innerHTML += '</tbody></table></div></td>';
                         });
                         var acc = document.getElementsByClassName("accordion");
                         var i;
