@@ -31,11 +31,14 @@
     };
     firebase.initializeApp(config);
     var database = firebase.database();
+
         window.dataLayer = window.dataLayer || [];
+
     function gtag() {
         dataLayer.push(arguments);
     }
     gtag('js', new Date());
+
     gtag('config', 'UA-112760702-1');
 </script>
     <script src="assets/js/sg.js"></script>
@@ -93,9 +96,11 @@
               outline: none;
               transition: 0.4s;
             }
+
             .accordion:hover {
               background-color: #fe5000;
             }
+
             .panel {
               background-color: #02243e;
               display: none;
@@ -144,8 +149,16 @@
                         <th>Team Number</th>
                         <th>Average Cargo</th>
                         <th>Average Hatches</th>
+                        <th>Average Score</th>
                         <th>Highest Cargo</th>
                         <th>Highest Hatches</th>
+                        <th>Highest Score</th>
+                        <th>Match Number</th>
+                        <th>Starting Platform</th>
+                        <th>Cargo</th>
+                        <th>Hatches</th>
+                        <th>Ending Platform</th>
+                        <th>Score</th>
                     </tr>
                 </thead>
                 <tbody id="dataTable">
@@ -157,49 +170,68 @@
 
             <script>
                 var teamNum;
+
                 var avgCargo;
                 var avgHatch;
+                var avgScore;
+
                 var highCargo;
                 var highHatch;
+                var highScore;
+
                 var matchNum;
                 var totalMatch;
+
                 var allMatches;
+
                 var startPlat;
                 var matchCargo;
                 var matchHatch;
                 var endPlat;
+                var score;
+
                 class Match {
-                    constructor(num, start, cargo, hatch, end) {
+                    constructor(num, start, cargo, hatch, end, score) {
                         this.num = num;
                         this.start = start;
                         this.cargo = cargo;
                         this.hatch = hatch;
                         this.end = end;
+                        this.score = score;
                     }
+
                     getHTML() {
                         return '<td>' + this.num + '</td>' +
                             '<td>' + this.start + '</td>' +
                             '<td>' + this.cargo + '</td>' +
                             '<td>' + this.hatch + '</td>' +
-                            '<td>' + this.end + '</td>';
+                            '<td>' + this.end + '</td>' +
+                            '<td>' + this.score + '</td>';
                     };
                 }
+
                 function load_data() {
                     const yourTeam = document.getElementById("yourteam").value;
                     const regional = document.getElementById("regional").value;
+
                     var userDataRef = firebase.database().ref("/" + yourTeam + "/" + regional).orderByKey();
                     userDataRef.once("value").then(function (teams) {
+                        var countingStuff = 0;
                         teams.forEach(function (team) {
+                            countingStuff ++;
                             teamNum = team.key;
                             totalMatch = 0;
                             allMatches = [];
                             avgCargo = 0;
                             avgHatch = 0;
+                            avgScore = 0;
                             highCargo = 0;
                             highHatch = 0;
+                            highScore = 0;
                             team.forEach(function (match) {
                                 totalMatch ++;
                                 matchNum = match.key;
+                                score = 0;
                                 if (matchNum.substring(0, 2) == "-L") {
                                     matchNum = "Unknown";
                                 }
@@ -209,17 +241,23 @@
                                         endPlat = "N/A";
                                         if (tag.val().Slvl1Platform == "true") {
                                             startPlat = "Level 1";
+                                            score += 3;
                                         } else if (tag.val().Slvl2PlatformL == "true" || tag.val().Slvl2PlatformR == "true") {
                                             startPlat = "Level 2";
+                                            score += 6;
                                         } else if (tag.val().Slvl3Platform == "true") {
                                             startPlat = "Level 3";
+                                            score += 12;
                                         }
                                         if (tag.val().lvl1Platform == "true") {
                                             endPlat = "Level 1";
+                                            score += 3;
                                         } else if (tag.val().lvl2PlatformL == "true" || tag.val().lvl2PlatformR == "true") {
                                             endPlat = "Level 2";
+                                            score += 6;
                                         } else if (tag.val().lvl3Platform == "true") {
                                             endPlat = "Level 3";
+                                            score += 12;
                                         }
                                         matchCargo = 0;
                                         matchHatch = 0;
@@ -227,9 +265,11 @@
                                             tag.val().order.forEach(function (elem) {
                                                 if (elem.indexOf("Cargo") !== -1) {
                                                     matchCargo ++;
+                                                    score += 3;
                                                 }
                                                 if (elem.indexOf("Hatch") !== -1) {
                                                     matchHatch ++;
+                                                    score += 2;
                                                 }
                                             });
                                         }
@@ -239,17 +279,23 @@
                                     endPlat = "N/A";
                                     if (match.val().Slvl1Platform == "true") {
                                         startPlat = "Level 1";
+                                        score += 3;
                                     } else if (match.val().Slvl2PlatformL == "true" || match.val().Slvl2PlatformR == "true") {
                                         startPlat = "Level 2";
+                                        score += 6;
                                     } else if (match.val().Slvl3Platform == "true") {
                                         startPlat = "Level 3";
+                                        score += 12;
                                     }
                                     if (match.val().lvl1Platform == "true") {
                                         endPlat = "Level 1";
+                                        score += 3;
                                     } else if (match.val().lvl2PlatformL == "true" || match.val().lvl2PlatformR == "true") {
                                         endPlat = "Level 2";
+                                        score += 6;
                                     } else if (match.val().lvl3Platform == "true") {
                                         endPlat = "Level 3";
+                                        score += 12;
                                     }
                                     matchCargo = 0;
                                     matchHatch = 0;
@@ -257,40 +303,48 @@
                                         match.val().order.forEach(function (elem) {
                                             if (elem.indexOf("Cargo") !== -1) {
                                                 matchCargo ++;
+                                                score += 3;
                                             }
                                             if (elem.indexOf("Hatch") !== -1) {
                                                 matchHatch ++;
+                                                score += 2;
                                             }
                                         });
                                     }
                                 }
                                 avgCargo += matchCargo;
                                 avgHatch += matchHatch;
+                                avgScore += score;
                                 if (matchCargo > highCargo) {
                                     highCargo = matchCargo;
                                 }
                                 if (matchHatch > highHatch) {
                                     highHatch = matchHatch;
                                 }
-                                allMatches.push(new Match(matchNum, startPlat, matchCargo, matchHatch, endPlat));
+                                if (score > highScore) {
+                                    highScore = score;
+                                }
+                                allMatches.push(new Match(matchNum, startPlat, matchCargo, matchHatch, endPlat, score));
                             });
                             avgCargo /= totalMatch;
                             avgHatch /= totalMatch;
+                            avgScore /= totalMatch;
                             document.getElementById("dataTable").innerHTML += '<tr><td>' +
-                                teamNum + '</td><td>' + (Math.round(avgCargo * 100) / 100) + '</td><td>' + (Math.round(avgHatch * 100) / 100) + '</td><td>' + highCargo +
-                                '</td><td>' + highHatch + '</td></tr>';
+                                teamNum + '</td><td>' + (Math.round(avgCargo * 100) / 100) + '</td><td>' + (Math.round(avgHatch * 100) / 100) + '</td><td>' + (Math.round(avgScore * 100) / 100) + '</td><td>' + highCargo +
+                                '</td><td>' + highHatch + '</td><td>' + highScore + '</td></tr>';
                         });
                         var acc = document.getElementsByClassName("accordion");
                         var i;
+
                         for (i = 0; i < acc.length; i++) {
                           acc[i].addEventListener("click", function() {
                             var panel = this.nextElementSibling;
                             if (panel.style.display === "block") {
                               panel.style.display = "none";
-                              this.innerText = "Hide Matches";
+                              this.innerText = "Show Matches";
                             } else {
                               panel.style.display = "block";
-                              this.innerText = "Show Matches";
+                              this.innerText = "Hide Matches";
                             }
                           });
                         }
