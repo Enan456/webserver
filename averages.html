@@ -235,6 +235,7 @@
                                 }
                                 if (matchNum != "Unknown") {
                                     match.forEach(function (tag) {
+                                        score = 0;
                                         startPlat = "N/A";
                                         endPlat = "N/A";
                                         if (tag.val().Slvl1Platform == "true") {
@@ -273,6 +274,7 @@
                                         }
                                     });
                                 } else {
+                                    score = 0;
                                     startPlat = "N/A";
                                     endPlat = "N/A";
                                     if (match.val().Slvl1Platform == "true") {
