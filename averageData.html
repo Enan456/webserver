@@ -239,12 +239,12 @@
                             team.forEach(function (match) {
                                 totalMatch ++;
                                 matchNum = match.key;
-                                score = 0;
                                 if (matchNum.substring(0, 2) == "-L") {
                                     matchNum = "Unknown";
                                 }
                                 if (matchNum != "Unknown") {
                                     match.forEach(function (tag) {
+                                        score = 0;
                                         startPlat = "N/A";
                                         endPlat = "N/A";
                                         if (tag.val().Slvl1Platform == "true") {
@@ -283,6 +283,7 @@
                                         }
                                     });
                                 } else {
+                                    score = 0;
                                     startPlat = "N/A";
                                     endPlat = "N/A";
                                     if (match.val().Slvl1Platform == "true") {
