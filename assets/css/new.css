@@ -1,5 +1,5 @@
  body {
- 	background-image: url("http://test.enan.rocks/assets/bg.jpg");
+ 	background-image: url("../bg.jpg");
  	background-repeat: repeat, no-repeat, no-repeat;
  	background-size: 100px 100px, cover, cover;
  	background-position: top left, center center, bottom center;
@@ -21,8 +21,8 @@
 
 
  	.avatar {
- 		height: 150 px;
- 		width: 125 px;
+ 		height: 150px;
+ 		width: 125px;
  	}
 
  	.card {
