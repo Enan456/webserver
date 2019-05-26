@@ -1,0 +1,40 @@
+ body {
+ 	background-image: url("http://test.enan.rocks/assets/bg.jpg");
+ 	background-repeat: repeat, no-repeat, no-repeat;
+ 	background-size: 100px 100px, cover, cover;
+ 	background-position: top left, center center, bottom center;
+ 	background-attachment: fixed, fixed, fixed;
+ 	background-color: #000000;
+ }
+
+ img {
+ 	border-radius: 50% 50%;
+ 	padding: 5px;
+ }
+
+ .h1 {
+ 	align-self: center;
+ 	color: white;
+ }
+
+ @media (min-width: 576px) {
+
+
+ 	.avatar {
+ 		height: 150 px;
+ 		width: 125 px;
+ 	}
+
+ 	.card {
+ 		border: 2px solid #6d6e70;
+ 		border-radius: 5px;
+ 		background-color: #282828;
+ 		padding: 10px;
+ 	}
+ }
+
+ @media (min-width: 768px) {}
+
+ @media (min-width: 992px) {}
+
+ @media (min-width: 1200px) {}
