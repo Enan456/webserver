@@ -13,8 +13,8 @@
  }
 
  .h1 {
- 	text-allign: center;
- 	text-color: white;
+ 	align-self: center;
+ 	color: white;
  }
 
  @media (min-width: 576px) {
