@@ -1,40 +1,173 @@
- body {
- 	background-image: url("../bg.jpg");
- 	background-repeat: repeat, no-repeat, no-repeat;
- 	background-size: 100px 100px, cover, cover;
- 	background-position: top left, center center, bottom center;
- 	background-attachment: fixed, fixed, fixed;
- 	background-color: #000000;
- }
+ body{
+        background-image: url(/assets/images/ee0f2b25429d7819ba16f2177ef0d720b9a7935d/overlay.png),linear-gradient(48deg,rgba(0,1,100,.45) 5%,rgba(100,10,10,.45)),url(http://enan.rocks/assets/bg.jpg);
+    background-repeat: no-repeat,	no-repeat;
+background-size: 100% 100%;
+   background-position: center center,	center center,	center center;
+    background-attachment: fixed,	fixed,	fixed; 
+    background-color: #000000;
+   
+  }
+container-fluid{
+  display: none;
+}
+footer1{
+  margin-top: 95%
+  vertical-align: bottom;
+}
+img{
+  border-radius: 50% 50%;
+  padding: 5px;
+  height: 150px;
+  width: 150px;
+  allign: center;
+   margin-top: 12%;
+  margin-bottom: 12%;
+  margin-right: 250%;
+  margin-left: 25%;
+}
+  h1{
+    text-align: center;
+    text-color: white !important;
+  }
+col-4{
+  height: 90%;
+}
+center-img{
+  margin-bottom:20%;
+  margin-top:50%;
+    margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+    margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+ctitle{
+  color: white;
+       border: 2px solid #6d6e70;
+  border-radius: 5px;
+    background-color: #282828;
+   height:23%;
+    text-color: white;
+      margin-top: 12%;
+  margin-bottom: 12%;
+  margin-right: 3%;
+  margin-left: 3%;
+}
+a{
+  text-align:center;
+  margin:auto;
+  width: 100%;
+  padding-left:50%;
+}
+button, a {
+  z-index: 1;
+  position: relative;
+  font-size: inherit;
+  font-family: inherit;
+  color: white;
+  padding: 0.5em 1em;
+  outline: none;
+  border: none;
+  background-color: #282828;
+  overflow: hidden;
+  transition: color 0.4s ease-in-out;
+}
+spacer{
+  margin-bottom:20%;
+  margin-top:50%;
+}
+button::before, a::before {
+  content: '';
+  z-index: -1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  background-color: #383838;
+  transform-origin: center;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.45s ease-in-out;
+}
 
- img {
- 	border-radius: 50% 50%;
- 	padding: 5px;
- }
 
- .h1 {
- 	align-self: center;
- 	color: white;
- }
+button:hover, a:hover{
+  cursor: pointer;
+  color: #f0f0f0;
+}
 
- @media (min-width: 576px) {
+button:hover::before{
+  transform: translate(-50%, -50%) scale(15);
+}
+html {
+  height: 100%;
+}
 
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  position:relative;
+}
 
- 	.avatar {
- 		height: 150px;
- 		width: 125px;
- 	}
+#content {
+  flex: 1;
+  padding: 20px;
+}
 
- 	.card {
- 		border: 2px solid #6d6e70;
- 		border-radius: 5px;
- 		background-color: #282828;
- 		padding: 10px;
- 	}
- }
+#footer {
+  background-color: #f3e5f5;
+  padding: 10px;
+  vertical-align: baseline;
+}
+mailtoui{
+  margin-top:5%
+}
+@media (min-width: 576px) { 
 
- @media (min-width: 768px) {}
+  
+  .avatar{
+    height: 150 px;
+    width: 125 px;
+  }
 
- @media (min-width: 992px) {}
+  .card{
+    border-color:#383838;
+  border-radius: 8px;
+    background-color: #282828;
+   height:23%;
+    text-color: white;
+    padding-top:-10%;
+      margin-top: 20%;
+  margin-bottom: 20%;
+  margin-right: 3%;
+  margin-left: 3%;
+  
+  }
+  .ctitle{
+    color: #ffffff;
+    width: 100%;
+    padding-left: 5%;
+    background-color: #383838;
 
- @media (min-width: 1200px) {}
+  }
+  .ptext{
+          margin-left: 5%;
+        color: #e0e0e0;
+  }
+}
+
+@media (min-width: 768px) { 
+}
+
+@media (min-width: 992px) { 
+}
+
+@media (min-width: 1200px) { 
+}
