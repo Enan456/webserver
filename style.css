@@ -24,15 +24,15 @@ footer1 {
 }
 
 img {
-	border-radius: 50% 50%;
-	padding: 5px;
-	height: 150px;
-	width: 150px;
-	align: center;
-	margin-top: 12%;
-	margin-bottom: 12%;
-	margin-right: 250%;
-	margin-left: 25%;
+    border-radius: 50% 50%;
+    padding: 5px;
+    height: 150px;
+    width: 150px;
+    align: center;
+    margin-top: 24%;
+    margin-bottom: 12%;
+    margin-right: 250%;
+    margin-left: 34%;
 }
 
 h1 {
@@ -149,10 +149,6 @@ body {
 
 mailtoui {
 	margin-top: 5%
-}
-
-card {
-	display: none;
 }
 
 @media (min-width: 576px) {
