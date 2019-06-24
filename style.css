@@ -148,11 +148,7 @@ body {
 }
 
 mailtoui {
-	margin-top: 5%;
-}
-
-cards{
-	display:none;
+	margin-top: 5%
 }
 
 @media (min-width: 576px) {
@@ -189,10 +185,7 @@ cards{
 	}
 }
 
-@media (min-width: 768px) {
-	.cards{
-		display: flex;
-}}
+@media (min-width: 768px) {}
 
 @media (min-width: 992px) {}
 
