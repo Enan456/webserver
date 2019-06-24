@@ -146,9 +146,14 @@ body {
 	padding: 10px;
 	vertical-align: baseline;
 }
-
+#wrapper{
+	text-align: center;
+}
+row{
+	display: inline-block;
+}
 mailtoui {
-	margin-top: 5%
+	margin-top: 5%;
 }
 
 @media (min-width: 576px) {
