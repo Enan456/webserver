@@ -8,12 +8,19 @@ body {
 body {
 	background-image: url(/assets/images/ee0f2b25429d7819ba16f2177ef0d720b9a7935d/overlay.png), linear-gradient(48deg, rgba(0, 1, 100, .85) 5%, rgba(100, 10, 10, .85)), url(http://enan.rocks/assets/bg.jpg);
 	background-repeat: no-repeat, no-repeat;
-	background-size: 100% 100%;
+	background-size: cover;
 	background-position: center center, center center, center center;
 	background-color: #000000;
 
 }
-
+wrapper {
+	text-align: center;
+	margin: 10%;
+    margin-top: 30%;
+}
+allignment {
+	display: inline-block;
+}
 container-fluid {
 	display: none;
 }
@@ -158,16 +165,17 @@ mailtoui {
 	}
 
 	.card {
-		border-color: #383838;
-		border-radius: 8px;
-		background-color: #282828;
-		height: 23%;
-		color: white;
-		padding-top: -10%;
-		margin-top: 20%;
-		margin-bottom: 20%;
-		margin-right: 3%;
-		margin-left: 3%;
+	    border-color: #383838;
+    border-radius: 8px;
+    background-color: #282828;
+    height: fit-content;
+    color: white;
+    padding-top: -10%;
+    margin-top: 20%;
+    margin-bottom: 20%;
+    margin-right: 3%;
+    margin-left: 3%;
+    min-height: 25%;
 
 	}
 
@@ -181,6 +189,7 @@ mailtoui {
 
 	.ptext {
 		margin-left: 5%;
+		margin-right: 5%;
 		color: #e0e0e0;
 	}
 }
