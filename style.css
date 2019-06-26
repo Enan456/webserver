@@ -8,7 +8,6 @@ body {
 body {
 	background-image: url(/assets/images/ee0f2b25429d7819ba16f2177ef0d720b9a7935d/overlay.png), linear-gradient(48deg, rgba(0, 1, 100, .85) 5%, rgba(100, 10, 10, .85)), url(http://enan.rocks/assets/bg.jpg);
 	background-repeat: no-repeat, no-repeat;
-	background-size: 100% 100%;
 	background-position: center center, center center, center center;
 	background-color: #000000;
 
