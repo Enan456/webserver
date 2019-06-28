@@ -41,7 +41,9 @@ img {
     margin-right: 250%;
     margin-left: 34%;
 }
-
+row{
+	height: auto;
+}
 h1 {
 	text-align: center;
 	color: white !important;
@@ -172,7 +174,6 @@ mailtoui {
     color: white;
     padding-top: -10%;
     margin-top: 20%;
-    margin-bottom: 20%;
     margin-right: 3%;
     margin-left: 3%;
     min-height: 25%;
