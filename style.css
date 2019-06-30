@@ -16,7 +16,8 @@ body {
 wrapper {
 	text-align: center;
 	margin: 10%;
-    margin-top: 30%;
+	margin-top: 30%;
+	height: 95%;
 }
 allignment {
 	display: inline-block;
