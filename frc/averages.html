@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="assets/css/materialize.css" media="screen,projection" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#02243E" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <meta name="Description" content="GearScout - The Scouting App For Any Team">
+    <script type="text/javascript" src="assets/js/materialize.js"></script>
+    <style src="assets/css/bootstrap.min.css"></style>
+    <style src="assets/css/style.css"></style>
+    <link type="text/css" rel="stylesheet" href="assets/css/sgdata.css" rel="stylesheet">
+    <style src="assets/css/materialize.css"></style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112760702-1"></script>
+    <script src="interim.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.11.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAaq1mLPP1BkwuH9Vg14YjCav3Twh51514",
+    authDomain: "gearcout.firebaseapp.com",
+    databaseURL: "https://gearcout.firebaseio.com",
+    projectId: "gearcout",
+    storageBucket: "gearcout.appspot.com",
+    messagingSenderId: "47459835429"
+  };
+  firebase.initializeApp(config);
+    var database = firebase.database();
+
+        window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-112760702-1');
+</script>
+    <script src="assets/js/sg.js"></script>
+    <script src="assets/js/service_worker.js"></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/icons/favicon-16x16.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <head>
+        <style>
+            ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #8a9385;
+            border-radius: 40px;
+            border-color: white;
+            width: 90%;
+          }
+          
+          li {
+            float: left;
+          }
+          
+          li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 16px 16px;
+            text-decoration: none;
+            font-family: 'Roboto', sans-serif;
+          }
+          
+          li a:hover:not(.active) {
+            background-color: #717a6c;
+            font-family: 'Roboto', sans-serif;
+          }
+          
+          .active1 {
+            background-color: #FE5000;
+          }
+            
+            .accordion {
+              background-color: #02243e;
+              color: whitesmoke;
+              cursor: pointer;
+              padding: 8px;
+              width: 100%;
+              text-align: left;
+              border: none;
+              outline: none;
+              transition: 0.4s;
+            }
+
+            .accordion:hover {
+              background-color: #fe5000;
+            }
+
+            .panel {
+              background-color: #02243e;
+              display: none;
+              overflow: hidden;
+            }
+            
+            th, td {
+                width: 14.2857%;
+            }
+          </style>
+    </head>
+
+<body>
+    <center>
+        <div class="meh">
+            <ul>
+                <li><b><a class="active1">GearData Average</a></b></li>
+                <li><a href="/gearscout">GearScout</a></li>
+                <li><a href="/geardata">GearData</a></li>
+                <li><a href="https://github.com/Enan456/webserver">Github</a></li>
+                <li><a href="http://oswegofirst.org">Team Website</a></li>
+                <li><a href="/graph">Graph</a></li>
+                <li><a href="/gbp">Good Bot Points</a></li>
+                <li><a href="https://docs.google.com/forms/d/e/1FAIpQLScjU4cU_DMEYTVckf24ngp1Zs-B5Zo6tQvfsxH7lijaLMVP6A/viewform?usp=sf_link">Bug
+                        Report</a></li>
+            </ul>
+        </div>
+    </center>
+    <center>
+        <!-- Use these form inputs to grab data -->
+        <div class="margin-main">
+
+            <div class="input-field col-md-6 col-sm-12">
+                <input id="yourteam" type="text" class="validate">
+                <label for="yourteam">Team You Are In</label>
+            </div>
+            <div class="input-field col-md-12 col-sm-12">
+                <input id="regional" type="text" class="validate">
+                <label for="regional">Regional Code</label>
+            </div>
+            <button class="btn waves-effect waves-light" type="submit" onclick=load_data()>Get Data
+                <i class="material-icons right">send</i>
+            </button>
+
+            <br><br><br>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Team Number</th>
+                        <th>Average Cargo</th>
+                        <th>Average Hatches</th>
+                        <th>Average Score</th>
+                        <th>Highest Cargo</th>
+                        <th>Highest Hatches</th>
+                        <th>Highest Score</th>
+                    </tr>
+                </thead>
+                <tbody id="dataTable">
+                    
+                </tbody>
+            </table>
+
+            <br><br><br>
+
+            <script>
+                var teamNum;
+
+                var avgCargo;
+                var avgHatch;
+                var avgScore;
+
+                var highCargo;
+                var highHatch;
+                var highScore;
+
+                var matchNum;
+                var totalMatch;
+
+                var allMatches;
+
+                var startPlat;
+                var matchCargo;
+                var matchHatch;
+                var endPlat;
+                var score;
+
+                class Match {
+                    constructor(num, start, cargo, hatch, end, score) {
+                        this.num = num;
+                        this.start = start;
+                        this.cargo = cargo;
+                        this.hatch = hatch;
+                        this.end = end;
+                        this.score = score;
+                    }
+
+                    getHTML() {
+                        return '<td>' + this.num + '</td>' +
+                            '<td>' + this.start + '</td>' +
+                            '<td>' + this.cargo + '</td>' +
+                            '<td>' + this.hatch + '</td>' +
+                            '<td>' + this.end + '</td>' +
+                            '<td>' + this.score + '</td>';
+                    };
+                }
+
+                function load_data() {
+                    const yourTeam = document.getElementById("yourteam").value;
+                    const regional = document.getElementById("regional").value;
+
+                    var userDataRef = firebase.database().ref("/" + yourTeam + "/" + regional).orderByKey();
+                    userDataRef.once("value").then(function (teams) {
+                        var countingStuff = 0;
+                        teams.forEach(function (team) {
+                            countingStuff ++;
+                            teamNum = team.key;
+                            totalMatch = 0;
+                            allMatches = [];
+                            avgCargo = 0;
+                            avgHatch = 0;
+                            avgScore = 0;
+                            highCargo = 0;
+                            highHatch = 0;
+                            highScore = 0;
+                            team.forEach(function (match) {
+                                totalMatch ++;
+                                matchNum = match.key;
+                                score = 0;
+                                if (matchNum.substring(0, 2) == "-L") {
+                                    matchNum = "Unknown";
+                                }
+                                if (matchNum != "Unknown") {
+                                    match.forEach(function (tag) {
+                                        score = 0;
+                                        startPlat = "N/A";
+                                        endPlat = "N/A";
+                                        if (tag.val().Slvl1Platform == "true") {
+                                            startPlat = "Level 1";
+                                            score += 3;
+                                        } else if (tag.val().Slvl2PlatformL == "true" || tag.val().Slvl2PlatformR == "true") {
+                                            startPlat = "Level 2";
+                                            score += 6;
+                                        } else if (tag.val().Slvl3Platform == "true") {
+                                            startPlat = "Level 3";
+                                            score += 12;
+                                        }
+                                        if (tag.val().lvl1Platform == "true") {
+                                            endPlat = "Level 1";
+                                            score += 3;
+                                        } else if (tag.val().lvl2PlatformL == "true" || tag.val().lvl2PlatformR == "true") {
+                                            endPlat = "Level 2";
+                                            score += 6;
+                                        } else if (tag.val().lvl3Platform == "true") {
+                                            endPlat = "Level 3";
+                                            score += 12;
+                                        }
+                                        matchCargo = 0;
+                                        matchHatch = 0;
+                                        if (tag.val().order != undefined) {
+                                            tag.val().order.forEach(function (elem) {
+                                                if (elem.indexOf("Cargo") !== -1) {
+                                                    matchCargo ++;
+                                                    score += 3;
+                                                }
+                                                if (elem.indexOf("Hatch") !== -1) {
+                                                    matchHatch ++;
+                                                    score += 2;
+                                                }
+                                            });
+                                        }
+                                    });
+                                } else {
+                                    score = 0;
+                                    startPlat = "N/A";
+                                    endPlat = "N/A";
+                                    if (match.val().Slvl1Platform == "true") {
+                                        startPlat = "Level 1";
+                                        score += 3;
+                                    } else if (match.val().Slvl2PlatformL == "true" || match.val().Slvl2PlatformR == "true") {
+                                        startPlat = "Level 2";
+                                        score += 6;
+                                    } else if (match.val().Slvl3Platform == "true") {
+                                        startPlat = "Level 3";
+                                        score += 12;
+                                    }
+                                    if (match.val().lvl1Platform == "true") {
+                                        endPlat = "Level 1";
+                                        score += 3;
+                                    } else if (match.val().lvl2PlatformL == "true" || match.val().lvl2PlatformR == "true") {
+                                        endPlat = "Level 2";
+                                        score += 6;
+                                    } else if (match.val().lvl3Platform == "true") {
+                                        endPlat = "Level 3";
+                                        score += 12;
+                                    }
+                                    matchCargo = 0;
+                                    matchHatch = 0;
+                                    if (match.val().order != undefined) {
+                                        match.val().order.forEach(function (elem) {
+                                            if (elem.indexOf("Cargo") !== -1) {
+                                                matchCargo ++;
+                                                score += 3;
+                                            }
+                                            if (elem.indexOf("Hatch") !== -1) {
+                                                matchHatch ++;
+                                                score += 2;
+                                            }
+                                        });
+                                    }
+                                }
+                                avgCargo += matchCargo;
+                                avgHatch += matchHatch;
+                                avgScore += score;
+                                if (matchCargo > highCargo) {
+                                    highCargo = matchCargo;
+                                }
+                                if (matchHatch > highHatch) {
+                                    highHatch = matchHatch;
+                                }
+                                if (score > highScore) {
+                                    highScore = score;
+                                }
+                                allMatches.push(new Match(matchNum, startPlat, matchCargo, matchHatch, endPlat, score));
+                            });
+                            avgCargo /= totalMatch;
+                            avgHatch /= totalMatch;
+                            avgScore /= totalMatch;
+                            document.getElementById("dataTable").innerHTML += '<tr><td>' +
+                                teamNum + '</td><td>' + (Math.round(avgCargo * 100) / 100) + '</td><td>' + (Math.round(avgHatch * 100) / 100) + '</td><td>' + (Math.round(avgScore * 100) / 100) + '</td><td>' + highCargo +
+                                '</td><td>' + highHatch + '</td><td>' + highScore + '</td></tr>';
+                        });
+                        var acc = document.getElementsByClassName("accordion");
+                        var i;
+
+                        for (i = 0; i < acc.length; i++) {
+                          acc[i].addEventListener("click", function() {
+                            var panel = this.nextElementSibling;
+                            if (panel.style.display === "block") {
+                              panel.style.display = "none";
+                              this.innerText = "Show Matches";
+                            } else {
+                              panel.style.display = "block";
+                              this.innerText = "Hide Matches";
+                            }
+                          });
+                        }
+                    });
+                };
+            </script>
+        </div>
+    </center>
+</body>
+
+</html>

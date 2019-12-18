@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="assets/css/materialize.css" media="screen,projection" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#02243E" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <meta name="Description" content="GearScout - The Scouting App For Any Team">
+    <style src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"></style>
+    <style src="assets/css/style.css"></style>
+    <style src="assets/css/sg.css"></style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112760702-1"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.11.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAaq1mLPP1BkwuH9Vg14YjCav3Twh51514",
+    authDomain: "gearcout.firebaseapp.com",
+    databaseURL: "https://gearcout.firebaseio.com",
+    projectId: "gearcout",
+    storageBucket: "gearcout.appspot.com",
+    messagingSenderId: "47459835429"
+  };
+  firebase.initializeApp(config);
+        var database = firebase.database();
+
+            window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-112760702-1');
+    </script>
+    <script src="service_worker.js"></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/icons/favicon-16x16.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <style>
+            ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #8a9385;
+            border-radius: 40px;
+            border-color: white;
+            width: 90%;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 16px 16px;
+            text-decoration: none;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        li a:hover:not(.active) {
+            background-color: #717a6c;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .active1 {
+            background-color: #FE5000;
+        }
+    </style>
+
+</head>
+
+
+<body style="background-color: #02243E !important;">
+
+  <br>
+<center>
+  <div class="meh">
+  <ul>
+      <li><b><a class="active1">GBP</a></b></li>
+      <li><a href="/gearscout">GearScout</a></li>
+      <li><a href="/geardata">GearData</a></li>
+      <li><a href="https://github.com/Enan456/webserver">Github</a></li>
+      <li><a href="http://oswegofirst.org">Team Website</a></li>
+      <li><a href="/graph">Graph</a></li>
+      <li><a href="/averagedata">Average Data</a></li>
+      <li><a href="https://docs.google.com/forms/d/e/1FAIpQLScjU4cU_DMEYTVckf24ngp1Zs-B5Zo6tQvfsxH7lijaLMVP6A/viewform?usp=sf_link">Bug Report</a></li>
+    </ul>
+  </div>
+</center>
+    <!--   <audio id="my_audio" src="videoplayback.mp3" loop="loop"></audio>
+    in case of error blame Adriana Watson
+ -->
+    <center>
+      <title>Good Bot Points</title>
+        <form>
+            <center>
+                <div class="margin-main">
+
+
+                    <div class="input-field col-md-6 col-sm-12">
+                        <input id="yourteam" type="text" class="validate">
+                        <label for="yourteam">Team You Are In</label>
+                    </div>
+
+                    <div class="input-field col-md-12 col-sm-12">
+                        <input id="regional" type="text" class="validate">
+                        <label for="regional">Regional Code</label>
+                    </div>
+
+                    <div class="input-field col-md-6 col-sm-12">
+                        <input id="scoutteam" type="text" class="validate">
+                        <label for="scoutteam">Team You want data for</label>
+                    </div>
+
+                    <button type="button" onclick="findGBP()" class="btn waves-effect waves-light">Calculate</button>
+
+                    <h1>GBP: <ins id="GBPoutput" style="text-decoration:none">Insufficient Data</ins></h1>
+
+                </div>
+
+        </form>
+
+        <!-- GBP script -->
+        <script>
+            var averages = [];
+            for (var i = 0; i < 6; i ++) {
+                averages.push(0);
+            }
+
+            var numMatches = 0;
+
+            function Bool(initialValue) {
+                var bool = !!initialValue;
+                var listeners = [];
+                var returnVal = function(value) {
+                    if (arguments.length) {
+                        var oldValue = bool;
+                        bool = !!value;
+                        listeners.forEach(function (listener, i, list) {
+                            listener.call(returnVal, { oldValue: oldValue, newValue: bool });
+                        });
+                    }
+                    return bool
+                };
+                returnVal.addListener = function(fn) {
+                    if (typeof fn == "function") {
+                        listeners.push(fn);
+                    }
+                    else {
+                        throw "Not a function!";
+                    }
+                };
+                return returnVal;
+            }
+
+            var clicked = Bool(false);
+            clicked.addListener(function (e) {
+                if (e.oldValue != e.newValue) {
+                    for (var i = 0; i < averages.length; i ++) {
+                        averages[i] = Math.round(averages[i] / numMatches);
+                    }
+
+                    console.log("numMatches: " + numMatches);
+
+                    console.log("averages: " + averages);
+
+                    var ptsPerStartingPos = 3;
+                    var ptsPerHatchRocket = 2;
+                    var ptsPerCargoRocket = 3;
+                    var ptsPerHatchCS = 2;
+                    var ptsPerCargoCS = 3;
+                    var ptsPerClimb = [0, 3, 3, 4];
+
+                    var maxStartingPos = 2;
+                    var maxHatchRocket = 12;
+                    var maxCargoRocket = 12;
+                    var maxHatchCS = 8;
+                    var maxCargoCS = 8;
+                    var maxClimb = 3;
+
+                    var rankStartingPos = 1;
+                    var rankHatchRocket = 1;
+                    var rankCargoRocket = 1;
+                    var rankHatchCS = 1;
+                    var rankCargoCS = 1;
+                    var rankClimb = 1;
+
+                    var numerator = ((averages[0] * ptsPerStartingPos) / (maxStartingPos * rankStartingPos)) + ((averages[1] * ptsPerHatchRocket) / (maxHatchRocket * rankHatchRocket)) + ((averages[2] *  ptsPerCargoRocket) / (maxCargoRocket * rankCargoRocket)) + ((averages[3] * ptsPerHatchCS) / (maxHatchCS * rankCargoCS)) + ((averages[4] * ptsPerCargoCS) / (maxCargoCS * rankCargoCS)) + ((averages[5] * ptsPerClimb[averages[5]]) / (maxClimb * rankClimb));
+                    var denominator = (ptsPerStartingPos / rankStartingPos) + (ptsPerHatchRocket / rankHatchRocket) + (ptsPerCargoRocket / rankCargoRocket) + (ptsPerHatchCS / rankHatchCS) + (ptsPerCargoCS / rankCargoCS) + (ptsPerClimb[maxClimb] / rankClimb);
+                    console.log(numerator);
+                    console.log(denominator);
+                    var GBP = Math.round((numerator / denominator) * 10000) / 100;
+
+                    document.getElementById("GBPoutput").innerHTML = GBP + "%";
+                }
+            });
+
+            function findGBP() {
+                averages = [];
+                for (var i = 0; i < 6; i ++) {
+                    averages.push(0);
+                }
+
+                numMatches = 0;
+
+                const yourTeam = document.getElementById("yourteam").value;
+                const regional = document.getElementById("regional").value;
+                const scoutteam = document.getElementById("scoutteam").value;
+
+                var userDataRef = firebase.database().ref("/" + yourTeam + "/" + regional + "/" + scoutteam).orderByKey();
+                userDataRef.once("value").then(function (matches) {
+                    matches.forEach(function (match) {
+                        match.forEach(function (tag) {
+                            numMatches ++;
+                            tag.forEach(function (dataPoint) {
+                                if (dataPoint.key.substring(0, 1) == "S") {
+                                    if (dataPoint.key.substring(5, 13) == "Platform") {
+                                        if (dataPoint.val() == "true") {
+                                            averages[0] += parseInt(dataPoint.key.substring(4, 5));
+                                        }
+                                    } else if (dataPoint.key.substring(dataPoint.key.length - 5) == "Cargo") {
+                                        if (dataPoint.key.substring(2, 3) == "R") {
+                                            averages[2] += parseInt(dataPoint.val());
+                                        } else {
+                                            if (dataPoint.val() == "true") {
+                                                averages[4] ++;
+                                            }
+                                        }
+                                    } else if (dataPoint.key.substring(dataPoint.key.length - 5) == "Hatch") {
+                                        if (dataPoint.key.substring(2, 3) == "R") {
+                                            if (dataPoint.val() == "true") {
+                                                averages[1] ++;
+                                            }
+                                        } else {
+                                            if (dataPoint.val() == "true") {
+                                                averages[3] ++;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    if (dataPoint.key.substring(4, 12) == "Platform") {
+                                        if (dataPoint.val() == "true") {
+                                            averages[5] += parseInt(dataPoint.key.substring(3, 4));
+                                        }
+                                    } else if (dataPoint.key.substring(dataPoint.key.length - 5) == "Cargo") {
+                                        if (dataPoint.key.substring(1, 2) == "R") {
+                                            averages[2] += parseInt(dataPoint.val());
+                                        } else {
+                                            if (dataPoint.val() == "true") {
+                                                averages[4] ++;
+                                            }
+                                        }
+                                    } else if (dataPoint.key.substring(dataPoint.key.length - 5) == "Hatch") {
+                                        if (dataPoint.key.substring(1, 2) == "R") {
+                                            if (dataPoint.val() == "true") {
+                                                averages[1] ++;
+                                            }
+                                        } else {
+                                            if (dataPoint.val() == "true") {
+                                                averages[3] ++;
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        });
+                    });
+                    clicked(!clicked());
+                });
+            };
+        </script>
+
+
+        <script>
+            document.body.className += ' fade-out';
+        </script>
+        <script>
+            $(function () {
+                $('body').removeClass('fade-out');
+            });
+        </script>
+        <script type="text/javascript" src="assets/js/materialize.js"></script>
+        <script>
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('service_worker.js');
+            }
+        </script>
+        <script>
+            var elem = document.querySelector('.collapsible.expandable');
+            var instance = M.Collapsible.init(elem, {
+                accordion: false
+            });
+        </script>
+        <!-- <script>
+          window.onload = function() {
+          document.getElementById("my_audio").play();
+          }
+        </script> -->
+    </center>
+</body>
+</html>
