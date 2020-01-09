@@ -168,13 +168,42 @@ mailtoui {
     height: fit-content;
     color: white;
     padding-top: -10%;
-    margin-top: 17%;
+    margin-top: 10%;
     margin-right: 3%;
     margin-left: 3%;
-    min-height: 10%;
+    min-height: 15%;
 
 	}
 
+	.card-tweet{
+		height: fit-content;
+		color: white;
+		padding-top: -10%;
+		margin-top: 10%;
+		margin-right: 3%;
+		margin-left: 3%;
+		min-height: 15%;	
+	}
+
+	.TweetAuthor-name {
+		color:#2a83e7;
+	}
+	.EmbeddedTweet {
+		background-color:#f3f9f8 !important;
+		border-color:#e3f5f9 !important;
+		height:auto !important;
+	}
+	.Tweet-header {
+		color: white;
+	}
+	.EmbeddedTweet:hover .TweetAuthor-name {
+		color:#2054d4;
+	}
+	.Tweet-text {
+		padding:10px;
+		border-radius:5px;
+		border:1px solid #ddd;
+	} 
 	.ctitle {
 		color: #ffffff;
 		width: 100%;
