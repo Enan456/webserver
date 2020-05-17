@@ -3034,7 +3034,7 @@ input, select, textarea {
 			}
 
 		.spotlights > section > .content {
-			padding: 4em 5em 2em 5em ;
+			padding: 1em 0em 2em 2em ;
 			display: -moz-flex;
 			display: -webkit-flex;
 			display: -ms-flex;
@@ -3047,7 +3047,7 @@ input, select, textarea {
 			-webkit-justify-content: center;
 			-ms-justify-content: center;
 			justify-content: center;
-			width: 50em;
+			/* width: 50em; */
 			-ms-flex: 1;
 		}
 
@@ -3070,7 +3070,23 @@ input, select, textarea {
 		.spotlights > section:nth-child(3) {
 			background-color: rgba(0, 0, 0, 0.1);
 		}
+		.spotlights > section:nth-child(4) {
+			background-color: rgba(0, 0, 0, 0.15);
+		}
 
+		.spotlights > section:nth-child(5) {
+			background-color: rgba(0, 0, 0, 0.2);
+		}
+		.spotlights > section:nth-child(6) {
+			background-color: rgba(0, 0, 0, 0.25);
+		}
+
+		.spotlights > section:nth-child(7) {
+			background-color: rgba(0, 0, 0, 0.3);
+		}
+		.spotlights > section:nth-child(8) {
+			background-color: rgba(0, 0, 0, 0.35);
+		}
 		.spotlights > section.inactive > .image:before,
 		body.is-preload .spotlights > section > .image:before {
 			opacity: 1;
