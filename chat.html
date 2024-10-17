@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Interface</title>
+  <style>
+    /* Dark theme styling */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #1e1e1e;
+      color: #c7c7c7;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    #chat-container {
+      background-color: #333;
+      border-radius: 10px;
+      width: 80%;
+      min-height: 100%;
+      max-width: 80%;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      vertical-align: bottom;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    #message-container {
+      background-color: #1e1e1e;
+      border-radius: 10px;
+      padding: 10px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      min-height: 80%;
+    }
+
+    .message {
+      background-color: #444;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+    }
+
+    .message.user {
+      background-color: #007acc;
+      color: white;
+      text-align: right;
+    }
+
+    .message.ai {
+      background-color: #555;
+      text-align: left;
+    }
+
+    #input-container {
+      display: flex;
+      vertical-align: bottom;
+    }
+
+    #input-message {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+      background-color: #2e2e2e;
+      color: white;
+    }
+
+    #send-button {
+      background-color: #007acc;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    #send-button:hover {
+      background-color: #005f99;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="chat-container">
+    <h1>Chat Interface</h1>
+    <div id="message-container"></div>
+    <div id="input-container">
+      <input type="text" id="input-message" placeholder="Type your message..." />
+      <button id="send-button">Send</button>
+    </div>
+  </div>
+
+  <script>
+    // Elements
+    const messageContainer = document.getElementById('message-container');
+    const inputMessage = document.getElementById('input-message');
+    const sendButton = document.getElementById('send-button');
+
+    // Send message function
+    function sendMessage() {
+      const userMessage = inputMessage.value.trim();
+
+      if (!userMessage) return; // Prevent empty message sending
+
+      // Add user message to the chat container
+      addMessageToContainer(userMessage, 'user');
+
+      // Clear input field
+      inputMessage.value = '';
+
+      // Send POST request to backend
+      fetch('http://localhost:5085/echo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: userMessage }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Add AI response to the chat container
+        addMessageToContainer(data.echo, 'ai');
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+
+    // Function to add a message to the chat container
+    function addMessageToContainer(message, sender) {
+      const messageDiv = document.createElement('div');
+      messageDiv.classList.add('message', sender);
+      messageDiv.textContent = message;
+      messageContainer.appendChild(messageDiv);
+
+      // Scroll to the latest message
+      messageContainer.scrollTop = messageContainer.scrollHeight;
+    }
+
+    // Event listener for send button
+    sendButton.addEventListener('click', sendMessage);
+
+    // Send message on Enter key press
+    inputMessage.addEventListener('keypress', function(event) {
+      if (event.key === 'Enter') {
+        sendMessage();
+      }
+    });
+  </script>
+
+</body>
+</html>
