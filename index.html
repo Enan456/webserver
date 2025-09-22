@@ -1,315 +1,789 @@
-<!DOCTYPE HTML>
-<!--
-	Hyperspace by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<title>Enan Srivastava</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<meta name="description"
-		content="Economics @ The Ohio State '22 | Big Data Analytics Association President | OSU Poly Sci Data Analyst">
-	<meta name="author" content="Enan Srivastava">
-	<link rel="stylesheet" href="assets/css/main.css" />
-	<noscript>
-		<link rel="stylesheet" href="assets/css/noscript.css" />
-	</noscript>
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-116490484-1"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enan - Digital Architect</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
 
-		function gtag() {
-			dataLayer.push(arguments);
-		}
-		gtag('js', new Date());
-		gtag('config', 'UA-116490484-1');
-	</script>
-	<!--[if lte IE 8]><script src="assets/js/html5shiv.js"></script><![endif]-->
-	<link rel="stylesheet" href="assets/css/main.css">
-	<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
-	<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
-	<link href="css/smoothness/jquery-ui-1.9.0.custom.css" rel="stylesheet">
-	<script language="javascript" type="text/javascript" src="jquery-1.8.2.js"></script>
-	<script src="js/jquery-ui-1.9.0.custom.js"></script>
-	<noscript>
-		<link rel="stylesheet" href="assets/css/noscript.css" />
-	</noscript>
-	<script src="https://cdn.jsdelivr.net/npm/mailtoui@1.0.2/dist/mailtoui-min.js"></script>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            background: #0f0f1a;
+            overflow: hidden;
+            font-family: 'Orbitron', monospace;
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #sandCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            transition: opacity 0.5s ease;
+        }
+
+
+        #orbCanvas {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 500px;
+            height: 500px;
+            z-index: 3;
+            cursor: crosshair;
+        }
+
+        .content {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            z-index: 2;
+            color: #ffffff;
+            text-align: center;
+            pointer-events: none;
+            opacity: 0;
+            transform: translate(-50%, -20px);
+            transition: opacity 1.5s ease, transform 1.5s ease;
+        }
+        
+        .content.visible {
+            opacity: 1;
+            transform: translateX(-50%);
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            text-shadow: none;
+            letter-spacing: 0.2em;
+            margin-bottom: 20px;
+            animation: letterSpacing 4s ease-in-out infinite;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: #ffffff;
+            text-shadow:
+                0 0 5px #ffffff,
+                0 0 10px #ffffff;
+            letter-spacing: 0.1em;
+            height: 1.5em;
+            position: relative;
+        }
+        
+        @keyframes letterSpacing {
+            0%, 100% { letter-spacing: 0.2em; }
+            50% { letter-spacing: 0.25em; }
+        }
+
+        .nav-links {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 30px;
+            z-index: 5;
+            pointer-events: all;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+
+        .nav-links.visible {
+            opacity: 1;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ffffff, #cccccc);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+            text-shadow: 0 0 10px #ffffff;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Scanline effect */
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(180deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+            animation: scanline 8s linear infinite;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .info-panel {
+            position: absolute;
+            bottom: 200px;
+            color: #fff;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            z-index: 5;
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            padding: 0 50px;
+        }
+
+        .info-panel.visible {
+            opacity: 1;
+        }
+
+        .left-panel, .right-panel, .center-panel {
+            width: 45%;
+        }
+        
+        .center-panel {
+            text-align: center;
+            width: 100%;
+        }
+
+        .right-panel {
+            text-align: right;
+        }
+        
+        .info-panel p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+        }
+
+        /* Styles for right-aligned info panels */
+        .info-panel.align-right {
+            justify-content: flex-end;
+        }
+
+        .info-panel.align-right .left-panel,
+        .info-panel.align-right .right-panel {
+            width: auto; /* Override the 45% width to fit content */
+        }
+
+        .info-panel.align-right .left-panel {
+            margin-right: 2em; /* Add space for the contact panel */
+        }
+    </style>
 </head>
+<body>
+    <canvas id="sandCanvas"></canvas>
+    <canvas id="orbCanvas"></canvas>
+    <div class="scanline"></div>
 
-<body class="is-preload">
+    <div class="content">
+        <h1>ENAN</h1>
+        <p class="tagline">
+            DATA SCIENTIST, OPERATOR
+        </p>
+    </div>
 
-	<!-- Sidebar -->
-	<section id="sidebar">
-		<div class="inner">
-			<nav>
-				<ul>
-					<li><a href="#intro">Welcome</a></li>
-					<li><a href="#one">Work experience</a></li>
-					<li><a href="#two">Reviews</a></li>
-					<li><a href="#three">Get in touch</a></li>
-				</ul>
-			</nav>
-		</div>
-	</section>
+    <div id="infoPanels">
+         <div id="aboutInfo" class="info-panel">
+            <div class="center-panel">
+                <p>If you want to build cool stuff, hit me up.</p>
+            </div>
+        </div>
+        <div id="workInfo" class="info-panel">
+            <div class="left-panel">
+                <p>Forward Deployed Engineer at Crowe</p>
+								                <p> </p>
+                <p style="margin-top: 2em;">Chief Operating Officer at A Cubed Designs</p>
+            </div>
+            <div class="right-panel">
+                <p>Server and DB Admin Owner for AIM Lab</p>
+				                <p> </p>
+                 <p>Data Science Mentor with The Erdos Institute</p>
+            </div>
+        </div>
+        <div id="skillsInfo" class="info-panel">
+            <div class="left-panel">
+                <p>Design Thinking</p>
+                <p>Business Management</p>
+                <p>Scientific/ Academic Inquiry</p>
+                <p>Nonprofit Consulting</p>
+            </div>
+             <div class="right-panel">
+                <p>Python, C#, , R, Java, JavaScript, SQL</p>
+                <p>Unix, Docker, Azure, AWS, GCP</p>
+            </div>
+        </div>
+        <div id="contactInfo" class="info-panel">
+            <div class="left-panel">
+                <p>630-608-3688</p>
+            </div>
+            <div class="right-panel">
+                <p>contact@enan.dev</p>
+            </div>
+        </div>
+         <div id="githubInfo" class="info-panel align-right">
+            <div class="right-panel">
+                <p>https://github.com/Enan456</p>
+            </div>
+        </div>
+         <div id="linkedinInfo" class="info-panel align-right">
+            <div class="right-panel">
+                <p>https://www.linkedin.com/in/enan-srivastava/</p>
+            </div>
+        </div>
+    </div>
 
-	<!-- Wrapper -->
-	<div id="wrapper">
+    <div class="nav-links" id="navLinks">
+        <a href="#about" data-section="1">ABOUT</a>
+        <a href="#work" data-section="2">WORK</a>
+        <a href="#skills" data-section="3">SKILLS</a>
+        <a href="mailto:contact@enan.dev" target="_blank" data-section="5">CONTACT</a>
+        <a href="https://github.com/Enan456" target="_blank" data-section="6">GITHUB</a>
+        <a href="https://www.linkedin.com/in/enan-srivastava/" target="_blank" data-section="7">LINKEDIN</a>
+    </div>
 
-		<!-- Intro -->
-		<section id="intro" class="wrapper style1 fullscreen fade-up">
-			<div class="inner">
-				<h1>Enan Srivastava&nbsp;</h1>
-				<p> Data Scientist </p>
-				<ul class="actions">
-					<li><a href="https://enan.rocks/Resume_2023.pdf" class="button scrolly" target="_">Resume</a></li>
-					<li><a href="https://www.linkedin.com/in/enan-srivastava/" class="button scrolly"
-							target="_">Linkedin</a></li>
-					<li><a href="https://github.com/enan456" class="button scrolly" target="_">GitHub</a></li>
-					<li><a href="https://medium.com/@enan332" class="button scrolly" target="_">Medium</a></li>
+    <script>
+        // Synthwave color palette
+        const palette = [
+            '#ff007f', // 0: Hot pink - ABOUT
+            '#ff00ff', // 1: Magenta - WORK
+            '#00ff00', // 2: Neon green - SKILLS
+            '#00ffff', // 3: Cyan - (Unused Link)
+            '#ffff00', // 4: Yellow - CONTACT
+            '#ff8800', // 5: Orange - GITHUB
+            '#00a2ff'  // 6: Blue - LINKEDIN
+        ];
 
-				</ul>
-			</div>
-		</section>
+        const sandCanvas = document.getElementById('sandCanvas');
+        const sandCtx = sandCanvas.getContext('2d');
+        sandCanvas.width = window.innerWidth;
+        sandCanvas.height = window.innerHeight;
 
-		<!-- One -->
-		<section id="one" class="wrapper style2 spotlights">
-			<section>
+        const orbCanvas = document.getElementById('orbCanvas');
+        const orbCtx = orbCanvas.getContext('2d');
+        orbCanvas.width = 500;
+        orbCanvas.height = 500;
+        
+        const particleLayers = [
+            { particles: [], count: 500, size: 1 },
+            { particles: [], count: 700, size: 1 },
+            { particles: [], count: 300, size: 1.5 }
+        ];
 
-				<div class="content">
-					<div class="inner">
-						<h2>Data Scientist</h2>
-						<h4>Aware</h4>
-						<h5>May 2022-Present (Interned January 2022-May 2022)</h5>
-						<ul>
-							<li>Added pre-processing features to improve model performance and migrated pipeline
-								infrastructure for 5 models to AWS Sagemaker.</li>
-							<li>
-								Refactored an RNN Language Model and added support for 4 languages alongside
-								transliterated text. Model training time was cut by 25%.</li>
-							<li>
-								Conducted end-to-end unit testing on model pipelines and Exploratory Data Analysis on
-								possible ethical or performance concerns.</li>
-							<li>
-								Member of Culture Committee and led biweekly Journal Club discussing the latest in
-								Machine Learning/Academia.</li>
-
-						</ul>
-
-					</div>
-				</div>
-			</section>
-
-			<section>
-				<div class="content">
-					<div class="inner">
-						<h2>Data Analyst </h2>
-						<h4>The Ohio State University Political Science Department</h4>
-						<h5>May 2020-Present</h5>
-						<ul>
-							<li>Negotiated partnership with LexisNexis to implement API Solutions and secured Google
-								Cloud Academic Research Credits for the projects.</li>
-							<li>
-								Supreme Court Amicus Curiae Networks: Presented “Time, Place and Scope: A Journey
-								through the U.S. Supreme Court and its Friends” as a poster
-								at the 2020 POLNET/PACSS Conference and as a conference paper at SPSA 2021; Scraped,
-								processed, organized into a MySQL database all Supreme
-								Court Journals; Created over 60 data visualizations in Tableau to investigate
-								correlations in Supreme Court Amicus Briefs</li>
-							<li>
-								Congressional One-minute Speeches: Developed a 12-month technical project plan to
-								capture relevant insights from one-minute speeches in
-								Congress (1996-2021); Utilized text analytics to track partisanship, nationalism, and
-								populism within Congress; Utilized NLTK, SpaCy for Entity Relation
-								Extraction, and CUDA + Docker for GPU acceleration. Worked with Seeded-LDA, Topic, and
-								TF-IDF Models.</li>
-							<li>
-								Presidential Pardons: Coordinated 5 person team to pull data from White House archives,
-								FEC, and news sources to identify influenced pardons
-							</li>
-						</ul>
-					</div>
-				</div>
-			</section>
-			<section>
-
-				<div class="content">
-					<div class="inner">
-						<h2>Business Technology Intern</h2>
-						<h4>Crowe, LLP NetSuite Cloud Consulting</h4>
-						<h5>June 2021 - August 2021</h5>
-						<ul>
-							<li> Led design and implementation of an Excel VBA enhancement for a client’s C-suite to
-								optimize production reporting for a 450-staffed center.</li>
-							<li>
-								Utilized Design Thinking to ideate an Access/Sharepoint/PowerBI solution to create KPIs
-								to manage capacity, support, and project management.</li>
-
-						</ul>
-
-					</div>
-				</div>
-			</section>
-			<section>
-
-				<div class="content">
-					<div class="inner">
-						<h2>Software Developer</h2>
-						<h4>Singularity University </h4>
-						<h5>May 2020-December 2020</h5>
-						<ul>
-							<li> Developed and maintained 2 internal data applications written in R Shiny; Implemented
-								Auth0 rules, SSL, and log tracking; Maintained AWS EC2 instances</li>
-							<li>
-								Wrote project proposals and working on an article concerning the dangers of AI Biases
-								and a need for regulation </li>
-							<li> Implementing front end features for a PHP Laravel application and R web app
-							</li>
-
-						</ul>
-
-					</div>
-				</div>
-			</section>
-			<section>
-				<div class="content">
-					<div class="inner">
-						<h2>COO/Founder</h2>
-						<h4>A Cubed Design</h4>
-						<h5>December 2021 - Present</h5>
-						<ul>
-							<li> Won The Ohio State President’s Buckeye Accelerator ($50k) and Venturewell Initial
-								Accelerator ($5k); Participating in Seachange and Venturewell
-								Programs for creating a Refreshable and Repairable Braille Display for those who are
-								blind. Created legal documents, financial statements, and
-								strategy memos alongside Project Management and Market validation infrastructure.
-							</li>
-
-						</ul>
-					</div>
-				</div>
-			</section>
-
-		</section>
-		<!-- Two -->
-		<section id="two" class="wrapper style3 fade-up">
-			<div class="inner">
-				<h2>Real Life Reviews</h2>
-				<div class="features">
-					<section>
-						<span class="icon solid major fas fa-quote-left"></span>
-						<h3>Josh M.</h3>
-						<p>"Half Stereotypical nerdy Indian technocrat, half preppy white girl"</p>
-					</section>
-					<section>
-						<span class="icon solid major fa-quote-left"></span>
-						<h3>My Ex-Girlfriend</h3>
-						<p>"Good for picking up employers, bad for picking up girls"(worked on her though so...)</p>
-					</section>
-					<section>
-						<span class="icon solid major fa-quote-left"></span>
-						<h3>My Mom</h3>
-						<p>"Needs sunglasses because his future is so bright, now go clean your room"</p>
-					</section>
-					<section>
-						<span class="icon solid major fa-quote-left"></span>
-						<h3>Jayson P.</h3>
-						<p>"Half 35 y/o Venture Capital fund manager, half 12 y/o memelord"</p>
-					</section>
+        const settledParticles = [];
+        const heightMap = new Array(sandCanvas.width).fill(sandCanvas.height);
+        const orbDustParticles = [];
+        const textDustParticles = [];
+        const navLinkDustParticles = [];
 
 
-				</div>
+        let mouseX = 0;
+        let mouseY = 0;
+        const SNOW_SPEED = 0.2;
 
-			</div>
-		</section>
 
-		<!-- Three -->
-		<section id="three" class="wrapper style2 fade-up">
-			<div class="inner">
-				<h2>News</h2>
-				<div class="features ">
-					<section>
-						<a href="https://news.osu.edu/six-presidents-buckeye-accelerator-teams-awarded-50000-for-entrepreneurial-ventures/"
-							target="_">
+        class SandParticle {
+            constructor(layer) {
+                this.layer = layer;
+                this.reset();
+            }
 
-							<h3>Ohio State News</h3>
-							<p>Six President’s Buckeye Accelerator teams awarded $50,000 for entrepreneurial ventures
-							</p>
-						</a>
-					</section>
-					<section>
-						<a href="https://twitter.com/Shugars/status/1293184743358394376?ref_src=twsrc%5Etfw" target="_">
-							<h3>PACCSS/POLNET 2020 Conference.</h3>
-							<p>Time, Place and Scope: A Journey through the U.S. Supreme Court and its Friends</p>
-						</a>
-					</section>
-					<section>
-						<a href="https://twitter.com/enan332/status/1191087621868523521?ref_src=twsrc%5Etfw" target="_">
-							<h3>Ohio State Engineering Twitter</h3>
-							<p>Hackathon Project</p>
-						</a>
-					</section>
-					<section>
-						<a href="https://twitter.com/AWS_edu/status/1184462270656647168?ref_src=twsrc%5Etfw" target="_">
-							<h3>AWS Educate Twitter</h3>
-							<p>Short interview whit me!</p>
-						</a>
-					</section>
-		</section>
-	
-	</section>
-	<!-- four -->
-	<section id="four" class="wrapper style1 fade-up">
-		<div class="inner">
-			<h2>Get in touch</h2>
-			<div class="split style1">
-				<section>
-					<ul class="contact">
-						<li>
-							<h3>Personal Email</h3>
-							<a href="mailto:enan332@gmail.com">enan332@gmail.com</a>
-						</li>
+            update() {
+                this.y += SNOW_SPEED * this.speedMultiplier; 
+                this.x += this.vx;
 
-					</ul>
-				</section>
-				<section>
-					<ul class="contact">
-						<li>
-							<h3>Phone</h3>
-							<a href="tel:6306083688">630-608-3688</a>
-						</li>
+                const dx = this.x - mouseX;
+                const dy = this.y - mouseY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 100) {
+                    const force = (100 - dist) / 100;
+                    this.x += (dx / dist) * force * 1.5;
+                    this.y += (dy / dist) * force * 0.5;
+                }
 
-					</ul>
-				</section>
-			</div>
-		</div>
-	</section>
-</div>
+                const xPos = Math.floor(this.x);
+                if (xPos >= 0 && xPos < sandCanvas.width && this.y >= heightMap[xPos] - this.layer.size) {
+                    this.settle(xPos);
+                    return;
+                }
 
-	<!-- Footer -->
-	<footer id="footer" class="wrapper style1-alt">
-		<div class="inner">
-			<ul class="menu">
-				<li>&copy; Enan Srivastava. All rights reserved.</li>
-				<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-			</ul>
-		</div>
-	</footer>
+                if (this.y > sandCanvas.height + 10) {
+                    this.reset();
+                }
+            }
 
-	<!-- Scripts -->
-	<script src="assets/js/jquery.min.js"></script>
-	<script src="assets/js/jquery.scrollex.min.js"></script>
-	<script src="assets/js/jquery.scrolly.min.js"></script>
-	<script src="assets/js/browser.min.js"></script>
-	<script src="assets/js/breakpoints.min.js"></script>
-	<script src="assets/js/util.js"></script>
-	<script src="assets/js/main.js"></script>
+            settle(xPos) {
+                 let finalX = xPos;
+                 let landingY = heightMap[xPos];
 
+                for (let i = 0; i < 5; i++) {
+                    let moved = false;
+                    const checkLeft = finalX > 0 && heightMap[finalX - 1] > landingY + 1;
+                    const checkRight = finalX < sandCanvas.width - 1 && heightMap[finalX + 1] > landingY + 1;
+
+                    if (checkLeft && (!checkRight || Math.random() < 0.5)) {
+                        finalX--;
+                        landingY = heightMap[finalX];
+                        moved = true;
+                    } else if (checkRight) {
+                        finalX++;
+                        landingY = heightMap[finalX];
+                        moved = true;
+                    }
+                    
+                    if (!moved) break;
+                }
+
+                heightMap[finalX] -= this.layer.size;
+
+                settledParticles.push({
+                    x: finalX,
+                    y: heightMap[finalX],
+                    color: this.color,
+                    size: this.layer.size
+                });
+
+                if (settledParticles.length > 30000) {
+                    settledParticles.splice(0, 100);
+                }
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * sandCanvas.width;
+                this.y = -Math.random() * 50 - 10;
+                this.vx = 0; 
+                this.vy = 0;
+                
+                if (Math.random() < 0.2) { // 20% chance for a grey particle
+                    const greyValue = Math.floor(80 + Math.random() * 80);
+                    const alpha = 0.4 + Math.random() * 0.3;
+                    this.color = `rgba(${greyValue}, ${greyValue}, ${greyValue}, ${alpha})`;
+                    this.brightness = 0.3 + Math.random() * 0.4; // Make them slightly dimmer/slower
+                } else {
+                    this.brightness = 0.4 + Math.random() * 0.6;
+                    const colorValue = Math.floor(150 + 105 * this.brightness);
+                    const alpha = this.brightness * 0.7;
+                    this.color = `rgba(${colorValue}, ${colorValue}, ${colorValue}, ${alpha})`;
+                }
+                
+                this.speedMultiplier = 0.5 + this.brightness;
+            }
+
+            draw() {
+                sandCtx.fillStyle = this.color;
+                sandCtx.fillRect(this.x, this.y, this.layer.size, this.layer.size);
+            }
+        }
+        
+        particleLayers.forEach(layer => {
+            for (let i = 0; i < layer.count; i++) {
+                layer.particles.push(new SandParticle(layer));
+            }
+        });
+
+        class GustParticle {
+             constructor(targetX, targetY, isTextParticle = false) {
+                this.isTextParticle = isTextParticle;
+                this.screenX = -200 + Math.random() * 150;
+                this.screenY = Math.random() * window.innerHeight;
+                this.targetX = targetX;
+                this.targetY = targetY;
+                this.gustPhase = true;
+                this.gustSpeed = 5 + Math.random() * 5;
+                this.z = (Math.random() - 0.5) * 40;
+                this.size = 1.5;
+                this.opacity = 0.7 + Math.random() * 0.3;
+                this.life = 1.0;
+                this.startTime = Date.now() + Math.random() * 200; 
+
+
+                if (!isTextParticle) {
+                    this.baseX = targetX;
+                    this.baseY = targetY;
+                    this.baseZ = this.z;
+                    this.angle = Math.random() * Math.PI * 2;
+                    this.speed = 0.005 + Math.random() * 0.01;
+                }
+            }
+
+            update() {
+                if(Date.now() < this.startTime) return;
+
+                if (this.gustPhase) {
+                    const dx = this.targetX - this.screenX;
+                    const dy = this.targetY - this.screenY;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance > this.gustSpeed) {
+                        this.screenX += (dx / distance) * this.gustSpeed;
+                        this.screenY += (dy / distance) * this.gustSpeed;
+                        this.screenX += Math.sin(Date.now() * 0.01 + this.screenY * 0.02) * 1.5;
+                        this.screenY += Math.cos(Date.now() * 0.01 + this.screenX * 0.02) * 1.5;
+                    } else {
+                        this.screenX = this.targetX;
+                        this.screenY = this.targetY;
+                        this.gustPhase = false;
+                         if (this.isTextParticle) {
+                            return;
+                        }
+                        const orbScreenX = window.innerWidth / 2;
+                        const orbScreenY = window.innerHeight - 100 - 250;
+                        this.x = this.targetX - orbScreenX + 250;
+                        this.y = this.targetY - orbScreenY;
+                        this.baseX = this.x;
+                        this.baseY = this.y;
+                    }
+                } else if (this.isTextParticle) {
+                    this.life -= 0.02;
+                    if (this.life < 0) this.life = 0;
+
+                } else { // Orb particle logic
+                    this.angle += this.speed;
+
+                    const spiralTime = orbTime * 0.2;
+                    const distanceFromCenter = Math.sqrt((this.baseX - 250) ** 2 + (this.baseY - 250) ** 2);
+                    const currentAngle = Math.atan2(this.baseY - 250, this.baseX - 250);
+
+                    const spiralSpeed = 0.5;
+                    const spiralTightness = 0.1;
+                    const spiralAngle = currentAngle + spiralTime * spiralSpeed;
+                    const spiralRadius = Math.min(220, distanceFromCenter * (1 + Math.sin(spiralTime + currentAngle * 3) * spiralTightness));
+
+                    this.x = 250 + Math.cos(spiralAngle) * spiralRadius + Math.cos(this.angle) * 2;
+                    this.y = 250 + Math.sin(spiralAngle) * spiralRadius + Math.sin(this.angle) * 2;
+                    this.z = this.baseZ + Math.sin(this.angle * 0.4 + spiralTime) * 1.5;
+                }
+            }
+
+            draw() {
+                const scale = 1 + this.z * 0.005;
+                let projectedSize = this.size * scale;
+                const depth = Math.max(0.3, 1 - Math.abs(this.z) * 0.01);
+
+                if (this.isTextParticle) {
+                    if (this.life <= 0) return;
+                    projectedSize = this.gustPhase ? projectedSize : projectedSize * this.life;
+                    const opacity = this.opacity * depth * this.life;
+                    sandCtx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+                    sandCtx.fillRect(this.screenX - projectedSize / 2, this.screenY - projectedSize / 2, projectedSize, projectedSize);
+                } else if (this.gustPhase) {
+                    sandCtx.fillStyle = `rgba(255, 255, 255, ${this.opacity * depth})`;
+                    sandCtx.fillRect(this.screenX - projectedSize / 2, this.screenY - projectedSize / 2, projectedSize, projectedSize);
+                } else { // Orb particle on orb canvas
+                    orbCtx.fillStyle = this.color || `rgba(255, 255, 255, ${this.opacity * depth})`;
+                    orbCtx.fillRect(this.x - projectedSize / 2, this.y - projectedSize / 2, projectedSize, projectedSize);
+                }
+            }
+        }
+
+        function createOrbDust() {
+            orbDustParticles.length = 0;
+            const centerX = 250;
+            const centerY = 250;
+            const orbScreenX = window.innerWidth / 2;
+            const orbScreenY = window.innerHeight - 100 - 250;
+            const orbParticles = 2500;
+
+            for (let i = 0; i < orbParticles; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const radius = Math.random() * 220;
+                const localX = centerX + Math.cos(angle) * radius;
+                const localY = centerY + Math.sin(angle) * radius;
+                const screenX = orbScreenX - 250 + localX;
+                const screenY = orbScreenY + localY;
+                
+                const particle = new GustParticle(screenX, screenY);
+                orbDustParticles.push(particle);
+            }
+        }
+
+        function createTextDust() {
+            textDustParticles.length = 0; 
+            const textParticleCount = 1200;
+            const textRectWidth = 400;
+            const textRectHeight = 100;
+            const rectX = (window.innerWidth / 2) - (textRectWidth / 2);
+            const rectY = 80;
+
+            for (let i = 0; i < textParticleCount; i++) {
+                const targetX = rectX + Math.random() * textRectWidth;
+                const targetY = rectY + Math.random() * textRectHeight;
+                const particle = new GustParticle(targetX, targetY, true);
+                textDustParticles.push(particle);
+            }
+        }
+        
+         function createNavLinkDust() {
+            navLinkDustParticles.length = 0;
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                const rect = link.getBoundingClientRect();
+                const sampling = 3; 
+                for (let y = rect.top; y < rect.bottom; y += sampling) {
+                    for (let x = rect.left; x < rect.right; x += sampling) {
+                        if (Math.random() > 0.5) { 
+                            const particle = new GustParticle(x, y, true);
+                            navLinkDustParticles.push(particle);
+                        }
+                    }
+                }
+            });
+        }
+
+        createOrbDust();
+
+        let orbTime = 0;
+        let hoveredSection = -1;
+        let introAnimationComplete = false;
+        
+        const aboutInfo = document.getElementById('aboutInfo');
+        const workInfo = document.getElementById('workInfo');
+        const skillsInfo = document.getElementById('skillsInfo');
+        const contactInfo = document.getElementById('contactInfo');
+        const githubInfo = document.getElementById('githubInfo');
+        const linkedinInfo = document.getElementById('linkedinInfo');
+        const allInfoPanels = [aboutInfo, workInfo, skillsInfo, ,contactInfo, githubInfo, linkedinInfo]; // Note the empty slot for section 3
+
+        function updateInfoPanels(sectionIndex) {
+            allInfoPanels.forEach(panel => {
+               if(panel) panel.classList.remove('visible');
+               if(panel) panel.style.color = '';
+            });
+
+            let panelToShow = null;
+            // The sections are 0-indexed here from the orb calculation
+            switch (sectionIndex) {
+                case 0: panelToShow = aboutInfo; break;
+                case 1: panelToShow = workInfo; break;
+                case 2: panelToShow = skillsInfo; break;
+                case 4: panelToShow = contactInfo; break;
+                case 5: panelToShow = githubInfo; break;
+                case 6: panelToShow = linkedinInfo; break;
+            }
+
+            if (panelToShow) {
+                panelToShow.classList.add('visible');
+                const activeColor = palette[sectionIndex];
+                panelToShow.style.color = activeColor;
+            }
+        }
+
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        orbCanvas.addEventListener('mousemove', (e) => {
+            const rect = orbCanvas.getBoundingClientRect();
+            const x = e.clientX - rect.left - 250;
+            const y = e.clientY - rect.top - 250;
+            const angle = Math.atan2(y, x);
+            const distance = Math.sqrt(x * x + y * y);
+            let currentSection = -1;
+
+            if (distance < 220) {
+                let normalizedAngle = angle + Math.PI / 2 + (Math.PI * 2 / 7) / 2;
+                if (normalizedAngle >= Math.PI * 2) normalizedAngle -= Math.PI * 2;
+                const sectionSize = (Math.PI * 2) / 7;
+                currentSection = Math.floor(normalizedAngle / sectionSize);
+            }
+            
+            if(hoveredSection !== currentSection) {
+                hoveredSection = currentSection;
+                updateInfoPanels(hoveredSection);
+                document.querySelectorAll('.nav-links a').forEach(link => {
+                    // data-section is 1-based, orb is 0-based with gaps
+                    const linkDataSection = parseInt(link.dataset.section, 10);
+                    const linkSectionMap = {1:0, 2:1, 3:2, 5:4, 6:5, 7:6};
+                    const linkSection = linkSectionMap[linkDataSection];
+
+                    if (linkSection === hoveredSection) {
+                        link.style.color = palette[hoveredSection];
+                        link.style.textShadow = `0 0 10px ${palette[hoveredSection]}`;
+                    } else {
+                        link.style.color = '#ffffff';
+                        link.style.textShadow = 'none';
+                    }
+                });
+            }
+        });
+
+        orbCanvas.addEventListener('mouseleave', () => {
+             if (hoveredSection !== -1) {
+                hoveredSection = -1;
+                updateInfoPanels(hoveredSection);
+                 document.querySelectorAll('.nav-links a').forEach(link => {
+                    link.style.color = '#ffffff';
+                    link.style.textShadow = 'none';
+                });
+            }
+        });
+        
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            const linkDataSection = parseInt(link.dataset.section, 10);
+            const linkSectionMap = {1:0, 2:1, 3:2, 5:4, 6:5, 7:6};
+            const section = linkSectionMap[linkDataSection];
+
+            link.addEventListener('mouseenter', () => {
+                hoveredSection = section;
+                updateInfoPanels(section);
+                 document.querySelectorAll('.nav-links a').forEach(innerLink => {
+                    const innerLinkDataSection = parseInt(innerLink.dataset.section, 10);
+                    const innerLinkSection = linkSectionMap[innerLinkDataSection];
+                     if (innerLinkSection === section) {
+                        innerLink.style.color = palette[section];
+                        innerLink.style.textShadow = `0 0 10px ${palette[section]}`;
+                     } else {
+                        innerLink.style.color = '#ffffff';
+                        innerLink.style.textShadow = 'none';
+                     }
+                 });
+            });
+            link.addEventListener('mouseleave', () => {
+                hoveredSection = -1;
+                updateInfoPanels(-1);
+                document.querySelectorAll('.nav-links a').forEach(l => {
+                    l.style.color = '#ffffff';
+                    l.style.textShadow = 'none';
+                });
+            });
+        });
+
+        function animate() {
+            sandCtx.clearRect(0, 0, sandCanvas.width, sandCanvas.height);
+            orbCtx.clearRect(0, 0, 500, 500);
+
+            orbTime += 0.01;
+
+            if (!introAnimationComplete && textDustParticles.length > 0 && navLinkDustParticles.length > 0) {
+                const flyingParticles = [...textDustParticles, ...navLinkDustParticles, ...orbDustParticles].filter(p => p.gustPhase);
+                
+                // Start fading in the text when most particles are close to their destination.
+                if (flyingParticles.length < 400) {
+                    document.querySelector('.content').classList.add('visible');
+                    document.querySelector('.nav-links').classList.add('visible');
+                    introAnimationComplete = true;
+                }
+            }
+
+            particleLayers.forEach(layer => {
+                layer.particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+            });
+
+            settledParticles.forEach(p => {
+                sandCtx.fillStyle = p.color;
+                sandCtx.fillRect(p.x, p.y, p.size, p.size);
+            });
+            
+            orbDustParticles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+             textDustParticles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+             navLinkDustParticles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            orbDustParticles.forEach(particle => {
+                if (!particle.gustPhase) {
+                    // Add a chance for particles to be grey
+                    if (Math.random() < 0.35) {
+                        const greyValue = 120 + Math.random() * 80;
+                        particle.color = `rgba(${greyValue}, ${greyValue}, ${greyValue}, 0.6)`;
+                        return; // Skip the color section logic for this particle
+                    }
+
+                    const distanceFromCenter = Math.sqrt((particle.x - 250)**2 + (particle.y - 250)**2);
+                    const pRelativeX = (particle.x - 250) / 220;
+                    const pRelativeY = (particle.y - 250) / 220;
+                    
+                    const angle = Math.atan2(pRelativeY, pRelativeX);
+                    let normalizedAngle = angle + Math.PI / 2 + (Math.PI * 2 / 7) / 2;
+
+                    // Add a sine wave distortion for a wavy effect
+                    const waveAmount = 0.2;
+                    const waveFrequency = 0.05;
+                    normalizedAngle += Math.sin(distanceFromCenter * waveFrequency + orbTime * 3) * waveAmount;
+                    
+                    if (normalizedAngle >= Math.PI * 2) normalizedAngle -= Math.PI * 2;
+                    if (normalizedAngle < 0) normalizedAngle += Math.PI * 2;
+                    
+                    const sectionSize = (Math.PI * 2) / 7;
+                    const sectionIndex = Math.floor(normalizedAngle / sectionSize);
+
+                    particle.color = palette[sectionIndex] + 'A0';
+                }
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            sandCanvas.width = window.innerWidth;
+            sandCanvas.height = window.innerHeight;
+            
+            heightMap.length = sandCanvas.width;
+            heightMap.fill(sandCanvas.height);
+            settledParticles.length = 0;
+            
+            createOrbDust();
+            createTextDust();
+            createNavLinkDust();
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createTextDust();
+            createNavLinkDust();
+        });
+
+    </script>
 </body>
-
 </html>
+
+
+
+
