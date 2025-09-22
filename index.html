@@ -35,7 +35,7 @@
 
         #orbCanvas {
             position: absolute;
-            bottom: 100px;
+            bottom: 50px; /* Shifted down */
             left: 50%;
             transform: translateX(-50%);
             width: 500px;
@@ -89,7 +89,7 @@
 
         .nav-links {
             position: absolute;
-            bottom: 50px;
+            bottom: 20px; /* Shifted down */
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -154,7 +154,7 @@
 
         .info-panel {
             position: absolute;
-            bottom: 200px;
+            bottom: 150px; /* Shifted down */
             color: #fff;
             opacity: 0;
             transition: opacity 0.5s ease;
@@ -189,18 +189,47 @@
             letter-spacing: 0.1em;
         }
 
-        /* Styles for right-aligned info panels */
-        .info-panel.align-right {
-            justify-content: flex-end;
-        }
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
 
-        .info-panel.align-right .left-panel,
-        .info-panel.align-right .right-panel {
-            width: auto; /* Override the 45% width to fit content */
-        }
+            .tagline {
+                font-size: 1rem;
+            }
 
-        .info-panel.align-right .left-panel {
-            margin-right: 2em; /* Add space for the contact panel */
+            #orbCanvas {
+                bottom: 200px; /* Shifted down */
+                transform: translateX(-50%) scale(0.7);
+            }
+
+            .nav-links {
+                bottom: 150px; /* Shifted down */
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+                width: 90%;
+            }
+
+            .nav-links a {
+                font-size: 0.8rem;
+            }
+
+            .info-panel {
+                bottom: 400px; /* Shifted down */
+                flex-direction: column;
+                align-items: center;
+                padding: 0 20px;
+            }
+
+            .info-panel .left-panel,
+            .info-panel .right-panel,
+            .info-panel .center-panel {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 1em;
+            }
         }
     </style>
 </head>
@@ -218,19 +247,20 @@
 
     <div id="infoPanels">
          <div id="aboutInfo" class="info-panel">
-            <div class="center-panel">
+            <div class="right-panel">
                 <p>If you want to build cool stuff, hit me up.</p>
             </div>
         </div>
         <div id="workInfo" class="info-panel">
             <div class="left-panel">
                 <p>Forward Deployed Engineer at Crowe</p>
-								                <p> </p>
+				                 <p style="margin-top: 2em;"> </p>
                 <p style="margin-top: 2em;">Chief Operating Officer at A Cubed Designs</p>
             </div>
             <div class="right-panel">
-                <p>Server and DB Admin Owner for AIM Lab</p>
-				                <p> </p>
+                <p>Server Admin/Owner American Institutional Methodology (AIM) Lab</p>
+                 <p style="margin-top: 2em;"> </p>
+				                 <p style="margin-top: 2em;"> </p>
                  <p>Data Science Mentor with The Erdos Institute</p>
             </div>
         </div>
@@ -238,12 +268,12 @@
             <div class="left-panel">
                 <p>Design Thinking</p>
                 <p>Business Management</p>
-                <p>Scientific/ Academic Inquiry</p>
+                <p>Insurance</p>
                 <p>Nonprofit Consulting</p>
             </div>
              <div class="right-panel">
-                <p>Python, C#, , R, Java, JavaScript, SQL</p>
-                <p>Unix, Docker, Azure, AWS, GCP</p>
+                <p>Python, AWS, GCP, R Shiny, Java</p>
+                <p>JavaScript, SQL, Git, Firebase, HTML5, Bash, CSS</p>
             </div>
         </div>
         <div id="contactInfo" class="info-panel">
@@ -254,12 +284,12 @@
                 <p>contact@enan.dev</p>
             </div>
         </div>
-         <div id="githubInfo" class="info-panel align-right">
+         <div id="githubInfo" class="info-panel">
             <div class="right-panel">
                 <p>https://github.com/Enan456</p>
             </div>
         </div>
-         <div id="linkedinInfo" class="info-panel align-right">
+         <div id="linkedinInfo" class="info-panel">
             <div class="right-panel">
                 <p>https://www.linkedin.com/in/enan-srivastava/</p>
             </div>
@@ -313,6 +343,7 @@
         let mouseX = 0;
         let mouseY = 0;
         const SNOW_SPEED = 0.2;
+        let orbRect; // To hold orb position dynamically
 
 
         class SandParticle {
@@ -460,10 +491,9 @@
                          if (this.isTextParticle) {
                             return;
                         }
-                        const orbScreenX = window.innerWidth / 2;
-                        const orbScreenY = window.innerHeight - 100 - 250;
-                        this.x = this.targetX - orbScreenX + 250;
-                        this.y = this.targetY - orbScreenY;
+                        // Convert screen coordinates to local orb canvas coordinates
+                        this.x = this.targetX - orbRect.left;
+                        this.y = this.targetY - orbRect.top;
                         this.baseX = this.x;
                         this.baseY = this.y;
                     }
@@ -514,8 +544,6 @@
             orbDustParticles.length = 0;
             const centerX = 250;
             const centerY = 250;
-            const orbScreenX = window.innerWidth / 2;
-            const orbScreenY = window.innerHeight - 100 - 250;
             const orbParticles = 2500;
 
             for (let i = 0; i < orbParticles; i++) {
@@ -523,8 +551,9 @@
                 const radius = Math.random() * 220;
                 const localX = centerX + Math.cos(angle) * radius;
                 const localY = centerY + Math.sin(angle) * radius;
-                const screenX = orbScreenX - 250 + localX;
-                const screenY = orbScreenY + localY;
+                // Calculate target screen position based on dynamic orb position
+                const screenX = orbRect.left + localX;
+                const screenY = orbRect.top + localY;
                 
                 const particle = new GustParticle(screenX, screenY);
                 orbDustParticles.push(particle);
@@ -563,8 +592,6 @@
                 }
             });
         }
-
-        createOrbDust();
 
         let orbTime = 0;
         let hoveredSection = -1;
@@ -760,7 +787,16 @@
             requestAnimationFrame(animate);
         }
 
-        animate();
+        function updateOrbPosition() {
+             orbRect = orbCanvas.getBoundingClientRect();
+        }
+
+        function reinitializeParticles() {
+            updateOrbPosition();
+            createOrbDust();
+            createTextDust();
+            createNavLinkDust();
+        }
 
         window.addEventListener('resize', () => {
             sandCanvas.width = window.innerWidth;
@@ -770,20 +806,16 @@
             heightMap.fill(sandCanvas.height);
             settledParticles.length = 0;
             
-            createOrbDust();
-            createTextDust();
-            createNavLinkDust();
+            reinitializeParticles();
         });
 
         document.addEventListener('DOMContentLoaded', () => {
-            createTextDust();
-            createNavLinkDust();
+            reinitializeParticles();
         });
+
+        animate();
 
     </script>
 </body>
 </html>
-
-
-
 
