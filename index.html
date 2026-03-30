@@ -222,7 +222,7 @@
         // ─── Constants ───────────────────────────────────────────────
         const palette = ['#ff007f','#ff00ff','#00ff00','#00ffff','#ffff00','#ff8800','#00a2ff'];
         const GLYPH_CHARS = ['.','·','+','·','.','·','.','·','.','.'];
-        const FONT = '6px JetBrains Mono';
+        const FONT = '5px JetBrains Mono';
         const isMobile = window.innerWidth <= 768;
 
         // ─── Canvas ──────────────────────────────────────────────────
@@ -246,8 +246,8 @@
         function buildGlyphGrid() {
             textGlyphs.length = 0;
             // Build a long string of random dot-glyphs
-            const cols = Math.floor(W / 6);
-            const rows = Math.floor(H / 8);
+            const cols = Math.floor(W / 4);
+            const rows = Math.floor(H / 5);
             const totalChars = cols * rows;
             let str = '';
             for (let i = 0; i < totalChars; i++) {
@@ -257,17 +257,17 @@
 
             // Use Pretext to measure line-by-line layout
             const prepared = prepareWithSegments(str, FONT, { whiteSpace: 'pre-wrap' });
-            const result = layoutWithLines(prepared, W, 8);
+            const result = layoutWithLines(prepared, W, 5);
 
             let charIndex = 0;
             for (let li = 0; li < result.lines.length; li++) {
                 const line = result.lines[li];
                 const lineText = line.text;
-                const baseY = li * 8 + 4;
+                const baseY = li * 5 + 2;
                 for (let ci = 0; ci < lineText.length; ci++) {
                     const ch = lineText[ci];
                     if (ch === '\n') continue;
-                    const baseX = ci * 6 + 3;
+                    const baseX = ci * 4 + 2;
                     textGlyphs.push({
                         char: ch,
                         homeX: baseX,
@@ -431,11 +431,11 @@
             if (isMobile) {
                 personOriginX = (W - personDrawW) / 2 - 30;
                 personOriginY = H * 0.25;
-                orbRadius = 65;
+                orbRadius = 85;
             } else {
                 personOriginX = (W - personDrawW) / 2 - 40;
                 personOriginY = H * 0.18;
-                orbRadius = 110;
+                orbRadius = 150;
             }
             // Orb center = right hand in mask (280, 220) scaled
             orbCenterX = personOriginX + 280 * personScale;
@@ -607,6 +607,17 @@
             const sec = sectionMap[parseInt(link.dataset.section, 10)];
             link.addEventListener('mouseenter', () => { hoveredSection = sec; updateInfoPanels(sec); highlightNav(sec); });
             link.addEventListener('mouseleave', () => { hoveredSection = -1; updateInfoPanels(-1); highlightNav(-1); });
+            // Mobile: tap nav link to show info panel
+            link.addEventListener('touchstart', (e) => {
+                if (link.getAttribute('href').startsWith('#')) {
+                    e.preventDefault();
+                    if (hoveredSection === sec) {
+                        hoveredSection = -1; updateInfoPanels(-1); highlightNav(-1);
+                    } else {
+                        hoveredSection = sec; updateInfoPanels(sec); highlightNav(sec);
+                    }
+                }
+            }, { passive: false });
         });
 
         // ─── Snow particles ─────────────────────────────────────────
