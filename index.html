@@ -95,17 +95,26 @@
             flex: 1;
             min-width: 0;
             width: 100%;
-            background: none;
+            background: transparent !important;
+            background-color: transparent !important;
             border: none;
             outline: none;
-            color: #c8c8c8;
-            font-family: inherit;
+            color: #00ff41 !important;
+            -webkit-text-fill-color: #00ff41 !important;
+            font-family: 'JetBrains Mono', monospace;
             font-size: inherit;
-            caret-color: #5faf5f;
+            caret-color: #00ff41;
             line-height: 1.5;
             padding: 0;
             margin: 0;
             white-space: pre;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        #cmd::placeholder {
+            color: #333;
+            -webkit-text-fill-color: #333;
         }
 
         /* Suggestion ghost text */
