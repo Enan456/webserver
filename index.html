@@ -1006,7 +1006,6 @@ alias la="ls -a"` },
         const AW = animCanvas.width = window.innerWidth;
         const AH = animCanvas.height = window.innerHeight;
         animCanvas.classList.add('active');
-        skipHint.classList.add('active');
 
         const ANIM_FONT = '5px JetBrains Mono';
         const GLYPH_CHARS = ['.','·','+','·','.','·','.','·','.','.'];
@@ -1096,9 +1095,41 @@ alias la="ls -a"` },
         }
         document.addEventListener('keydown', onCtrlC);
 
+        // Mouse/touch tracking for interactive orb
+        let animMouseX = AW / 2, animMouseY = AH / 2;
+        let animHoveredSec = -1;
+
+        function onAnimMouseMove(e) { animMouseX = e.clientX; animMouseY = e.clientY; }
+        function onAnimTouchMove(e) { e.preventDefault(); animMouseX = e.touches[0].clientX; animMouseY = e.touches[0].clientY; }
+        function onAnimTouchStart(e) { animMouseX = e.touches[0].clientX; animMouseY = e.touches[0].clientY; }
+        animCanvas.addEventListener('mousemove', onAnimMouseMove);
+        animCanvas.addEventListener('touchmove', onAnimTouchMove, { passive: false });
+        animCanvas.addEventListener('touchstart', onAnimTouchStart, { passive: true });
+
+        function getAnimOrbSection(mx, my) {
+            const dx = mx - orbCX, dy = my - orbCY;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            if (dist > orbR + 15) return -1;
+            let ang = Math.atan2(dy, dx) + Math.PI/2 + (Math.PI*2/7)/2;
+            if (ang >= Math.PI*2) ang -= Math.PI*2;
+            if (ang < 0) ang += Math.PI*2;
+            return Math.floor(ang / ((Math.PI*2)/7));
+        }
+
+        const sectionLabels = ['ABOUT','WORK','SKILLS','','CONTACT','GITHUB','LINKEDIN'];
+        const sectionInfo = [
+            'If you want to build cool stuff, hit me up.',
+            'Sr. AI Engineer | COO A Cubed | AIM Lab | Erdos Mentor',
+            'Python, AWS, GCP, Java, JS, SQL | Design Thinking',
+            '',
+            '630-608-3688 | contact@enan.dev',
+            'github.com/Enan456',
+            'linkedin.com/in/enan-srivastava',
+        ];
+
         // Animation loop
         let phase = 0, phaseTime = 0, orbTime = 0;
-        const P0 = 3.5, P1 = 2.0, P2_HOLD = 4.0;
+        const P0 = 3.5, P1 = 2.0;
         let lastT = performance.now();
 
         await new Promise(resolve => {
@@ -1115,7 +1146,12 @@ alias la="ls -a"` },
                 // Phase transitions
                 if (phase === 0 && phaseTime >= P0) { phase = 1; phaseTime = 0; }
                 if (phase === 1 && phaseTime >= P1) { phase = 2; phaseTime = 0; }
-                if (phase === 2 && phaseTime >= P2_HOLD) { resolve(); return; }
+                // Phase 2 runs forever — only Ctrl+C exits
+
+                // Update hovered section in phase 2
+                if (phase === 2) {
+                    animHoveredSec = getAnimOrbSection(animMouseX, animMouseY);
+                }
 
                 // Snow
                 for (const s of snow) {
@@ -1195,8 +1231,29 @@ alias la="ls -a"` },
                             if (ang>=Math.PI*2) ang-=Math.PI*2;
                             if (ang<0) ang+=Math.PI*2;
                             const sec = Math.floor(ang/((Math.PI*2)/7));
-                            p.color = p.seed<0.25 ? null : palette[sec];
-                            p.opacity = p.baseOp;
+
+                            // Highlight hovered section, dim others
+                            if (animHoveredSec >= 0) {
+                                if (sec === animHoveredSec) {
+                                    p.color = palette[sec];
+                                    p.opacity = Math.min(1, p.baseOp * 1.8);
+                                } else {
+                                    p.color = p.seed < 0.25 ? null : palette[sec];
+                                    p.opacity = p.baseOp * 0.35;
+                                }
+                            } else {
+                                p.color = p.seed < 0.25 ? null : palette[sec];
+                                p.opacity = p.baseOp;
+                            }
+
+                            // Mouse pushes orb particles
+                            const dxM = p.x - animMouseX, dyM = p.y - animMouseY;
+                            const distM = Math.sqrt(dxM*dxM + dyM*dyM);
+                            if (distM < 50) {
+                                const push = (50-distM)/50*3;
+                                p.x += (dxM/distM)*push;
+                                p.y += (dyM/distM)*push;
+                            }
                         } else {
                             p.x += (p.homeX-p.x)*0.02;
                             p.y += (p.homeY-p.y)*0.02;
@@ -1220,17 +1277,63 @@ alias la="ls -a"` },
                     animCtx.fillText(p.ch, p.x, p.y);
                 }
 
-                // Title text in phase 2
+                // Title + interactive UI in phase 2
                 if (phase === 2) {
                     const alpha = Math.min(1, phaseTime / 1.5);
                     animCtx.save();
+
+                    // Title
                     animCtx.font = `bold ${isMob ? 28 : 48}px Orbitron, JetBrains Mono`;
                     animCtx.textAlign = 'center';
                     animCtx.fillStyle = `rgba(255,255,255,${alpha})`;
-                    animCtx.fillText('ENAN', AW/2, AH * 0.08 + 30);
-                    animCtx.font = `${isMob ? 12 : 16}px JetBrains Mono`;
+                    animCtx.fillText('ENAN', AW/2, AH * 0.06 + 20);
+                    animCtx.font = `${isMob ? 11 : 14}px JetBrains Mono`;
                     animCtx.fillStyle = `rgba(200,200,200,${alpha * 0.8})`;
-                    animCtx.fillText('DATA SCIENTIST  /  SENIOR AI ENGINEER', AW/2, AH * 0.08 + (isMob ? 55 : 75));
+                    animCtx.fillText('DATA SCIENTIST  /  SENIOR AI ENGINEER', AW/2, AH * 0.06 + (isMob ? 48 : 65));
+
+                    // Nav labels around the orb
+                    animCtx.font = `${isMob ? 9 : 12}px JetBrains Mono`;
+                    for (let s = 0; s < 7; s++) {
+                        if (!sectionLabels[s]) continue;
+                        const secAngle = (s * (Math.PI*2/7)) - Math.PI/2 - (Math.PI*2/7)/2;
+                        const labelR = orbR + (isMob ? 20 : 30);
+                        const lx = orbCX + Math.cos(secAngle) * labelR;
+                        const ly = orbCY + Math.sin(secAngle) * labelR;
+                        const isHovered = s === animHoveredSec;
+                        animCtx.fillStyle = isHovered ? palette[s] : `rgba(150,150,150,${alpha * 0.5})`;
+                        if (isHovered) {
+                            animCtx.font = `bold ${isMob ? 10 : 13}px JetBrains Mono`;
+                        }
+                        animCtx.fillText(sectionLabels[s], lx, ly);
+                        if (isHovered) {
+                            animCtx.font = `${isMob ? 9 : 12}px JetBrains Mono`;
+                        }
+                    }
+
+                    // Hovered section info at bottom
+                    if (animHoveredSec >= 0 && sectionInfo[animHoveredSec]) {
+                        animCtx.font = `${isMob ? 11 : 14}px JetBrains Mono`;
+                        animCtx.fillStyle = palette[animHoveredSec];
+                        animCtx.fillText(sectionLabels[animHoveredSec], AW/2, AH - (isMob ? 65 : 80));
+                        animCtx.font = `${isMob ? 10 : 12}px JetBrains Mono`;
+                        animCtx.fillStyle = `rgba(200,200,200,0.8)`;
+                        animCtx.fillText(sectionInfo[animHoveredSec], AW/2, AH - (isMob ? 45 : 55));
+                    }
+
+                    // Cursor glow on orb
+                    if (animHoveredSec >= 0) {
+                        animCtx.beginPath();
+                        animCtx.arc(animMouseX, animMouseY, 6, 0, Math.PI*2);
+                        animCtx.strokeStyle = palette[animHoveredSec] + '50';
+                        animCtx.lineWidth = 1;
+                        animCtx.stroke();
+                    }
+
+                    // Skip hint
+                    animCtx.font = `${isMob ? 10 : 11}px JetBrains Mono`;
+                    animCtx.fillStyle = `rgba(80,80,80,${alpha * 0.6})`;
+                    animCtx.fillText('Ctrl+C to exit', AW/2, AH - 15);
+
                     animCtx.restore();
                 }
 
@@ -1241,11 +1344,13 @@ alias la="ls -a"` },
 
         // Cleanup
         document.removeEventListener('keydown', onCtrlC);
+        animCanvas.removeEventListener('mousemove', onAnimMouseMove);
+        animCanvas.removeEventListener('touchmove', onAnimTouchMove);
+        animCanvas.removeEventListener('touchstart', onAnimTouchStart);
         if (animFrameId) cancelAnimationFrame(animFrameId);
 
         // Fade out canvas
         animCanvas.classList.add('fading');
-        skipHint.classList.remove('active');
         await delay(800);
         animCanvas.classList.remove('active', 'fading');
         animCanvas.style.opacity = '';
@@ -1260,7 +1365,9 @@ alias la="ls -a"` },
         animRunning = false;
         appPhase = 'shell';
         inputRow.classList.remove('hidden');
+        updatePrompt();
         cmdInput.focus();
+        output.scrollTop = output.scrollHeight;
     }
 
     function hexToRgba(hex, alpha) {
@@ -1354,7 +1461,9 @@ alias la="ls -a"` },
             // Skipped boot = skip animation too, go straight to shell
             appPhase = 'shell';
             inputRow.classList.remove('hidden');
+            updatePrompt();
             cmdInput.focus();
+            output.scrollTop = output.scrollHeight;
         }
     }
 
