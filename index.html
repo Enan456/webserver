@@ -34,6 +34,18 @@
             white-space: pre-wrap;
             word-break: break-word;
             line-height: 1.5;
+        }
+
+        /* Spacer pushes content to bottom when output is short */
+        #output-spacer {
+            flex: 1;
+            min-height: 0;
+        }
+
+        #output-inner {
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
             scrollbar-width: thin;
             scrollbar-color: #333 #0a0a0a;
         }
@@ -151,10 +163,14 @@
 <body>
     <div id="terminal">
         <div id="output">
-            <div id="input-row" class="hidden">
-                <span class="prompt"><span class="arrow">❯</span> </span>
-                <input id="cmd" type="text" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
-                <span id="suggestion"></span>
+            <div id="output-inner">
+                <div id="output-spacer"></div>
+                <div id="output-lines"></div>
+                <div id="input-row" class="hidden">
+                    <span class="prompt"><span class="arrow">❯</span> </span>
+                    <input id="cmd" type="text" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
+                    <span id="suggestion"></span>
+                </div>
             </div>
         </div>
         <div id="tmux-bar">
@@ -265,6 +281,7 @@ alias la="ls -a"` },
     let appPhase = 'boot'; // boot | animation | shell
 
     const output = document.getElementById('output');
+    const outputLines = document.getElementById('output-lines');
     const inputRow = document.getElementById('input-row');
     const cmdInput = document.getElementById('cmd');
     const suggestion = document.getElementById('suggestion');
@@ -276,7 +293,7 @@ alias la="ls -a"` },
         const div = document.createElement('div');
         div.className = 'line' + (cls ? ' ' + cls : '');
         div.innerHTML = html;
-        output.appendChild(div);
+        outputLines.appendChild(div);
         output.scrollTop = output.scrollHeight;
     }
 
@@ -295,7 +312,7 @@ alias la="ls -a"` },
     async function typeLine(text, charDelay = 25, lineClass = '') {
         const div = document.createElement('div');
         div.className = 'line' + (lineClass ? ' ' + lineClass : '');
-        output.appendChild(div);
+        outputLines.appendChild(div);
         for (let i = 0; i < text.length; i++) {
             div.textContent += text[i];
             output.scrollTop = output.scrollHeight;
@@ -355,12 +372,12 @@ alias la="ls -a"` },
         // Remove old prompt-top if exists
         const existing = document.getElementById('prompt-top-live');
         if (existing) existing.remove();
-        // Insert top line before input row
+        // Add top line at end of output-lines (just above input row visually)
         const topDiv = document.createElement('div');
         topDiv.className = 'line prompt-top';
         topDiv.id = 'prompt-top-live';
         topDiv.innerHTML = promptTopHtml();
-        inputRow.parentNode.insertBefore(topDiv, inputRow);
+        outputLines.appendChild(topDiv);
         // Update bottom prompt
         const promptEl = inputRow.querySelector('.prompt');
         promptEl.innerHTML = promptBottomHtml();
@@ -489,9 +506,7 @@ alias la="ls -a"` },
     commands.echo = (args) => printText(args.join(' '));
 
     commands.clear = () => {
-        const ir = inputRow;
-        output.innerHTML = '';
-        output.appendChild(ir);
+        outputLines.innerHTML = '';
     };
 
     commands.history = () => {
@@ -556,10 +571,7 @@ alias la="ls -a"` },
         print('<span class="c-dim">Connection to portfolio closed.</span>');
         inputRow.classList.add('hidden');
         await delay(1500);
-        // Preserve inputRow before clearing
-        const ir = inputRow;
-        output.innerHTML = '';
-        output.appendChild(ir);
+        outputLines.innerHTML = '';
         cwd = ['~'];
         await runBoot();
     };
@@ -1533,7 +1545,7 @@ alias la="ls -a"` },
         print('');
         await typeLine('enan-portfolio login: ', fast() ? 0 : 20);
         await d(500);
-        const lastLine = output.lastElementChild;
+        const lastLine = outputLines.lastElementChild;
         if (lastLine) {
             for (const ch of 'guest') {
                 lastLine.textContent += ch;
@@ -1544,7 +1556,7 @@ alias la="ls -a"` },
 
         await typeLine('Password: ', fast() ? 0 : 20);
         await d(300);
-        const pwLine = output.lastElementChild;
+        const pwLine = outputLines.lastElementChild;
         if (pwLine) {
             for (let i = 0; i < 10; i++) {
                 pwLine.textContent += '*';
