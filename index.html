@@ -49,6 +49,7 @@
             display: flex;
             align-items: center;
             min-height: 1.5em;
+            width: 100%;
         }
 
         #input-row.hidden { display: none; }
@@ -80,6 +81,8 @@
 
         #cmd {
             flex: 1;
+            min-width: 0;
+            width: 100%;
             background: none;
             border: none;
             outline: none;
@@ -90,6 +93,7 @@
             line-height: 1.5;
             padding: 0;
             margin: 0;
+            white-space: pre;
         }
 
         /* Suggestion ghost text */
@@ -155,7 +159,7 @@
         </div>
         <div id="tmux-bar">
             <span class="tmux-left">[0] 0:zsh*</span>
-            <span class="tmux-mid">"enan@portfolio"</span>
+            <span class="tmux-mid">"guest@portfolio"</span>
             <span class="tmux-right" id="tmux-clock"></span>
         </div>
     </div>
@@ -340,7 +344,7 @@ alias la="ls -a"` },
 
     // Zsh two-line prompt: top line shows user@host path (git), bottom is ❯
     function promptTopHtml() {
-        return `<span class="c-dim">╭─</span> <span class="c-bold"><span class="user">enan</span>@<span class="host">portfolio</span></span> <span class="path">${escHtml(cwdString())}</span> <span class="git">(main)</span>`;
+        return `<span class="c-dim">╭─</span> <span class="c-bold"><span class="user">guest</span>@<span class="host">portfolio</span></span> <span class="path">${escHtml(cwdString())}</span> <span class="git">(main)</span>`;
     }
 
     function promptBottomHtml() {
@@ -479,7 +483,7 @@ alias la="ls -a"` },
     };
 
     commands.pwd = () => printText(cwdString());
-    commands.whoami = () => printText('enan');
+    commands.whoami = () => printText('guest');
     commands.date = () => printText(new Date().toString());
 
     commands.echo = (args) => printText(args.join(' '));
@@ -648,53 +652,106 @@ alias la="ls -a"` },
     commands.grep = (args) => print(`<span class="c-dim">Try searching with "cat <file>" instead.</span>`);
     commands.wget = (args) => print(`<span class="c-warn">wget: network restricted in sandbox</span>`);
     commands.curl = commands.wget;
-    // ── top: live active clients via IP geolocation ──
-    let cachedCity = null;
+    // ── top: real-time presence via BroadcastChannel + localStorage ──
+    let cachedGeo = null;
+    const SESSION_ID = Math.random().toString(36).slice(2, 10);
+    const PRESENCE_KEY = 'enan_portfolio_sessions';
+    const PRESENCE_TTL = 30000; // 30s heartbeat
+
+    // Fetch geo once
+    async function getGeo() {
+        if (cachedGeo) return cachedGeo;
+        try {
+            const resp = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(4000) });
+            const d = await resp.json();
+            cachedGeo = {
+                city: d.city || 'Unknown',
+                region: d.region_code || d.region || '',
+                country: d.country_name || d.country_code || '',
+                ip: d.ip || '',
+            };
+        } catch {
+            cachedGeo = { city: 'Unknown', region: '', country: '', ip: '' };
+        }
+        return cachedGeo;
+    }
+
+    // Presence heartbeat — writes this session to localStorage
+    function updatePresence() {
+        try {
+            const sessions = JSON.parse(localStorage.getItem(PRESENCE_KEY) || '{}');
+            // Clean expired
+            const now = Date.now();
+            for (const id of Object.keys(sessions)) {
+                if (now - sessions[id].ts > PRESENCE_TTL * 2) delete sessions[id];
+            }
+            // Update ours
+            sessions[SESSION_ID] = {
+                ts: now,
+                city: cachedGeo ? `${cachedGeo.city}, ${cachedGeo.region} ${cachedGeo.country}`.trim() : 'Connecting...',
+                page: cwdString(),
+                joinedAt: sessions[SESSION_ID]?.joinedAt || now,
+            };
+            localStorage.setItem(PRESENCE_KEY, JSON.stringify(sessions));
+        } catch {}
+    }
+
+    // Start presence heartbeat
+    getGeo().then(() => { updatePresence(); });
+    setInterval(updatePresence, PRESENCE_TTL / 2);
+
+    // BroadcastChannel for cross-tab instant updates
+    let presenceChannel;
+    try {
+        presenceChannel = new BroadcastChannel('enan_portfolio_presence');
+        presenceChannel.onmessage = () => {}; // just keeps channel alive
+    } catch {}
+
+    // Clean up on tab close
+    window.addEventListener('beforeunload', () => {
+        try {
+            const sessions = JSON.parse(localStorage.getItem(PRESENCE_KEY) || '{}');
+            delete sessions[SESSION_ID];
+            localStorage.setItem(PRESENCE_KEY, JSON.stringify(sessions));
+            if (presenceChannel) presenceChannel.postMessage({ type: 'leave', id: SESSION_ID });
+        } catch {}
+    });
 
     commands.top = async () => {
         print(`<span class="c-bold c-cyan">Active Sessions — enan.dev</span>`);
-        print(`<span class="c-dim">Connecting to ws://enan.dev:8443/live...</span>`);
+        print(`<span class="c-dim">Syncing presence data...</span>`);
 
-        // Get real visitor city via free IP API
-        let yourCity = cachedCity;
-        if (!yourCity) {
-            try {
-                const resp = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(3000) });
-                const data = await resp.json();
-                yourCity = `${data.city || 'Unknown'}, ${data.region || ''} ${data.country_name || ''}`.trim();
-                cachedCity = yourCity;
-            } catch {
-                yourCity = 'Unknown';
-            }
-        }
+        // Ensure geo is loaded
+        await getGeo();
+        updatePresence();
 
-        // Simulated other visitors (random cities)
-        const cities = [
-            'San Francisco, CA USA', 'London, UK', 'Tokyo, Japan',
-            'Berlin, Germany', 'Toronto, ON Canada', 'Sydney, Australia',
-            'Mumbai, India', 'Seoul, South Korea', 'Austin, TX USA',
-            'Amsterdam, Netherlands', 'Singapore', 'Chicago, IL USA',
-        ];
-        const activeCount = 2 + Math.floor(Math.random() * 4);
-        const shuffled = cities.sort(() => Math.random() - 0.5).slice(0, activeCount);
+        // Read all sessions
+        let sessions = {};
+        try { sessions = JSON.parse(localStorage.getItem(PRESENCE_KEY) || '{}'); } catch {}
 
-        const now = new Date();
-        const uptime = `${Math.floor(Math.random()*48)}h ${Math.floor(Math.random()*60)}m`;
+        // Clean expired
+        const now = Date.now();
+        const activeSessions = Object.entries(sessions)
+            .filter(([, s]) => now - s.ts < PRESENCE_TTL * 2)
+            .sort((a, b) => a[1].joinedAt - b[1].joinedAt);
 
         print('');
         print(`<span class="c-bold">  ID  USER        CITY                          IDLE    PAGE</span>`);
         print(`<span class="c-dim">  ──  ────        ────                          ────    ────</span>`);
-        // You (always first, highlighted)
-        print(`<span class="c-green">  *1  visitor     ${escHtml(yourCity.padEnd(30))}0s      ~/  (you)</span>`);
-        // Others
-        for (let i = 0; i < shuffled.length; i++) {
-            const idle = `${Math.floor(Math.random()*30)}m`;
-            const pages = ['~/', '~/work', '~/skills', '~/projects', 'animation.sh'];
-            const pg = pages[Math.floor(Math.random()*pages.length)];
-            print(`<span class="c-dim">   ${i+2}  visitor     ${escHtml(shuffled[i].padEnd(30))}${idle.padEnd(8)}${pg}</span>`);
-        }
+
+        activeSessions.forEach(([id, s], i) => {
+            const isYou = id === SESSION_ID;
+            const idle = Math.floor((now - s.ts) / 1000);
+            const idleStr = idle < 60 ? `${idle}s` : `${Math.floor(idle/60)}m`;
+            const city = (s.city || 'Unknown').padEnd(30).slice(0, 30);
+            const line = `  ${isYou ? '*' : ' '}${String(i+1).padStart(1)}  guest       ${escHtml(city)}${idleStr.padEnd(8)}${escHtml(s.page)}${isYou ? '  (you)' : ''}`;
+            print(isYou ? `<span class="c-green">${line}</span>` : `<span class="c-dim">${line}</span>`);
+        });
+
+        const upH = Math.floor((now - (activeSessions[0]?.[1]?.joinedAt || now)) / 3600000);
+        const upM = Math.floor(((now - (activeSessions[0]?.[1]?.joinedAt || now)) % 3600000) / 60000);
         print('');
-        print(`<span class="c-dim">  ${activeCount + 1} active sessions | server uptime: ${uptime} | ws: connected</span>`);
+        print(`<span class="c-dim">  ${activeSessions.length} active session${activeSessions.length !== 1 ? 's' : ''} | presence: localStorage+BroadcastChannel | ttl: ${PRESENCE_TTL/1000}s</span>`);
     };
     commands.ps = commands.top;
     commands.who = commands.top;
@@ -1007,7 +1064,7 @@ alias la="ls -a"` },
         const AH = animCanvas.height = window.innerHeight;
         animCanvas.classList.add('active');
 
-        const ANIM_FONT = '5px JetBrains Mono';
+        const ANIM_FONT = '8px JetBrains Mono';
         const GLYPH_CHARS = ['.','·','+','·','.','·','.','·','.','.'];
         const isMob = AW <= 768;
         const pScale = isMob ? 0.7 : 1.2;
@@ -1021,25 +1078,25 @@ alias la="ls -a"` },
         const orbR = isMob ? 85 : 150;
 
         // Build glyph grid via Pretext
-        const cols = Math.floor(AW / 4);
-        const rows = Math.floor(AH / 5);
+        const cols = Math.floor(AW / 7);
+        const rows = Math.floor(AH / 9);
         let str = '';
         for (let i = 0; i < cols * rows; i++) {
             str += GLYPH_CHARS[Math.floor(Math.random() * GLYPH_CHARS.length)];
             if ((i + 1) % cols === 0) str += '\n';
         }
         const prepared = prepareWithSegments(str, ANIM_FONT, { whiteSpace: 'pre-wrap' });
-        const result = layoutWithLines(prepared, AW, 5);
+        const result = layoutWithLines(prepared, AW, 9);
 
         // Create particles
         const parts = [];
         for (let li = 0; li < result.lines.length; li++) {
             const lineText = result.lines[li].text;
-            const baseY = li * 5 + 2;
+            const baseY = li * 9 + 4;
             for (let ci = 0; ci < lineText.length; ci++) {
                 const ch = lineText[ci];
                 if (ch === '\n') continue;
-                const homeX = ci * 4 + 2;
+                const homeX = ci * 7 + 3;
                 const homeY = baseY;
                 const relX = (homeX - pOriginX) / pScale;
                 const relY = (homeY - pOriginY) / pScale;
@@ -1102,9 +1159,31 @@ alias la="ls -a"` },
         function onAnimMouseMove(e) { animMouseX = e.clientX; animMouseY = e.clientY; }
         function onAnimTouchMove(e) { e.preventDefault(); animMouseX = e.touches[0].clientX; animMouseY = e.touches[0].clientY; }
         function onAnimTouchStart(e) { animMouseX = e.touches[0].clientX; animMouseY = e.touches[0].clientY; }
-        animCanvas.addEventListener('mousemove', onAnimMouseMove);
+        const sectionUrls = {
+            4: 'mailto:contact@enan.dev',
+            5: 'https://github.com/Enan456',
+            6: 'https://www.linkedin.com/in/enan-srivastava/',
+        };
+
+        function onAnimClick(e) {
+            if (phase < 2) return;
+            const sec = getAnimOrbSection(e.clientX || animMouseX, e.clientY || animMouseY);
+            if (sectionUrls[sec]) {
+                window.open(sectionUrls[sec], '_blank');
+            }
+        }
+        function onAnimMouseMoveWithCursor(e) {
+            animMouseX = e.clientX; animMouseY = e.clientY;
+            if (phase >= 2) {
+                const sec = getAnimOrbSection(animMouseX, animMouseY);
+                animCanvas.style.cursor = sectionUrls[sec] ? 'pointer' : 'default';
+            }
+        }
+
+        animCanvas.addEventListener('mousemove', onAnimMouseMoveWithCursor);
         animCanvas.addEventListener('touchmove', onAnimTouchMove, { passive: false });
         animCanvas.addEventListener('touchstart', onAnimTouchStart, { passive: true });
+        animCanvas.addEventListener('click', onAnimClick);
 
         function getAnimOrbSection(mx, my) {
             const dx = mx - orbCX, dy = my - orbCY;
@@ -1122,9 +1201,9 @@ alias la="ls -a"` },
             'Sr. AI Engineer | COO A Cubed | AIM Lab | Erdos Mentor',
             'Python, AWS, GCP, Java, JS, SQL | Design Thinking',
             '',
-            '630-608-3688 | contact@enan.dev',
-            'github.com/Enan456',
-            'linkedin.com/in/enan-srivastava',
+            '630-608-3688 | contact@enan.dev  [click to email]',
+            'github.com/Enan456  [click to open]',
+            'linkedin.com/in/enan-srivastava  [click to open]',
         ];
 
         // Animation loop
@@ -1344,9 +1423,11 @@ alias la="ls -a"` },
 
         // Cleanup
         document.removeEventListener('keydown', onCtrlC);
-        animCanvas.removeEventListener('mousemove', onAnimMouseMove);
+        animCanvas.removeEventListener('mousemove', onAnimMouseMoveWithCursor);
         animCanvas.removeEventListener('touchmove', onAnimTouchMove);
         animCanvas.removeEventListener('touchstart', onAnimTouchStart);
+        animCanvas.removeEventListener('click', onAnimClick);
+        animCanvas.style.cursor = '';
         if (animFrameId) cancelAnimationFrame(animFrameId);
 
         // Fade out canvas
@@ -1421,7 +1502,7 @@ alias la="ls -a"` },
         await d(500);
         const lastLine = output.lastElementChild;
         if (lastLine) {
-            for (const ch of 'enan') {
+            for (const ch of 'guest') {
                 lastLine.textContent += ch;
                 if (!fast()) await delay(70);
             }
