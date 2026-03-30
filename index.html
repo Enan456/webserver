@@ -25,6 +25,7 @@
             display: flex;
             flex-direction: column;
             padding: 12px;
+            padding-bottom: 0;
         }
 
         #output {
@@ -43,18 +44,39 @@
 
         .line { min-height: 1.5em; }
 
+        /* Input row flows inline inside #output, not pinned to bottom */
         #input-row {
             display: flex;
             align-items: center;
             min-height: 1.5em;
-            flex-shrink: 0;
         }
 
         #input-row.hidden { display: none; }
 
+        /* Zsh-style two-line prompt */
         .prompt { color: #5faf5f; white-space: nowrap; }
         .prompt .user { color: #5fafff; }
+        .prompt .host { color: #5faf5f; }
         .prompt .path { color: #af87ff; }
+        .prompt .git { color: #d7af5f; }
+        .prompt .arrow { color: #5faf5f; }
+
+        .prompt-top { color: #555; margin-bottom: 0; min-height: 1.3em; }
+
+        /* Tmux-style status bar */
+        #tmux-bar {
+            flex-shrink: 0;
+            background: #1c1c1c;
+            color: #808080;
+            font-size: 0.85em;
+            padding: 2px 8px;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #2a2a2a;
+        }
+        #tmux-bar .tmux-left { color: #5faf5f; }
+        #tmux-bar .tmux-mid { color: #c8c8c8; }
+        #tmux-bar .tmux-right { color: #808080; }
 
         #cmd {
             flex: 1;
@@ -124,11 +146,17 @@
 </head>
 <body>
     <div id="terminal">
-        <div id="output"></div>
-        <div id="input-row" class="hidden">
-            <span class="prompt"><span class="user">enan</span>@portfolio:<span class="path">~</span>$ </span>
-            <input id="cmd" type="text" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
-            <span id="suggestion"></span>
+        <div id="output">
+            <div id="input-row" class="hidden">
+                <span class="prompt"><span class="arrow">❯</span> </span>
+                <input id="cmd" type="text" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
+                <span id="suggestion"></span>
+            </div>
+        </div>
+        <div id="tmux-bar">
+            <span class="tmux-left">[0] 0:zsh*</span>
+            <span class="tmux-mid">"enan@portfolio"</span>
+            <span class="tmux-right" id="tmux-clock"></span>
         </div>
     </div>
     <canvas id="animCanvas"></canvas>
@@ -310,10 +338,41 @@ alias la="ls -a"` },
         return '~/' + cwd.slice(1).join('/');
     }
 
-    function updatePrompt() {
-        const promptEl = inputRow.querySelector('.prompt');
-        promptEl.innerHTML = `<span class="user">enan</span>@portfolio:<span class="path">${escHtml(cwdString())}</span>$ `;
+    // Zsh two-line prompt: top line shows user@host path (git), bottom is ❯
+    function promptTopHtml() {
+        return `<span class="c-dim">╭─</span> <span class="c-bold"><span class="user">enan</span>@<span class="host">portfolio</span></span> <span class="path">${escHtml(cwdString())}</span> <span class="git">(main)</span>`;
     }
+
+    function promptBottomHtml() {
+        return `<span class="c-dim">╰─</span><span class="arrow">❯</span> `;
+    }
+
+    function updatePrompt() {
+        // Remove old prompt-top if exists
+        const existing = document.getElementById('prompt-top-live');
+        if (existing) existing.remove();
+        // Insert top line before input row
+        const topDiv = document.createElement('div');
+        topDiv.className = 'line prompt-top';
+        topDiv.id = 'prompt-top-live';
+        topDiv.innerHTML = promptTopHtml();
+        inputRow.parentNode.insertBefore(topDiv, inputRow);
+        // Update bottom prompt
+        const promptEl = inputRow.querySelector('.prompt');
+        promptEl.innerHTML = promptBottomHtml();
+        output.scrollTop = output.scrollHeight;
+    }
+
+    // Tmux clock
+    function updateTmuxClock() {
+        const el = document.getElementById('tmux-clock');
+        if (el) {
+            const now = new Date();
+            el.textContent = now.toLocaleTimeString('en-US', { hour12: false, hour:'2-digit', minute:'2-digit' }) + ' ' + now.toLocaleDateString('en-US', { month:'short', day:'numeric' });
+        }
+    }
+    setInterval(updateTmuxClock, 10000);
+    updateTmuxClock();
 
     function getCurrentDir() {
         return getNode(cwd);
@@ -342,6 +401,10 @@ alias la="ls -a"` },
             ['uname -a',         'System information'],
             ['neofetch',         'Display system info with ASCII art'],
             ['sh animation.sh',  'Replay the particle animation'],
+            ['! [text]',         'Cowsay (moo!)'],
+            ['? [text]',         'Lolcat (rainbow text)'],
+            ['top / ps',         'Show running processes'],
+            ['man <cmd>',        'Manual pages'],
             ['exit',             'Logout'],
             ['help',             'Show this help message'],
         ];
@@ -421,7 +484,11 @@ alias la="ls -a"` },
 
     commands.echo = (args) => printText(args.join(' '));
 
-    commands.clear = () => { output.innerHTML = ''; };
+    commands.clear = () => {
+        const ir = inputRow;
+        output.innerHTML = '';
+        output.appendChild(ir);
+    };
 
     commands.history = () => {
         history.forEach((cmd, i) => {
@@ -470,7 +537,7 @@ alias la="ls -a"` },
             `<span class="c-cyan">      /   \\      </span>   <span class="c-dim">─────────────────</span>`,
             `<span class="c-cyan">     /     \\     </span>   <span class="c-bold">OS:</span> EnanOS 3.2.1 LTS`,
             `<span class="c-cyan">    / _____ \\    </span>   <span class="c-bold">Kernel:</span> 6.18.5-portfolio`,
-            `<span class="c-cyan">   / /     \\ \\   </span>   <span class="c-bold">Shell:</span> esh 1.0`,
+            `<span class="c-cyan">   / /     \\ \\   </span>   <span class="c-bold">Shell:</span> zsh 5.9 (x86_64)`,
             `<span class="c-cyan">  / /   E   \\ \\  </span>   <span class="c-bold">Role:</span> Sr. AI Engineer`,
             `<span class="c-cyan">  \\ \\       / /  </span>   <span class="c-bold">Uptime:</span> since 2017`,
             `<span class="c-cyan">   \\ \\_____/ /   </span>   <span class="c-bold">Langs:</span> Python, JS, Java`,
@@ -485,9 +552,11 @@ alias la="ls -a"` },
         print('<span class="c-dim">Connection to portfolio closed.</span>');
         inputRow.classList.add('hidden');
         await delay(1500);
+        // Preserve inputRow before clearing
+        const ir = inputRow;
         output.innerHTML = '';
+        output.appendChild(ir);
         cwd = ['~'];
-        updatePrompt();
         await runBoot();
     };
 
@@ -507,6 +576,73 @@ alias la="ls -a"` },
 
     commands.ll = (args) => commands.ls(['-la', ...args]);
     commands.la = (args) => commands.ls(['-a', ...args]);
+
+    // cowsay — aliased to !
+    function cowsay(text) {
+        const msg = text || 'moo';
+        const top = ' ' + '_'.repeat(msg.length + 2);
+        const mid = '< ' + msg + ' >';
+        const bot = ' ' + '-'.repeat(msg.length + 2);
+        const cow = [
+            top, mid, bot,
+            '        \\   ^__^',
+            '         \\  (oo)\\_______',
+            '            (__)\\       )\\/\\',
+            '                ||----w |',
+            '                ||     ||',
+        ];
+        cow.forEach(l => printText(l));
+    }
+    commands.cowsay = (args) => cowsay(args.join(' '));
+    commands['!'] = (args) => cowsay(args.join(' ') || 'moo!');
+
+    // lolcat — aliased to ?
+    function lolcat(text) {
+        const colors = ['#ff0000','#ff7f00','#ffff00','#00ff00','#0000ff','#4b0082','#8b00ff'];
+        const lines = text.split('\n');
+        for (const line of lines) {
+            let html = '';
+            for (let i = 0; i < line.length; i++) {
+                const c = colors[(i) % colors.length];
+                html += `<span style="color:${c}">${escHtml(line[i])}</span>`;
+            }
+            print(html);
+        }
+    }
+    commands.lolcat = (args) => {
+        lolcat(args.join(' ') || 'Usage: lolcat <text>  or  ? <text>');
+    };
+    commands['?'] = (args) => {
+        if (args.length === 0) {
+            lolcat('~~ R A I N B O W   M O D E ~~');
+        } else {
+            lolcat(args.join(' '));
+        }
+    };
+
+    // Extra unix commands
+    commands.man = (args) => {
+        if (!args[0]) return print(`<span class="c-err">What manual page do you want?</span>`);
+        print(`<span class="c-warn">No manual entry for ${escHtml(args[0])}</span>`);
+        print(`<span class="c-dim">Try "help" for available commands.</span>`);
+    };
+
+    commands.touch = (args) => print(`<span class="c-warn">touch: read-only filesystem</span>`);
+    commands.mkdir = (args) => print(`<span class="c-warn">mkdir: read-only filesystem</span>`);
+    commands.rm = (args) => print(`<span class="c-err">rm: nice try 😏</span>`);
+    commands.sudo = (args) => print(`<span class="c-err">enan is not in the sudoers file. This incident will be reported.</span>`);
+    commands.vim = (args) => print(`<span class="c-dim">Hint: to exit vim, just close the browser tab.</span>`);
+    commands.nano = commands.vim;
+    commands.grep = (args) => print(`<span class="c-dim">Try searching with "cat <file>" instead.</span>`);
+    commands.wget = (args) => print(`<span class="c-warn">wget: network restricted in sandbox</span>`);
+    commands.curl = commands.wget;
+    commands.top = () => {
+        print(`<span class="c-bold">  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM</span>`);
+        print(`    1 enan      20   0   45312   3200   2688 S   0.0   0.1  portfolio`);
+        print(`    2 enan      20   0  712400  52480  38400 S   2.3   3.2  animation.sh`);
+        print(`    3 enan      20   0   18240   1536   1280 S   0.0   0.1  zsh`);
+    };
+    commands.ps = commands.top;
 
     // ═══════════════════════════════════════════════════════════════
     // COMMAND EXECUTOR
@@ -637,7 +773,10 @@ alias la="ls -a"` },
         if (e.key === 'Enter') {
             e.preventDefault();
             const val = cmdInput.value;
-            // Print the command line to output
+            // Remove live prompt-top and print both lines to output
+            const liveTop = document.getElementById('prompt-top-live');
+            if (liveTop) liveTop.remove();
+            print(promptTopHtml(), 'prompt-top');
             const promptHtml = inputRow.querySelector('.prompt').innerHTML;
             print(`<span class="prompt">${promptHtml}</span>${escHtml(val)}`);
             cmdInput.value = '';
@@ -647,6 +786,7 @@ alias la="ls -a"` },
             await execute(val);
             if (appPhase === 'shell') {
                 inputRow.classList.remove('hidden');
+                updatePrompt();
                 cmdInput.focus();
                 output.scrollTop = output.scrollHeight;
             }
@@ -695,10 +835,14 @@ alias la="ls -a"` },
         // Ctrl+C = cancel current input
         if (e.ctrlKey && e.key === 'c') {
             e.preventDefault();
+            const liveTop = document.getElementById('prompt-top-live');
+            if (liveTop) liveTop.remove();
+            print(promptTopHtml(), 'prompt-top');
             const promptHtml = inputRow.querySelector('.prompt').innerHTML;
             print(`<span class="prompt">${promptHtml}</span>${escHtml(cmdInput.value)}^C`);
             cmdInput.value = '';
             suggestion.textContent = '';
+            updatePrompt();
             return;
         }
     });
@@ -1086,58 +1230,63 @@ alias la="ls -a"` },
         const fast = () => skipBoot;
         const d = (ms) => fast() ? delay(0) : delay(ms);
 
-        await d(400);
-        await typeLine('[BIOS] Enan Systems v3.2.1', fast() ? 0 : 18);
-        await d(200);
-        await typeLine('[BIOS] Memory check... 16384 MB OK', fast() ? 0 : 15);
-        await d(150);
-        await typeLine('[BIOS] Detecting hardware...', fast() ? 0 : 15);
         await d(300);
-        print('<span class="c-green">[OK]</span> GPU initialized');
+        print('<span class="c-dim">[    0.000000] Linux version 6.18.5-portfolio (enan@build) (gcc 13.2.0)</span>');
+        await d(100);
+        print('<span class="c-dim">[    0.012345] Command line: BOOT_IMAGE=/vmlinuz root=/dev/sda1</span>');
+        await d(80);
+        print('<span class="c-dim">[    0.034521] x86/cpu: AMD EPYC 7R13 Processor</span>');
+        await d(80);
+        print('<span class="c-dim">[    0.056789] Memory: 16384MB available</span>');
+        await d(150);
+        print('<span class="c-green">[  OK  ]</span> Started systemd-journald.service');
+        await d(100);
+        print('<span class="c-green">[  OK  ]</span> Started systemd-networkd.service');
+        await d(100);
+        print('<span class="c-green">[  OK  ]</span> Reached target network-online.target');
+        await d(100);
+        print('<span class="c-green">[  OK  ]</span> Started openssh-server.service');
+        await d(100);
+        print('<span class="c-green">[  OK  ]</span> Started tmux server');
         await d(200);
-        print('<span class="c-green">[OK]</span> Network interface eth0 UP');
-        await d(200);
-        print('<span class="c-green">[OK]</span> Loading kernel modules...');
-        await d(400);
         print('');
 
-        // Login prompt
+        // Login
+        print('<span class="c-dim">EnanOS 3.2.1 LTS (GNU/Linux 6.18.5-portfolio x86_64)</span>');
+        print('');
         await typeLine('enan-portfolio login: ', fast() ? 0 : 20);
-        await d(600);
-        // Type username onto the last line
+        await d(500);
         const lastLine = output.lastElementChild;
         if (lastLine) {
             for (const ch of 'enan') {
                 lastLine.textContent += ch;
-                if (!fast()) await delay(80);
+                if (!fast()) await delay(70);
             }
         }
-        await d(300);
+        await d(200);
 
         await typeLine('Password: ', fast() ? 0 : 20);
-        await d(400);
+        await d(300);
         const pwLine = output.lastElementChild;
         if (pwLine) {
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0; i < 10; i++) {
                 pwLine.textContent += '*';
-                if (!fast()) await delay(60);
+                if (!fast()) await delay(50);
             }
         }
-        await d(500);
-
-        print('');
-        print('<span class="c-green">Authentication successful.</span>');
-        await d(300);
+        await d(400);
         print('');
 
         const now = new Date();
-        print(`<span class="c-dim">Last login: ${now.toDateString()} ${now.toLocaleTimeString()} from visitor</span>`);
-        print(`Welcome to <span class="c-bold">EnanOS 3.2.1 LTS</span> (GNU/Linux 6.18.5-portfolio x86_64)`);
+        print(`<span class="c-dim">Last login: ${now.toDateString()} ${now.toLocaleTimeString()} from 192.168.1.42</span>`);
         print('');
-        print(`  <span class="c-dim">*</span> Documentation:  <span class="c-cyan">https://enan.dev</span>`);
-        print(`  <span class="c-dim">*</span> GitHub:         <span class="c-cyan">https://github.com/Enan456</span>`);
+        print(`Welcome to <span class="c-bold">EnanOS 3.2.1 LTS</span> <span class="c-dim">\\s \\r \\m</span>`);
         print('');
-        print(`Type <span class="c-green">"help"</span> for available commands.`);
+        print(`  <span class="c-dim">*</span> Docs:    <span class="c-cyan">https://enan.dev</span>`);
+        print(`  <span class="c-dim">*</span> GitHub:  <span class="c-cyan">https://github.com/Enan456</span>`);
+        print(`  <span class="c-dim">*</span> Shell:   <span class="c-dim">zsh 5.9 with oh-my-zsh</span>`);
+        print('');
+        print(`Type <span class="c-green">"help"</span> for commands  |  <span class="c-green">"!"</span> cowsay  |  <span class="c-green">"?"</span> lolcat`);
         print('');
 
         document.removeEventListener('keydown', onSkipBoot);
