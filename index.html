@@ -403,8 +403,8 @@ alias la="ls -a"` },
             ['sh animation.sh',  'Replay the particle animation'],
             ['! [text]',         'Cowsay (moo!)'],
             ['? [text]',         'Lolcat (rainbow text)'],
-            ['top / ps',         'Show running processes'],
-            ['man <cmd>',        'Manual pages'],
+            ['top / who / w',    'Show active visitors (live)'],
+            ['man [cmd]',        'Contact info / manual'],
             ['exit',             'Logout'],
             ['help',             'Show this help message'],
         ];
@@ -622,9 +622,21 @@ alias la="ls -a"` },
 
     // Extra unix commands
     commands.man = (args) => {
-        if (!args[0]) return print(`<span class="c-err">What manual page do you want?</span>`);
-        print(`<span class="c-warn">No manual entry for ${escHtml(args[0])}</span>`);
-        print(`<span class="c-dim">Try "help" for available commands.</span>`);
+        print(`<span class="c-bold c-cyan">╔══════════════════════════════════════╗</span>`);
+        print(`<span class="c-bold c-cyan">║</span>  <span class="c-bold">ENAN SRIVASTAVA</span>                    <span class="c-bold c-cyan">║</span>`);
+        print(`<span class="c-bold c-cyan">║</span>  <span class="c-dim">Data Scientist / Sr. AI Engineer</span>    <span class="c-bold c-cyan">║</span>`);
+        print(`<span class="c-bold c-cyan">╠══════════════════════════════════════╣</span>`);
+        print(`<span class="c-bold c-cyan">║</span>  <span class="c-bold">Phone:</span>  630-608-3688                <span class="c-bold c-cyan">║</span>`);
+        print(`<span class="c-bold c-cyan">║</span>  <span class="c-bold">Email:</span>  contact@enan.dev            <span class="c-bold c-cyan">║</span>`);
+        print(`<span class="c-bold c-cyan">║</span>                                      <span class="c-bold c-cyan">║</span>`);
+        print(`<span class="c-bold c-cyan">║</span>  <span class="c-bold">GitHub:</span>   github.com/Enan456        <span class="c-bold c-cyan">║</span>`);
+        print(`<span class="c-bold c-cyan">║</span>  <span class="c-bold">LinkedIn:</span> linkedin.com/in/          <span class="c-bold c-cyan">║</span>`);
+        print(`<span class="c-bold c-cyan">║</span>            <span class="c-dim">enan-srivastava</span>           <span class="c-bold c-cyan">║</span>`);
+        print(`<span class="c-bold c-cyan">╚══════════════════════════════════════╝</span>`);
+        if (args[0]) {
+            print('');
+            print(`<span class="c-dim">No manual entry for ${escHtml(args[0])}, but now you have my contact info.</span>`);
+        }
     };
 
     commands.touch = (args) => print(`<span class="c-warn">touch: read-only filesystem</span>`);
@@ -636,13 +648,57 @@ alias la="ls -a"` },
     commands.grep = (args) => print(`<span class="c-dim">Try searching with "cat <file>" instead.</span>`);
     commands.wget = (args) => print(`<span class="c-warn">wget: network restricted in sandbox</span>`);
     commands.curl = commands.wget;
-    commands.top = () => {
-        print(`<span class="c-bold">  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM</span>`);
-        print(`    1 enan      20   0   45312   3200   2688 S   0.0   0.1  portfolio`);
-        print(`    2 enan      20   0  712400  52480  38400 S   2.3   3.2  animation.sh`);
-        print(`    3 enan      20   0   18240   1536   1280 S   0.0   0.1  zsh`);
+    // ── top: live active clients via IP geolocation ──
+    let cachedCity = null;
+
+    commands.top = async () => {
+        print(`<span class="c-bold c-cyan">Active Sessions — enan.dev</span>`);
+        print(`<span class="c-dim">Connecting to ws://enan.dev:8443/live...</span>`);
+
+        // Get real visitor city via free IP API
+        let yourCity = cachedCity;
+        if (!yourCity) {
+            try {
+                const resp = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(3000) });
+                const data = await resp.json();
+                yourCity = `${data.city || 'Unknown'}, ${data.region || ''} ${data.country_name || ''}`.trim();
+                cachedCity = yourCity;
+            } catch {
+                yourCity = 'Unknown';
+            }
+        }
+
+        // Simulated other visitors (random cities)
+        const cities = [
+            'San Francisco, CA USA', 'London, UK', 'Tokyo, Japan',
+            'Berlin, Germany', 'Toronto, ON Canada', 'Sydney, Australia',
+            'Mumbai, India', 'Seoul, South Korea', 'Austin, TX USA',
+            'Amsterdam, Netherlands', 'Singapore', 'Chicago, IL USA',
+        ];
+        const activeCount = 2 + Math.floor(Math.random() * 4);
+        const shuffled = cities.sort(() => Math.random() - 0.5).slice(0, activeCount);
+
+        const now = new Date();
+        const uptime = `${Math.floor(Math.random()*48)}h ${Math.floor(Math.random()*60)}m`;
+
+        print('');
+        print(`<span class="c-bold">  ID  USER        CITY                          IDLE    PAGE</span>`);
+        print(`<span class="c-dim">  ──  ────        ────                          ────    ────</span>`);
+        // You (always first, highlighted)
+        print(`<span class="c-green">  *1  visitor     ${escHtml(yourCity.padEnd(30))}0s      ~/  (you)</span>`);
+        // Others
+        for (let i = 0; i < shuffled.length; i++) {
+            const idle = `${Math.floor(Math.random()*30)}m`;
+            const pages = ['~/', '~/work', '~/skills', '~/projects', 'animation.sh'];
+            const pg = pages[Math.floor(Math.random()*pages.length)];
+            print(`<span class="c-dim">   ${i+2}  visitor     ${escHtml(shuffled[i].padEnd(30))}${idle.padEnd(8)}${pg}</span>`);
+        }
+        print('');
+        print(`<span class="c-dim">  ${activeCount + 1} active sessions | server uptime: ${uptime} | ws: connected</span>`);
     };
     commands.ps = commands.top;
+    commands.who = commands.top;
+    commands.w = commands.top;
 
     // ═══════════════════════════════════════════════════════════════
     // COMMAND EXECUTOR
