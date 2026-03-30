@@ -28,18 +28,6 @@
 
         #mainCanvas { z-index: 1; }
 
-        /* Custom cursor - the "left hand" */
-        #handCursor {
-            position: fixed;
-            z-index: 100;
-            pointer-events: none;
-            font-size: 28px;
-            color: #fff;
-            text-shadow: 0 0 8px rgba(255,255,255,0.6);
-            transform: translate(-50%, -50%);
-            transition: color 0.3s, text-shadow 0.3s;
-        }
-
         .content {
             position: absolute;
             top: min(80px, 8vh);
@@ -104,7 +92,7 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
             position: relative;
-            cursor: default;
+            cursor: pointer;
         }
 
         .nav-links a::after {
@@ -118,12 +106,11 @@
             transition: width 0.3s ease;
         }
 
-        .nav-links a:hover { text-shadow: 0 0 10px #fff; }
         .nav-links a:hover::after { width: 100%; }
 
         .info-panel {
             position: absolute;
-            bottom: clamp(60px, 12vh, 150px);
+            bottom: clamp(50px, 8vh, 80px);
             color: #fff;
             opacity: 0;
             transition: opacity 0.5s ease;
@@ -157,14 +144,12 @@
                 text-align: center;
                 margin-bottom: 0.5em;
             }
-            #handCursor { display: none; }
             body { cursor: default; }
         }
     </style>
 </head>
 <body>
     <canvas id="mainCanvas"></canvas>
-    <div id="handCursor"></div>
 
     <div class="content" id="contentEl">
         <h1>ENAN</h1>
@@ -223,7 +208,7 @@
         const palette = ['#ff007f','#ff00ff','#00ff00','#00ffff','#ffff00','#ff8800','#00a2ff'];
         const GLYPH_CHARS = ['.','·','+','·','.','·','.','·','.','.'];
         const FONT = '5px JetBrains Mono';
-        const isMobile = window.innerWidth <= 768;
+        let isMobile = window.innerWidth <= 768;
 
         // ─── Canvas ──────────────────────────────────────────────────
         const canvas = document.getElementById('mainCanvas');
@@ -233,6 +218,7 @@
         function resize() {
             W = canvas.width = window.innerWidth;
             H = canvas.height = window.innerHeight;
+            isMobile = W <= 768;
         }
         resize();
 
@@ -259,7 +245,6 @@
             const prepared = prepareWithSegments(str, FONT, { whiteSpace: 'pre-wrap' });
             const result = layoutWithLines(prepared, W, 5);
 
-            let charIndex = 0;
             for (let li = 0; li < result.lines.length; li++) {
                 const line = result.lines[li];
                 const lineText = line.text;
@@ -273,7 +258,6 @@
                         homeX: baseX,
                         homeY: baseY,
                     });
-                    charIndex++;
                 }
             }
         }
@@ -470,6 +454,9 @@
                     orbDist: 0,
                     orbSpeed: 0,
                     color: null,
+                    seed: Math.random(),         // deterministic per-particle
+                    colorVal: 180 + Math.floor(Math.random() * 75), // stable brightness
+                    ambientVal: 100 + Math.floor(Math.random() * 60),
                 };
 
                 // Check if this glyph's home position falls inside the person silhouette
@@ -520,7 +507,6 @@
         let hoveredSection = -1;
         let orbTime = 0;
 
-        const handCursor = document.getElementById('handCursor');
         const contentEl = document.getElementById('contentEl');
 
         // ─── Info panels ─────────────────────────────────────────────
@@ -555,26 +541,12 @@
         // ─── Event listeners ─────────────────────────────────────────
         function handlePointer(px, py) {
             mouseX = px; mouseY = py;
-            if (!isMobile) {
-                handCursor.style.left = px + 'px';
-                handCursor.style.top = py + 'px';
-            }
             if (phase >= 2) {
                 const sec = getOrbSection(px, py);
                 if (sec !== hoveredSection) {
                     hoveredSection = sec;
                     updateInfoPanels(hoveredSection);
                     highlightNav(hoveredSection);
-                    // Update hand cursor color
-                    if (!isMobile) {
-                        if (sec >= 0) {
-                            handCursor.style.color = palette[sec];
-                            handCursor.style.textShadow = `0 0 12px ${palette[sec]}`;
-                        } else {
-                            handCursor.style.color = '#fff';
-                            handCursor.style.textShadow = '0 0 8px rgba(255,255,255,0.6)';
-                        }
-                    }
                 }
             }
         }
@@ -780,23 +752,24 @@
                         p.x = orbCenterX + Math.cos(baseAngle) * r;
                         p.y = orbCenterY + Math.sin(baseAngle) * r;
 
-                        // Color by orb section
+                        // Color by orb section (deterministic per particle, not random per frame)
                         let angle = Math.atan2(p.y - orbCenterY, p.x - orbCenterX) + Math.PI/2 + (Math.PI*2/7)/2;
                         const dist = Math.sqrt((p.x-orbCenterX)**2 + (p.y-orbCenterY)**2);
                         angle += Math.sin(dist * 0.04 + orbTime * 2) * 0.2;
                         if (angle >= Math.PI*2) angle -= Math.PI*2;
                         if (angle < 0) angle += Math.PI*2;
                         const secIdx = Math.floor(angle / ((Math.PI*2)/7));
+                        p.secIdx = secIdx;
 
-                        // Grey or colored
-                        if (Math.random() < 0.3) {
-                            const g = 120 + Math.random() * 80;
-                            p.color = `rgba(${g},${g},${g},${p.opacity * 0.7})`;
+                        // Use seed for stable grey vs colored (no per-frame flicker)
+                        if (p.seed < 0.25) {
+                            const g = 120 + p.seed * 320; // stable grey value
+                            p.color = `rgba(${g|0},${g|0},${g|0},${p.baseOpacity * 0.7})`;
                         } else {
                             p.color = palette[secIdx];
                         }
 
-                        // Pointer (left hand) interaction — push orb particles
+                        // Pointer interaction — push orb particles
                         const dxM = p.x - mouseX;
                         const dyM = p.y - mouseY;
                         const distM = Math.sqrt(dxM*dxM + dyM*dyM);
@@ -806,9 +779,15 @@
                             p.y += (dyM / distM) * push;
                         }
 
-                        // Highlight section near pointer
-                        if (hoveredSection >= 0 && secIdx === hoveredSection) {
-                            p.opacity = Math.min(1, p.baseOpacity * 1.5);
+                        // Highlight hovered section — brighten matching, dim others
+                        if (hoveredSection >= 0) {
+                            if (secIdx === hoveredSection) {
+                                p.opacity = Math.min(1, p.baseOpacity * 1.8);
+                                // Force section color even for grey particles when highlighted
+                                p.color = palette[secIdx];
+                            } else {
+                                p.opacity = p.baseOpacity * 0.4;
+                            }
                         } else {
                             p.opacity = p.baseOpacity;
                         }
@@ -838,11 +817,9 @@
                         ? p.color
                         : hexToRgba(p.color, p.opacity);
                 } else if (p.role === 'person') {
-                    const v = 180 + Math.floor(Math.random() * 75);
-                    ctx.fillStyle = `rgba(${v},${v},${v},${p.opacity})`;
+                    ctx.fillStyle = `rgba(${p.colorVal},${p.colorVal},${p.colorVal},${p.opacity})`;
                 } else {
-                    const v = 100 + Math.floor(Math.random() * 60);
-                    ctx.fillStyle = `rgba(${v},${v},${v},${p.opacity})`;
+                    ctx.fillStyle = `rgba(${p.ambientVal},${p.ambientVal},${p.ambientVal},${p.opacity})`;
                 }
 
                 ctx.fillText(p.char, p.x, p.y);
