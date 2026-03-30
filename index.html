@@ -2,57 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Enan - Digital Architect</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;400&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background: #0f0f1a;
+            background: #0a0a14;
             overflow: hidden;
             font-family: 'Orbitron', monospace;
-            position: relative;
             width: 100vw;
             height: 100vh;
+            cursor: none;
         }
 
-        #dustCanvas {
+        canvas {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1;
         }
 
-        #orbCanvas {
-            position: absolute;
-            bottom: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 500px;
-            height: 500px;
-            z-index: 3;
-            cursor: crosshair;
+        #mainCanvas { z-index: 1; }
+
+        /* Custom cursor - the "left hand" */
+        #handCursor {
+            position: fixed;
+            z-index: 100;
+            pointer-events: none;
+            font-size: 28px;
+            color: #fff;
+            text-shadow: 0 0 8px rgba(255,255,255,0.6);
+            transform: translate(-50%, -50%);
+            transition: color 0.3s, text-shadow 0.3s;
         }
 
         .content {
             position: absolute;
-            top: 80px;
+            top: min(80px, 8vh);
             left: 50%;
-            z-index: 2;
+            z-index: 10;
             color: #ffffff;
             text-align: center;
             pointer-events: none;
             opacity: 0;
             transform: translate(-50%, -20px);
-            transition: opacity 1.5s ease, transform 1.5s ease;
+            transition: opacity 2s ease, transform 2s ease;
         }
 
         .content.visible {
@@ -61,55 +59,52 @@
         }
 
         h1 {
-            font-size: 4rem;
+            font-size: clamp(2rem, 6vw, 4rem);
             font-weight: 900;
-            text-shadow: none;
             letter-spacing: 0.2em;
-            margin-bottom: 20px;
-            animation: letterSpacing 4s ease-in-out infinite;
+            margin-bottom: 15px;
+            animation: letterPulse 4s ease-in-out infinite;
         }
 
         .tagline {
-            font-size: 1.2rem;
+            font-size: clamp(0.7rem, 2vw, 1.2rem);
             color: #ffffff;
-            text-shadow:
-                0 0 5px #ffffff,
-                0 0 10px #ffffff;
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff;
             letter-spacing: 0.1em;
-            height: 1.5em;
-            position: relative;
         }
 
-        @keyframes letterSpacing {
+        @keyframes letterPulse {
             0%, 100% { letter-spacing: 0.2em; }
             50% { letter-spacing: 0.25em; }
         }
 
         .nav-links {
             position: absolute;
-            bottom: 20px;
+            bottom: clamp(10px, 3vh, 25px);
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 30px;
-            z-index: 5;
+            gap: clamp(10px, 3vw, 30px);
+            z-index: 10;
             pointer-events: all;
             opacity: 0;
-            transition: opacity 1.5s ease;
+            transition: opacity 2s ease;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 90%;
         }
 
-        .nav-links.visible {
-            opacity: 1;
-        }
+        .nav-links.visible { opacity: 1; }
 
         .nav-links a {
             color: #ffffff;
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: clamp(0.6rem, 1.5vw, 0.9rem);
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             position: relative;
+            cursor: none;
         }
 
         .nav-links a::after {
@@ -123,172 +118,107 @@
             transition: width 0.3s ease;
         }
 
-        .nav-links a:hover {
-            color: #ffffff;
-            text-shadow: 0 0 10px #ffffff;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        @keyframes scanline {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
-        }
-
-        .scanline {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(180deg, transparent, rgba(0, 255, 255, 0.2), transparent);
-            animation: scanline 8s linear infinite;
-            pointer-events: none;
-            z-index: 3;
-        }
+        .nav-links a:hover { text-shadow: 0 0 10px #fff; }
+        .nav-links a:hover::after { width: 100%; }
 
         .info-panel {
             position: absolute;
-            bottom: 150px;
+            bottom: clamp(60px, 12vh, 150px);
             color: #fff;
             opacity: 0;
             transition: opacity 0.5s ease;
             pointer-events: none;
-            z-index: 5;
+            z-index: 10;
             display: flex;
             width: 100%;
             justify-content: space-between;
-            padding: 0 50px;
+            padding: 0 clamp(15px, 4vw, 50px);
         }
 
-        .info-panel.visible {
-            opacity: 1;
-        }
-
-        .left-panel, .right-panel, .center-panel {
-            width: 45%;
-        }
-
-        .center-panel {
-            text-align: center;
-            width: 100%;
-        }
-
-        .right-panel {
-            text-align: right;
-        }
+        .info-panel.visible { opacity: 1; }
+        .left-panel, .right-panel { width: 45%; }
+        .right-panel { text-align: right; }
 
         .info-panel p {
             margin: 5px 0;
-            font-size: 0.9rem;
-            letter-spacing: 0.1em;
+            font-size: clamp(0.65rem, 1.3vw, 0.9rem);
+            letter-spacing: 0.08em;
+        }
+
+        .scanline {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 2px;
+            background: linear-gradient(180deg, transparent, rgba(0,255,255,0.15), transparent);
+            animation: scanline 8s linear infinite;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
         }
 
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            .tagline {
-                font-size: 1rem;
-            }
-
-            #orbCanvas {
-                bottom: 200px;
-                transform: translateX(-50%) scale(0.7);
-            }
-
-            .nav-links {
-                bottom: 150px;
-                gap: 15px;
-                flex-wrap: wrap;
-                justify-content: center;
-                width: 90%;
-            }
-
-            .nav-links a {
-                font-size: 0.8rem;
-            }
-
             .info-panel {
-                bottom: 400px;
                 flex-direction: column;
                 align-items: center;
-                padding: 0 20px;
             }
-
             .info-panel .left-panel,
-            .info-panel .right-panel,
-            .info-panel .center-panel {
+            .info-panel .right-panel {
                 width: 100%;
                 text-align: center;
-                margin-bottom: 1em;
+                margin-bottom: 0.5em;
             }
+            #handCursor { display: none; }
+            body { cursor: crosshair; }
         }
     </style>
 </head>
 <body>
-    <canvas id="dustCanvas"></canvas>
-    <canvas id="orbCanvas"></canvas>
+    <canvas id="mainCanvas"></canvas>
     <div class="scanline"></div>
+    <div id="handCursor"></div>
 
-    <div class="content">
+    <div class="content" id="contentEl">
         <h1>ENAN</h1>
-        <p class="tagline">
-            DATA SCIENTIST, OPERATOR
-        </p>
+        <p class="tagline">DATA SCIENTIST, OPERATOR</p>
     </div>
 
     <div id="infoPanels">
-         <div id="aboutInfo" class="info-panel">
-            <div class="right-panel">
-                <p>If you want to build cool stuff, hit me up.</p>
-            </div>
+        <div id="aboutInfo" class="info-panel">
+            <div class="right-panel"><p>If you want to build cool stuff, hit me up.</p></div>
         </div>
         <div id="workInfo" class="info-panel">
             <div class="left-panel">
                 <p>Senior AI Engineer</p>
-                <p style="margin-top: 2em;"> </p>
-                <p style="margin-top: 2em;">Chief Operating Officer at A Cubed Designs</p>
+                <p style="margin-top:1.5em">Chief Operating Officer at A Cubed Designs</p>
             </div>
             <div class="right-panel">
-                <p>Server Admin/Owner American Institutional Methodology (AIM) Lab</p>
-                <p style="margin-top: 2em;"> </p>
-                <p style="margin-top: 2em;"> </p>
-                <p>Data Science Mentor with The Erdos Institute</p>
+                <p>Server Admin/Owner AIM Lab</p>
+                <p style="margin-top:1.5em">Data Science Mentor with The Erdos Institute</p>
             </div>
         </div>
         <div id="skillsInfo" class="info-panel">
             <div class="left-panel">
-                <p>Design Thinking</p>
-                <p>Business Management</p>
-                <p>Insurance</p>
-                <p>Nonprofit Consulting</p>
+                <p>Design Thinking</p><p>Business Management</p>
+                <p>Insurance</p><p>Nonprofit Consulting</p>
             </div>
-             <div class="right-panel">
+            <div class="right-panel">
                 <p>Python, AWS, GCP, R Shiny, Java</p>
                 <p>JavaScript, SQL, Git, Firebase, HTML5, Bash, CSS</p>
             </div>
         </div>
         <div id="contactInfo" class="info-panel">
-            <div class="left-panel">
-                <p>630-608-3688</p>
-            </div>
-            <div class="right-panel">
-                <p>contact@enan.dev</p>
-            </div>
+            <div class="left-panel"><p>630-608-3688</p></div>
+            <div class="right-panel"><p>contact@enan.dev</p></div>
         </div>
-         <div id="githubInfo" class="info-panel">
-            <div class="right-panel">
-                <p>https://github.com/Enan456</p>
-            </div>
+        <div id="githubInfo" class="info-panel">
+            <div class="right-panel"><p>https://github.com/Enan456</p></div>
         </div>
-         <div id="linkedinInfo" class="info-panel">
-            <div class="right-panel">
-                <p>https://www.linkedin.com/in/enan-srivastava/</p>
-            </div>
+        <div id="linkedinInfo" class="info-panel">
+            <div class="right-panel"><p>https://www.linkedin.com/in/enan-srivastava/</p></div>
         </div>
     </div>
 
@@ -301,528 +231,506 @@
         <a href="https://www.linkedin.com/in/enan-srivastava/" target="_blank" data-section="7">LINKEDIN</a>
     </div>
 
-    <script>
-        // ─── Color palette ───────────────────────────────────────────
-        const palette = [
-            '#ff007f', '#ff00ff', '#00ff00', '#00ffff',
-            '#ffff00', '#ff8800', '#00a2ff'
-        ];
+    <script type="module">
+        import { prepareWithSegments, layoutWithLines } from 'https://esm.sh/@chenglou/pretext@0.0.3';
 
-        // ─── Canvas setup ────────────────────────────────────────────
-        const dustCanvas = document.getElementById('dustCanvas');
-        const dustCtx = dustCanvas.getContext('2d');
-        dustCanvas.width = window.innerWidth;
-        dustCanvas.height = window.innerHeight;
+        // ─── Constants ───────────────────────────────────────────────
+        const palette = ['#ff007f','#ff00ff','#00ff00','#00ffff','#ffff00','#ff8800','#00a2ff'];
+        const GLYPH_CHARS = ['.','·','+','*','o','x','#','@','%','&'];
+        const FONT = '10px JetBrains Mono';
+        const isMobile = window.innerWidth <= 768;
 
-        const orbCanvas = document.getElementById('orbCanvas');
-        const orbCtx = orbCanvas.getContext('2d');
-        orbCanvas.width = 500;
-        orbCanvas.height = 500;
+        // ─── Canvas ──────────────────────────────────────────────────
+        const canvas = document.getElementById('mainCanvas');
+        const ctx = canvas.getContext('2d');
+        let W, H;
 
-        let mouseX = 0, mouseY = 0;
-        let orbRect;
-        let orbTime = 0;
-        let hoveredSection = -1;
+        function resize() {
+            W = canvas.width = window.innerWidth;
+            H = canvas.height = window.innerHeight;
+        }
+        resize();
 
-        // ─── Animation state machine ─────────────────────────────────
-        // Phase 0: dust swirls in from left, forms person silhouette
-        // Phase 1: person walks right toward the orb
-        // Phase 2: person dissolves into the orb, orb + UI appears
-        let phase = 0;
-        let phaseTimer = 0;
-        const PHASE0_DURATION = 3.0;  // seconds to form person
-        const PHASE1_DURATION = 2.5;  // seconds to walk to orb
-        const PHASE2_DURATION = 1.5;  // seconds to dissolve into orb
+        // ─── Pretext: generate a text grid of dot-glyphs ────────────
+        // We use Pretext to measure and lay out a dense block of glyph
+        // characters, giving us precise (x,y) for every character cell.
+        // These positions become our particle pool.
 
-        // ─── Person silhouette generation ────────────────────────────
-        // We draw a person onto an offscreen canvas, then sample points
-        function generatePersonPoints(count) {
-            const offscreen = document.createElement('canvas');
-            const w = 200, h = 400;
-            offscreen.width = w;
-            offscreen.height = h;
-            const ctx = offscreen.getContext('2d');
+        const textGlyphs = []; // {char, homeX, homeY}
 
-            ctx.fillStyle = '#fff';
-            ctx.strokeStyle = '#fff';
-            ctx.lineWidth = 2;
-            ctx.lineCap = 'round';
+        function buildGlyphGrid() {
+            textGlyphs.length = 0;
+            // Build a long string of random dot-glyphs
+            const cols = Math.floor(W / 9);
+            const rows = Math.floor(H / 13);
+            const totalChars = cols * rows;
+            let str = '';
+            for (let i = 0; i < totalChars; i++) {
+                str += GLYPH_CHARS[Math.floor(Math.random() * GLYPH_CHARS.length)];
+                if ((i + 1) % cols === 0) str += '\n';
+            }
+
+            // Use Pretext to measure line-by-line layout
+            const prepared = prepareWithSegments(str, FONT, { whiteSpace: 'pre-wrap' });
+            const result = layoutWithLines(prepared, W, 13);
+
+            let charIndex = 0;
+            for (let li = 0; li < result.lines.length; li++) {
+                const line = result.lines[li];
+                const lineText = line.text;
+                const baseY = li * 13 + 6;
+                for (let ci = 0; ci < lineText.length; ci++) {
+                    const ch = lineText[ci];
+                    if (ch === '\n') continue;
+                    const baseX = ci * 9 + 4;
+                    textGlyphs.push({
+                        char: ch,
+                        homeX: baseX,
+                        homeY: baseY,
+                    });
+                    charIndex++;
+                }
+            }
+        }
+
+        buildGlyphGrid();
+
+        // ─── Person silhouette via offscreen canvas ──────────────────
+        function generatePersonMask() {
+            const off = document.createElement('canvas');
+            const w = 180, h = 360;
+            off.width = w; off.height = h;
+            const c = off.getContext('2d');
+            c.fillStyle = '#fff'; c.strokeStyle = '#fff';
+            c.lineCap = 'round';
 
             // Head
-            ctx.beginPath();
-            ctx.arc(100, 50, 30, 0, Math.PI * 2);
-            ctx.fill();
-
+            c.beginPath(); c.arc(90, 45, 28, 0, Math.PI*2); c.fill();
             // Neck
-            ctx.fillRect(92, 78, 16, 20);
-
+            c.fillRect(82, 71, 16, 18);
             // Torso
-            ctx.beginPath();
-            ctx.moveTo(60, 98);
-            ctx.lineTo(140, 98);
-            ctx.lineTo(130, 220);
-            ctx.lineTo(70, 220);
-            ctx.closePath();
-            ctx.fill();
-
-            // Left arm
-            ctx.beginPath();
-            ctx.moveTo(60, 105);
-            ctx.quadraticCurveTo(20, 160, 35, 210);
-            ctx.lineWidth = 16;
-            ctx.stroke();
-
-            // Right arm - extended forward (reaching toward orb)
-            ctx.beginPath();
-            ctx.moveTo(140, 105);
-            ctx.quadraticCurveTo(185, 140, 195, 170);
-            ctx.lineWidth = 16;
-            ctx.stroke();
-
+            c.beginPath();
+            c.moveTo(55,89); c.lineTo(125,89); c.lineTo(118,200); c.lineTo(62,200);
+            c.closePath(); c.fill();
+            // Left arm — relaxed down
+            c.lineWidth = 14; c.beginPath();
+            c.moveTo(55,96); c.quadraticCurveTo(18,150, 30,200);
+            c.stroke();
+            // Right arm — extended forward holding orb
+            c.lineWidth = 14; c.beginPath();
+            c.moveTo(125,96); c.quadraticCurveTo(170,120, 178,155);
+            c.stroke();
+            // Right hand/palm area (wider for orb cradle)
+            c.beginPath(); c.arc(178, 158, 10, 0, Math.PI*2); c.fill();
             // Left leg
-            ctx.beginPath();
-            ctx.moveTo(80, 220);
-            ctx.quadraticCurveTo(70, 300, 60, 380);
-            ctx.lineWidth = 18;
-            ctx.stroke();
-
+            c.lineWidth = 16; c.beginPath();
+            c.moveTo(75,200); c.quadraticCurveTo(65,280, 55,345);
+            c.stroke();
             // Right leg
-            ctx.beginPath();
-            ctx.moveTo(120, 220);
-            ctx.quadraticCurveTo(130, 300, 140, 380);
-            ctx.lineWidth = 18;
-            ctx.stroke();
+            c.lineWidth = 16; c.beginPath();
+            c.moveTo(105,200); c.quadraticCurveTo(115,280, 125,345);
+            c.stroke();
 
-            // Sample points from the silhouette
-            const imageData = ctx.getImageData(0, 0, w, h);
-            const points = [];
-            const data = imageData.data;
-
-            for (let i = 0; i < count * 5 && points.length < count; i++) {
-                const px = Math.floor(Math.random() * w);
-                const py = Math.floor(Math.random() * h);
-                const idx = (py * w + px) * 4;
-                if (data[idx + 3] > 128) {
-                    points.push({ x: (px - w / 2), y: (py - h / 2) });
-                }
-            }
-            // Fill remaining if needed
-            while (points.length < count) {
-                const px = Math.floor(Math.random() * w);
-                const py = Math.floor(Math.random() * h);
-                const idx = (py * w + px) * 4;
-                if (data[idx + 3] > 128) {
-                    points.push({ x: (px - w / 2), y: (py - h / 2) });
-                }
-            }
-            return points;
+            return { canvas: off, w, h, data: c.getImageData(0,0,w,h).data };
         }
 
-        // ─── Dust particle class ────────────────────────────────────
-        const PERSON_PARTICLE_COUNT = 3000;
-        const personPoints = generatePersonPoints(PERSON_PARTICLE_COUNT);
+        const personMask = generatePersonMask();
 
-        // Where the person stands initially (left side of screen)
-        const personCenterX = window.innerWidth * 0.22;
-        const personCenterY = window.innerHeight * 0.5;
+        function isInsidePerson(px, py) {
+            if (px < 0 || py < 0 || px >= personMask.w || py >= personMask.h) return false;
+            return personMask.data[(Math.floor(py) * personMask.w + Math.floor(px)) * 4 + 3] > 128;
+        }
 
-        class DustParticle {
-            constructor(index) {
-                this.index = index;
-                // Target in person silhouette (screen coords)
-                const pt = personPoints[index];
-                this.personX = personCenterX + pt.x;
-                this.personY = personCenterY + pt.y;
+        // ─── Layout positions ────────────────────────────────────────
+        // Person: centered left of screen, orb in right hand
+        const personScale = isMobile ? 0.6 : 0.85;
+        const personW = personMask.w * personScale;
+        const personH = personMask.h * personScale;
 
-                // Start scattered far off screen left & random
-                this.x = -100 - Math.random() * 600;
-                this.y = Math.random() * window.innerHeight;
-                this.z = (Math.random() - 0.5) * 30;
+        // Person stands left-of-center so orb (in right hand) is near screen center
+        let personOriginX, personOriginY;
+        let orbCenterX, orbCenterY, orbRadius;
 
-                this.size = 1 + Math.random() * 1.5;
-                this.brightness = 0.4 + Math.random() * 0.6;
-                this.opacity = this.brightness * 0.8;
-                this.turbulence = Math.random() * Math.PI * 2;
-                this.turbSpeed = 0.02 + Math.random() * 0.03;
-
-                // Orb target (computed later)
-                this.orbTargetX = 0;
-                this.orbTargetY = 0;
-                this.orbAngle = Math.random() * Math.PI * 2;
-                this.orbSpeed = 0.005 + Math.random() * 0.01;
-                this.orbBaseX = 0;
-                this.orbBaseY = 0;
-                this.orbBaseZ = (Math.random() - 0.5) * 40;
-
-                // Stagger: each particle has a slight delay
-                this.delay = Math.random() * 0.6;
-
-                // Walking offset from person
-                this.walkOffsetY = 0;
+        function computeLayout() {
+            if (isMobile) {
+                personOriginX = W * 0.15;
+                personOriginY = H * 0.28;
+                orbRadius = 70;
+            } else {
+                personOriginX = W * 0.28;
+                personOriginY = H * 0.18;
+                orbRadius = 110;
             }
+            // Orb center = person's right hand position (scaled)
+            orbCenterX = personOriginX + 178 * personScale;
+            orbCenterY = personOriginY + 158 * personScale;
+        }
+        computeLayout();
 
-            update(dt) {
-                this.turbulence += this.turbSpeed;
+        // ─── Classify glyphs into roles ──────────────────────────────
+        // Each glyph particle gets assigned: 'person', 'orb', or 'ambient'
+        const particles = [];
 
-                if (phase === 0) {
-                    // Swoop in to form person
-                    const t = Math.max(0, Math.min(1, (phaseTimer - this.delay) / (PHASE0_DURATION - 0.6)));
-                    const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        function assignParticles() {
+            particles.length = 0;
 
-                    this.x = this.x + (this.personX - this.x) * ease * 0.08;
-                    this.y = this.y + (this.personY - this.y) * ease * 0.08;
+            for (let i = 0; i < textGlyphs.length; i++) {
+                const g = textGlyphs[i];
+                const p = {
+                    char: g.char,
+                    homeX: g.homeX,
+                    homeY: g.homeY,
+                    x: 0, y: 0,
+                    targetX: g.homeX,
+                    targetY: g.homeY,
+                    role: 'ambient',
+                    delay: Math.random() * 1.0,
+                    turbPhase: Math.random() * Math.PI * 2,
+                    turbSpeed: 0.01 + Math.random() * 0.03,
+                    opacity: 0.15 + Math.random() * 0.15,
+                    baseOpacity: 0.15 + Math.random() * 0.15,
+                    size: 10,
+                    orbAngle: 0,
+                    orbDist: 0,
+                    orbSpeed: 0,
+                    color: null,
+                };
 
-                    // Add swirling turbulence during flight
-                    if (t < 0.8) {
-                        this.x += Math.sin(this.turbulence) * (1 - t) * 3;
-                        this.y += Math.cos(this.turbulence * 0.7) * (1 - t) * 3;
-                    }
-                } else if (phase === 1) {
-                    // Walk toward orb center
-                    const orbScreenX = orbRect.left + 250;
-                    const orbScreenY = orbRect.top + 250;
-
-                    const t = Math.min(1, phaseTimer / PHASE1_DURATION);
-                    const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-
-                    // Bob up and down while walking
-                    this.walkOffsetY = Math.sin(phaseTimer * 6 + this.index * 0.01) * 3 * (1 - t);
-
-                    // Target: shrink person toward orb center
-                    const shrink = 1 - ease * 0.5;
-                    const targetX = this.personX + (orbScreenX - personCenterX) * ease;
-                    const targetY = (this.personY - personCenterY) * shrink + personCenterY + (orbScreenY - personCenterY) * ease + this.walkOffsetY;
-
-                    this.x += (targetX - this.x) * 0.06;
-                    this.y += (targetY - this.y) * 0.06;
-
-                    // Slight particle scatter as person shrinks
-                    if (ease > 0.6) {
-                        const scatter = (ease - 0.6) * 2.5;
-                        this.x += Math.sin(this.turbulence) * scatter * 2;
-                        this.y += Math.cos(this.turbulence * 0.7) * scatter * 2;
-                    }
-                } else if (phase === 2) {
-                    // Dissolve into the orb
-                    const t = Math.min(1, phaseTimer / PHASE2_DURATION);
-                    const orbScreenX = orbRect.left + 250;
-                    const orbScreenY = orbRect.top + 250;
-
-                    // Spiral inward
-                    const angle = this.orbAngle + t * 4;
-                    const radius = (1 - t) * 150;
-                    const targetX = orbScreenX + Math.cos(angle) * radius;
-                    const targetY = orbScreenY + Math.sin(angle) * radius;
-
-                    this.x += (targetX - this.x) * 0.1;
-                    this.y += (targetY - this.y) * 0.1;
-                    this.opacity = this.brightness * 0.8 * (1 - t);
+                // Check if this glyph's home position falls inside the person silhouette
+                const relX = (g.homeX - personOriginX) / personScale;
+                const relY = (g.homeY - personOriginY) / personScale;
+                if (isInsidePerson(relX, relY)) {
+                    p.role = 'person';
+                    p.targetX = g.homeX;
+                    p.targetY = g.homeY;
+                    p.opacity = 0.6 + Math.random() * 0.4;
+                    p.baseOpacity = p.opacity;
                 }
-            }
 
-            draw() {
-                if (this.opacity <= 0.01) return;
-                const scale = 1 + this.z * 0.003;
-                const s = this.size * scale;
-                const colorVal = Math.floor(150 + 105 * this.brightness);
-                dustCtx.fillStyle = `rgba(${colorVal}, ${colorVal}, ${colorVal}, ${this.opacity})`;
-                dustCtx.fillRect(this.x - s / 2, this.y - s / 2, s, s);
+                // Check if inside orb radius
+                const dx = g.homeX - orbCenterX;
+                const dy = g.homeY - orbCenterY;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+                if (dist < orbRadius && p.role !== 'person') {
+                    p.role = 'orb';
+                    p.orbAngle = Math.atan2(dy, dx);
+                    p.orbDist = dist;
+                    p.orbSpeed = 0.003 + Math.random() * 0.008;
+                    p.opacity = 0.7 + Math.random() * 0.3;
+                    p.baseOpacity = p.opacity;
+                }
+
+                // Starting position: scattered off left
+                p.x = -200 - Math.random() * 800;
+                p.y = Math.random() * H;
+
+                particles.push(p);
             }
         }
 
-        // ─── Background ambient particles (snow) ────────────────────
-        const ambientParticles = [];
-        const AMBIENT_COUNT = 800;
-        const settledParticles = [];
-        const heightMap = new Array(dustCanvas.width).fill(dustCanvas.height);
+        assignParticles();
 
-        class AmbientParticle {
-            constructor() { this.reset(); }
+        // ─── Animation phases ────────────────────────────────────────
+        // Phase 0: dust swoops in, forms person + ambient text bg (3.5s)
+        // Phase 1: orb materializes in hand (2s)
+        // Phase 2: interactive — pointer = left hand around orb
+        let phase = 0;
+        let phaseTime = 0;
+        const PHASE0_DUR = 3.5;
+        const PHASE1_DUR = 2.0;
 
-            reset() {
-                this.x = Math.random() * dustCanvas.width;
-                this.y = -Math.random() * 50 - 10;
-                this.vx = 0;
-                if (Math.random() < 0.2) {
-                    const g = Math.floor(80 + Math.random() * 80);
-                    const a = 0.4 + Math.random() * 0.3;
-                    this.color = `rgba(${g}, ${g}, ${g}, ${a})`;
-                    this.brightness = 0.3 + Math.random() * 0.4;
-                } else {
-                    this.brightness = 0.4 + Math.random() * 0.6;
-                    const v = Math.floor(150 + 105 * this.brightness);
-                    const a = this.brightness * 0.7;
-                    this.color = `rgba(${v}, ${v}, ${v}, ${a})`;
-                }
-                this.speedMul = 0.5 + this.brightness;
-                this.size = this.brightness > 0.7 ? 1.5 : 1;
-            }
+        // ─── Interaction state ───────────────────────────────────────
+        let mouseX = W / 2, mouseY = H / 2;
+        let hoveredSection = -1;
+        let orbTime = 0;
 
-            update() {
-                this.y += 0.2 * this.speedMul;
-                this.x += this.vx;
-                const dx = this.x - mouseX, dy = this.y - mouseY;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 100) {
-                    const f = (100 - dist) / 100;
-                    this.x += (dx / dist) * f * 1.5;
-                    this.y += (dy / dist) * f * 0.5;
-                }
-                const xp = Math.floor(this.x);
-                if (xp >= 0 && xp < dustCanvas.width && this.y >= heightMap[xp] - this.size) {
-                    heightMap[xp] -= this.size;
-                    settledParticles.push({ x: xp, y: heightMap[xp], color: this.color, size: this.size });
-                    if (settledParticles.length > 30000) settledParticles.splice(0, 100);
-                    this.reset();
-                    return;
-                }
-                if (this.y > dustCanvas.height + 10) this.reset();
-            }
-
-            draw() {
-                dustCtx.fillStyle = this.color;
-                dustCtx.fillRect(this.x, this.y, this.size, this.size);
-            }
-        }
-
-        for (let i = 0; i < AMBIENT_COUNT; i++) ambientParticles.push(new AmbientParticle());
-
-        // ─── Orb dust particles (appear after person dissolves) ──────
-        const orbDustParticles = [];
-        let orbParticlesReady = false;
-
-        class OrbDustParticle {
-            constructor(localX, localY) {
-                this.baseX = localX;
-                this.baseY = localY;
-                this.x = localX;
-                this.y = localY;
-                this.z = (Math.random() - 0.5) * 40;
-                this.baseZ = this.z;
-                this.angle = Math.random() * Math.PI * 2;
-                this.speed = 0.005 + Math.random() * 0.01;
-                this.size = 1.5;
-                this.opacity = 0.7 + Math.random() * 0.3;
-                this.color = `rgba(255,255,255,${this.opacity})`;
-                this.fadeIn = 0;
-            }
-
-            update() {
-                if (this.fadeIn < 1) this.fadeIn = Math.min(1, this.fadeIn + 0.02);
-                this.angle += this.speed;
-
-                const spiralTime = orbTime * 0.2;
-                const distFromCenter = Math.sqrt((this.baseX - 250) ** 2 + (this.baseY - 250) ** 2);
-                const curAngle = Math.atan2(this.baseY - 250, this.baseX - 250);
-                const spiralAngle = curAngle + spiralTime * 0.5;
-                const spiralRadius = Math.min(220, distFromCenter * (1 + Math.sin(spiralTime + curAngle * 3) * 0.1));
-
-                this.x = 250 + Math.cos(spiralAngle) * spiralRadius + Math.cos(this.angle) * 2;
-                this.y = 250 + Math.sin(spiralAngle) * spiralRadius + Math.sin(this.angle) * 2;
-                this.z = this.baseZ + Math.sin(this.angle * 0.4 + spiralTime) * 1.5;
-            }
-
-            draw() {
-                const scale = 1 + this.z * 0.005;
-                const s = this.size * scale;
-                const depth = Math.max(0.3, 1 - Math.abs(this.z) * 0.01);
-
-                // Color by section
-                if (Math.random() < 0.35) {
-                    const g = 120 + Math.random() * 80;
-                    this.color = `rgba(${g}, ${g}, ${g}, ${0.6 * this.fadeIn})`;
-                } else {
-                    const dist = Math.sqrt((this.x - 250) ** 2 + (this.y - 250) ** 2);
-                    let normAngle = Math.atan2(this.y - 250, this.x - 250) + Math.PI / 2 + (Math.PI * 2 / 7) / 2;
-                    normAngle += Math.sin(dist * 0.05 + orbTime * 3) * 0.2;
-                    if (normAngle >= Math.PI * 2) normAngle -= Math.PI * 2;
-                    if (normAngle < 0) normAngle += Math.PI * 2;
-                    const secIdx = Math.floor(normAngle / ((Math.PI * 2) / 7));
-                    this.color = palette[secIdx] + Math.floor(160 * this.fadeIn).toString(16).padStart(2, '0');
-                }
-
-                orbCtx.fillStyle = this.color;
-                orbCtx.fillRect(this.x - s / 2, this.y - s / 2, s, s);
-            }
-        }
-
-        function createOrbParticles() {
-            orbDustParticles.length = 0;
-            for (let i = 0; i < 2500; i++) {
-                const a = Math.random() * Math.PI * 2;
-                const r = Math.random() * 220;
-                orbDustParticles.push(new OrbDustParticle(250 + Math.cos(a) * r, 250 + Math.sin(a) * r));
-            }
-            orbParticlesReady = true;
-        }
-
-        // ─── Person dust particles ───────────────────────────────────
-        const dustParticles = [];
-        for (let i = 0; i < PERSON_PARTICLE_COUNT; i++) {
-            dustParticles.push(new DustParticle(i));
-        }
+        const handCursor = document.getElementById('handCursor');
+        const contentEl = document.getElementById('contentEl');
 
         // ─── Info panels ─────────────────────────────────────────────
-        const aboutInfo = document.getElementById('aboutInfo');
-        const workInfo = document.getElementById('workInfo');
-        const skillsInfo = document.getElementById('skillsInfo');
-        const contactInfo = document.getElementById('contactInfo');
-        const githubInfo = document.getElementById('githubInfo');
-        const linkedinInfo = document.getElementById('linkedinInfo');
-        const allInfoPanels = [aboutInfo, workInfo, skillsInfo, , contactInfo, githubInfo, linkedinInfo];
+        const panels = {
+            0: document.getElementById('aboutInfo'),
+            1: document.getElementById('workInfo'),
+            2: document.getElementById('skillsInfo'),
+            4: document.getElementById('contactInfo'),
+            5: document.getElementById('githubInfo'),
+            6: document.getElementById('linkedinInfo'),
+        };
 
-        function updateInfoPanels(sectionIndex) {
-            allInfoPanels.forEach(p => { if (p) { p.classList.remove('visible'); p.style.color = ''; } });
-            let panel = null;
-            switch (sectionIndex) {
-                case 0: panel = aboutInfo; break;
-                case 1: panel = workInfo; break;
-                case 2: panel = skillsInfo; break;
-                case 4: panel = contactInfo; break;
-                case 5: panel = githubInfo; break;
-                case 6: panel = linkedinInfo; break;
+        function updateInfoPanels(idx) {
+            Object.values(panels).forEach(p => { if(p) { p.classList.remove('visible'); p.style.color=''; }});
+            if (panels[idx]) {
+                panels[idx].classList.add('visible');
+                panels[idx].style.color = palette[idx];
             }
-            if (panel) {
-                panel.classList.add('visible');
-                panel.style.color = palette[sectionIndex];
-            }
+        }
+
+        function getOrbSection(px, py) {
+            const dx = px - orbCenterX;
+            const dy = py - orbCenterY;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            if (dist > orbRadius + 15) return -1;
+            let angle = Math.atan2(dy, dx) + Math.PI/2 + (Math.PI*2/7)/2;
+            if (angle >= Math.PI*2) angle -= Math.PI*2;
+            if (angle < 0) angle += Math.PI*2;
+            return Math.floor(angle / ((Math.PI*2)/7));
         }
 
         // ─── Event listeners ─────────────────────────────────────────
-        document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
-
-        orbCanvas.addEventListener('mousemove', (e) => {
-            const rect = orbCanvas.getBoundingClientRect();
-            const x = e.clientX - rect.left - 250;
-            const y = e.clientY - rect.top - 250;
-            const angle = Math.atan2(y, x);
-            const distance = Math.sqrt(x * x + y * y);
-            let currentSection = -1;
-            if (distance < 220) {
-                let normAngle = angle + Math.PI / 2 + (Math.PI * 2 / 7) / 2;
-                if (normAngle >= Math.PI * 2) normAngle -= Math.PI * 2;
-                currentSection = Math.floor(normAngle / ((Math.PI * 2) / 7));
+        function handlePointer(px, py) {
+            mouseX = px; mouseY = py;
+            if (!isMobile) {
+                handCursor.style.left = px + 'px';
+                handCursor.style.top = py + 'px';
             }
-            if (hoveredSection !== currentSection) {
-                hoveredSection = currentSection;
-                updateInfoPanels(hoveredSection);
-                document.querySelectorAll('.nav-links a').forEach(link => {
-                    const ld = parseInt(link.dataset.section, 10);
-                    const map = {1:0, 2:1, 3:2, 5:4, 6:5, 7:6};
-                    if (map[ld] === hoveredSection) {
-                        link.style.color = palette[hoveredSection];
-                        link.style.textShadow = `0 0 10px ${palette[hoveredSection]}`;
-                    } else {
-                        link.style.color = '#ffffff';
-                        link.style.textShadow = 'none';
+            if (phase >= 2) {
+                const sec = getOrbSection(px, py);
+                if (sec !== hoveredSection) {
+                    hoveredSection = sec;
+                    updateInfoPanels(hoveredSection);
+                    highlightNav(hoveredSection);
+                    // Update hand cursor color
+                    if (!isMobile) {
+                        if (sec >= 0) {
+                            handCursor.style.color = palette[sec];
+                            handCursor.style.textShadow = `0 0 12px ${palette[sec]}`;
+                        } else {
+                            handCursor.style.color = '#fff';
+                            handCursor.style.textShadow = '0 0 8px rgba(255,255,255,0.6)';
+                        }
                     }
-                });
+                }
             }
-        });
+        }
 
-        orbCanvas.addEventListener('mouseleave', () => {
-            if (hoveredSection !== -1) {
-                hoveredSection = -1;
-                updateInfoPanels(-1);
-                document.querySelectorAll('.nav-links a').forEach(l => { l.style.color = '#ffffff'; l.style.textShadow = 'none'; });
-            }
-        });
+        document.addEventListener('mousemove', e => handlePointer(e.clientX, e.clientY));
+        document.addEventListener('touchmove', e => {
+            e.preventDefault();
+            handlePointer(e.touches[0].clientX, e.touches[0].clientY);
+        }, { passive: false });
+        document.addEventListener('touchstart', e => {
+            handlePointer(e.touches[0].clientX, e.touches[0].clientY);
+        }, { passive: true });
+
+        const sectionMap = {1:0, 2:1, 3:2, 5:4, 6:5, 7:6};
+
+        function highlightNav(sec) {
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                const ld = parseInt(link.dataset.section, 10);
+                if (sectionMap[ld] === sec) {
+                    link.style.color = palette[sec];
+                    link.style.textShadow = `0 0 10px ${palette[sec]}`;
+                } else {
+                    link.style.color = '#ffffff';
+                    link.style.textShadow = 'none';
+                }
+            });
+        }
 
         document.querySelectorAll('.nav-links a').forEach(link => {
-            const ld = parseInt(link.dataset.section, 10);
-            const map = {1:0, 2:1, 3:2, 5:4, 6:5, 7:6};
-            const section = map[ld];
-            link.addEventListener('mouseenter', () => {
-                hoveredSection = section;
-                updateInfoPanels(section);
-                document.querySelectorAll('.nav-links a').forEach(il => {
-                    const ild = parseInt(il.dataset.section, 10);
-                    if (map[ild] === section) {
-                        il.style.color = palette[section];
-                        il.style.textShadow = `0 0 10px ${palette[section]}`;
-                    } else {
-                        il.style.color = '#ffffff';
-                        il.style.textShadow = 'none';
-                    }
-                });
-            });
-            link.addEventListener('mouseleave', () => {
-                hoveredSection = -1;
-                updateInfoPanels(-1);
-                document.querySelectorAll('.nav-links a').forEach(l => { l.style.color = '#ffffff'; l.style.textShadow = 'none'; });
-            });
+            const sec = sectionMap[parseInt(link.dataset.section, 10)];
+            link.addEventListener('mouseenter', () => { hoveredSection = sec; updateInfoPanels(sec); highlightNav(sec); });
+            link.addEventListener('mouseleave', () => { hoveredSection = -1; updateInfoPanels(-1); highlightNav(-1); });
         });
 
-        // ─── Main animation loop ─────────────────────────────────────
+        // ─── Main loop ──────────────────────────────────────────────
         let lastTime = performance.now();
-        let uiRevealed = false;
+        let uiShown = false;
 
         function animate(now) {
             const dt = (now - lastTime) / 1000;
             lastTime = now;
-            phaseTimer += dt;
-            orbTime += 0.01;
+            phaseTime += dt;
+            orbTime += dt;
 
-            dustCtx.clearRect(0, 0, dustCanvas.width, dustCanvas.height);
-            orbCtx.clearRect(0, 0, 500, 500);
+            ctx.clearRect(0, 0, W, H);
+            ctx.font = FONT;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
 
             // Phase transitions
-            if (phase === 0 && phaseTimer >= PHASE0_DURATION) {
-                phase = 1;
-                phaseTimer = 0;
-            } else if (phase === 1 && phaseTimer >= PHASE1_DURATION) {
-                phase = 2;
-                phaseTimer = 0;
-                if (!orbParticlesReady) createOrbParticles();
-            } else if (phase === 2 && phaseTimer >= PHASE2_DURATION) {
-                phase = 3; // done
+            if (phase === 0 && phaseTime >= PHASE0_DUR) { phase = 1; phaseTime = 0; }
+            if (phase === 1 && phaseTime >= PHASE1_DUR) { phase = 2; phaseTime = 0; }
+
+            // Show UI when orb starts forming
+            if (phase >= 1 && !uiShown) {
+                contentEl.classList.add('visible');
+                document.getElementById('navLinks').classList.add('visible');
+                uiShown = true;
             }
 
-            // Reveal UI during phase 2
-            if (phase >= 2 && !uiRevealed) {
-                document.querySelector('.content').classList.add('visible');
-                document.querySelector('.nav-links').classList.add('visible');
-                uiRevealed = true;
+            // ─── Update & draw each particle ─────────────────────────
+            for (let i = 0; i < particles.length; i++) {
+                const p = particles[i];
+                p.turbPhase += p.turbSpeed;
+
+                if (phase === 0) {
+                    // Swoop in from left
+                    const t = Math.max(0, Math.min(1, (phaseTime - p.delay) / (PHASE0_DUR - 1.0)));
+                    const ease = t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; // cubic ease
+
+                    if (p.role === 'orb') {
+                        // Orb particles go to home but stay dim (not visible yet)
+                        p.x += (p.homeX - p.x) * ease * 0.06;
+                        p.y += (p.homeY - p.y) * ease * 0.06;
+                        p.opacity = p.baseOpacity * 0.1; // barely visible
+                    } else {
+                        p.x += (p.targetX - p.x) * ease * 0.07;
+                        p.y += (p.targetY - p.y) * ease * 0.07;
+                        if (p.role === 'person') {
+                            p.opacity = p.baseOpacity * ease;
+                        }
+                    }
+
+                    // Turbulence while flying
+                    if (t < 0.85) {
+                        const turb = (1 - t) * 4;
+                        p.x += Math.sin(p.turbPhase) * turb;
+                        p.y += Math.cos(p.turbPhase * 0.7) * turb;
+                    }
+                } else if (phase === 1) {
+                    // Person is formed — gentle breathing idle
+                    if (p.role === 'person') {
+                        const breath = Math.sin(orbTime * 1.5) * 1.5;
+                        p.x += (p.targetX - p.x) * 0.1;
+                        p.y += (p.targetY + breath - p.y) * 0.1;
+                    } else if (p.role === 'orb') {
+                        // Orb materializes — fade in + start spiral
+                        const t = Math.min(1, phaseTime / PHASE1_DUR);
+                        p.opacity = p.baseOpacity * t;
+
+                        p.orbAngle += p.orbSpeed;
+                        const spiralAngle = p.orbAngle + orbTime * 0.3;
+                        const r = p.orbDist * (0.3 + 0.7 * t);
+                        const tx = orbCenterX + Math.cos(spiralAngle) * r;
+                        const ty = orbCenterY + Math.sin(spiralAngle) * r;
+                        p.x += (tx - p.x) * 0.08;
+                        p.y += (ty - p.y) * 0.08;
+                    } else {
+                        // Ambient settles at home
+                        p.x += (p.homeX - p.x) * 0.05;
+                        p.y += (p.homeY - p.y) * 0.05;
+                    }
+                } else {
+                    // Phase 2: interactive
+                    if (p.role === 'person') {
+                        const breath = Math.sin(orbTime * 1.5) * 1.5;
+                        p.x += (p.targetX - p.x) * 0.1;
+                        p.y += (p.targetY + breath - p.y) * 0.1;
+                        p.opacity = p.baseOpacity;
+
+                        // Gentle shimmer
+                        p.opacity = p.baseOpacity * (0.85 + Math.sin(p.turbPhase * 2 + i * 0.1) * 0.15);
+                    } else if (p.role === 'orb') {
+                        // Spiral animation
+                        p.orbAngle += p.orbSpeed;
+                        const spiralTime = orbTime * 0.3;
+                        const baseAngle = p.orbAngle + spiralTime;
+                        const waveR = p.orbDist * (1 + Math.sin(spiralTime + p.orbAngle * 3) * 0.08);
+                        const r = Math.min(orbRadius, waveR);
+                        p.x = orbCenterX + Math.cos(baseAngle) * r;
+                        p.y = orbCenterY + Math.sin(baseAngle) * r;
+
+                        // Color by orb section
+                        let angle = Math.atan2(p.y - orbCenterY, p.x - orbCenterX) + Math.PI/2 + (Math.PI*2/7)/2;
+                        const dist = Math.sqrt((p.x-orbCenterX)**2 + (p.y-orbCenterY)**2);
+                        angle += Math.sin(dist * 0.04 + orbTime * 2) * 0.2;
+                        if (angle >= Math.PI*2) angle -= Math.PI*2;
+                        if (angle < 0) angle += Math.PI*2;
+                        const secIdx = Math.floor(angle / ((Math.PI*2)/7));
+
+                        // Grey or colored
+                        if (Math.random() < 0.3) {
+                            const g = 120 + Math.random() * 80;
+                            p.color = `rgba(${g},${g},${g},${p.opacity * 0.7})`;
+                        } else {
+                            p.color = palette[secIdx];
+                        }
+
+                        // Pointer (left hand) interaction — push orb particles
+                        const dxM = p.x - mouseX;
+                        const dyM = p.y - mouseY;
+                        const distM = Math.sqrt(dxM*dxM + dyM*dyM);
+                        if (distM < 60) {
+                            const push = (60 - distM) / 60 * 3;
+                            p.x += (dxM / distM) * push;
+                            p.y += (dyM / distM) * push;
+                        }
+
+                        // Highlight section near pointer
+                        if (hoveredSection >= 0 && secIdx === hoveredSection) {
+                            p.opacity = Math.min(1, p.baseOpacity * 1.5);
+                        } else {
+                            p.opacity = p.baseOpacity;
+                        }
+                    } else {
+                        // Ambient: gentle drift
+                        p.x += (p.homeX - p.x) * 0.02;
+                        p.y += (p.homeY - p.y) * 0.02;
+                        p.x += Math.sin(p.turbPhase) * 0.3;
+                        p.y += Math.cos(p.turbPhase * 0.6) * 0.2;
+
+                        // Mouse repel ambient
+                        const dxM = p.x - mouseX;
+                        const dyM = p.y - mouseY;
+                        const distM = Math.sqrt(dxM*dxM + dyM*dyM);
+                        if (distM < 80) {
+                            p.x += (dxM / distM) * 1.5;
+                            p.y += (dyM / distM) * 1.5;
+                        }
+                    }
+                }
+
+                // ─── Draw ────────────────────────────────────────────
+                if (p.opacity < 0.01) continue;
+
+                if (p.role === 'orb' && phase >= 1 && p.color) {
+                    ctx.fillStyle = typeof p.color === 'string' && p.color.startsWith('rgba')
+                        ? p.color
+                        : hexToRgba(p.color, p.opacity);
+                } else if (p.role === 'person') {
+                    const v = 180 + Math.floor(Math.random() * 75);
+                    ctx.fillStyle = `rgba(${v},${v},${v},${p.opacity})`;
+                } else {
+                    const v = 100 + Math.floor(Math.random() * 60);
+                    ctx.fillStyle = `rgba(${v},${v},${v},${p.opacity})`;
+                }
+
+                ctx.fillText(p.char, p.x, p.y);
             }
 
-            // Background ambient snow
-            ambientParticles.forEach(p => { p.update(); p.draw(); });
-            settledParticles.forEach(p => {
-                dustCtx.fillStyle = p.color;
-                dustCtx.fillRect(p.x, p.y, p.size, p.size);
-            });
-
-            // Person dust particles (phases 0-2)
-            if (phase < 3) {
-                dustParticles.forEach(p => { p.update(dt); p.draw(); });
-            }
-
-            // Orb particles (phase 2 onward)
-            if (orbParticlesReady) {
-                orbDustParticles.forEach(p => { p.update(); p.draw(); });
+            // ─── Draw pointer "hand" trail on orb ───────────────────
+            if (phase >= 2 && hoveredSection >= 0) {
+                // Faint glow ring where pointer interacts with orb
+                ctx.beginPath();
+                ctx.arc(mouseX, mouseY, 20, 0, Math.PI * 2);
+                ctx.strokeStyle = palette[hoveredSection] + '40';
+                ctx.lineWidth = 2;
+                ctx.stroke();
             }
 
             requestAnimationFrame(animate);
         }
 
-        function updateOrbPosition() {
-            orbRect = orbCanvas.getBoundingClientRect();
+        function hexToRgba(hex, alpha) {
+            const r = parseInt(hex.slice(1,3), 16);
+            const g = parseInt(hex.slice(3,5), 16);
+            const b = parseInt(hex.slice(5,7), 16);
+            return `rgba(${r},${g},${b},${alpha})`;
         }
 
+        // ─── Resize handler ──────────────────────────────────────────
         window.addEventListener('resize', () => {
-            dustCanvas.width = window.innerWidth;
-            dustCanvas.height = window.innerHeight;
-            heightMap.length = dustCanvas.width;
-            heightMap.fill(dustCanvas.height);
-            settledParticles.length = 0;
-            updateOrbPosition();
+            resize();
+            computeLayout();
+            buildGlyphGrid();
+            assignParticles();
+            // Keep current phase but reset particles to current positions
+            if (phase >= 2) {
+                particles.forEach(p => { p.x = p.role === 'orb' ? orbCenterX : p.targetX; p.y = p.role === 'orb' ? orbCenterY : p.targetY; });
+            }
         });
 
-        document.addEventListener('DOMContentLoaded', () => {
-            updateOrbPosition();
-        });
-
-        updateOrbPosition();
         requestAnimationFrame(animate);
     </script>
 </body>
