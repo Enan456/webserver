@@ -1206,26 +1206,38 @@ alias la="ls -a"` },
             'linkedin.com/in/enan-srivastava  [click to open]',
         ];
 
-        // Animation loop
+        // Animation loop — smooth phase blending
         let phase = 0, phaseTime = 0, orbTime = 0;
-        const P0 = 3.5, P1 = 2.0;
+        const P0 = 3.5, P1 = 2.5;
+        const BLEND_TIME = 1.2; // seconds to cross-fade between phases
         let lastT = performance.now();
+
+        // Store previous phase positions for blending
+        function lerpPos(p, targetX, targetY, targetOp, blend) {
+            // blend 0 = keep current, 1 = fully at target
+            p.x += (targetX - p.x) * blend;
+            p.y += (targetY - p.y) * blend;
+            p.opacity += (targetOp - p.opacity) * blend;
+        }
 
         await new Promise(resolve => {
             function frame(now) {
                 if (animCancelled) { resolve(); return; }
 
-                const dt = (now - lastT) / 1000;
+                const dt = Math.min((now - lastT) / 1000, 0.05); // cap dt to prevent jumps
                 lastT = now;
                 phaseTime += dt;
                 orbTime += dt;
 
                 animCtx.clearRect(0, 0, AW, AH);
 
-                // Phase transitions
+                // Phase transitions (track blend factor)
+                let prevPhase = phase;
                 if (phase === 0 && phaseTime >= P0) { phase = 1; phaseTime = 0; }
                 if (phase === 1 && phaseTime >= P1) { phase = 2; phaseTime = 0; }
-                // Phase 2 runs forever — only Ctrl+C exits
+                // Blend factor: 0→1 over BLEND_TIME at start of each new phase
+                const blend = Math.min(1, phaseTime / BLEND_TIME);
+                const easeBlend = blend * blend * (3 - 2 * blend); // smoothstep
 
                 // Update hovered section in phase 2
                 if (phase === 2) {
@@ -1249,61 +1261,82 @@ alias la="ls -a"` },
                     const p = parts[i];
                     p.turbPhase += p.turbSpeed;
 
+                    // Common motion values
+                    const breath = Math.sin(orbTime * 1.5 + i * 0.003) * 2.5;
+                    const driftX = Math.sin(p.turbPhase * 1.3 + i * 0.05) * 4;
+                    const driftY = Math.cos(p.turbPhase * 0.9 + i * 0.07) * 3.5 + breath;
+                    const swirl = Math.sin(orbTime * 2.5 + i * 0.02) * 2;
+                    const shimmer = 0.7 + Math.sin(p.turbPhase * 2.5 + i * 0.1) * 0.2;
+
                     if (phase === 0) {
-                        const t = Math.max(0, Math.min(1, (phaseTime - p.delay) / (P0 - 1)));
-                        const ease = t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
+                        // Swoop in — use smooth chase toward targets
+                        const t = Math.max(0, Math.min(1, (phaseTime - p.delay) / (P0 - 0.5)));
+                        const ease = t * t * (3 - 2 * t); // smoothstep
+                        const speed = 0.03 + ease * 0.05; // accelerate as they arrive
+
                         if (p.role === 'orb') {
-                            p.x += (p.homeX - p.x) * ease * 0.06;
-                            p.y += (p.homeY - p.y) * ease * 0.06;
-                            p.opacity = p.baseOp * 0.1;
+                            p.x += (p.homeX - p.x) * speed;
+                            p.y += (p.homeY - p.y) * speed;
+                            p.opacity += (p.baseOp * 0.1 - p.opacity) * 0.1;
                         } else {
-                            p.x += (p.targetX - p.x) * ease * 0.07;
-                            p.y += (p.targetY - p.y) * ease * 0.07;
-                            p.opacity = p.role === 'person' ? p.baseOp * ease : p.baseOp * ease * 0.5;
+                            p.x += (p.targetX - p.x) * speed;
+                            p.y += (p.targetY - p.y) * speed;
+                            const targetOp = p.role === 'person' ? p.baseOp * ease : p.baseOp * ease * 0.5;
+                            p.opacity += (targetOp - p.opacity) * 0.1;
                         }
-                        if (t < 0.85) {
-                            const turb = (1-t)*4;
-                            p.x += Math.sin(p.turbPhase)*turb;
-                            p.y += Math.cos(p.turbPhase*0.7)*turb;
-                        }
+                        // Turbulence fades out smoothly
+                        const turbAmt = Math.max(0, 1 - ease) * 3;
+                        p.x += Math.sin(p.turbPhase) * turbAmt;
+                        p.y += Math.cos(p.turbPhase * 0.7) * turbAmt;
+
                     } else if (phase === 1) {
+                        // Orb materializes — person idles
+                        // Use easeBlend to smooth the 0→1 transition
+                        const lerpRate = 0.04 + easeBlend * 0.04;
+
                         if (p.role === 'person') {
-                            const breath = Math.sin(orbTime*1.5)*2;
-                            const driftX = Math.sin(p.turbPhase*1.3+i*0.05)*3;
-                            const driftY = Math.cos(p.turbPhase*0.9+i*0.07)*3+breath;
-                            p.x += (p.targetX+driftX-p.x)*0.06;
-                            p.y += (p.targetY+driftY-p.y)*0.06;
-                            p.opacity = p.baseOp;
+                            const dx = driftX * easeBlend;
+                            const dy = (driftY - breath + breath * easeBlend);
+                            p.x += (p.targetX + dx - p.x) * lerpRate;
+                            p.y += (p.targetY + dy - p.y) * lerpRate;
+                            p.opacity += (p.baseOp - p.opacity) * (0.05 + easeBlend * 0.05);
                         } else if (p.role === 'orb') {
-                            const t = Math.min(1, phaseTime/P1);
-                            p.opacity = p.baseOp * t;
+                            const t = Math.min(1, phaseTime / P1);
+                            const orbEase = t * t * (3 - 2 * t);
+                            p.opacity += (p.baseOp * orbEase - p.opacity) * 0.08;
                             p.orbAngle += p.orbSpeed;
-                            const sa = p.orbAngle + orbTime*0.3;
-                            const r = p.orbDist*(0.3+0.7*t);
-                            p.x += (orbCX+Math.cos(sa)*r - p.x)*0.08;
-                            p.y += (orbCY+Math.sin(sa)*r - p.y)*0.08;
+                            const sa = p.orbAngle + orbTime * 0.3;
+                            const r = p.orbDist * (0.2 + 0.8 * orbEase);
+                            const tx = orbCX + Math.cos(sa) * r;
+                            const ty = orbCY + Math.sin(sa) * r;
+                            p.x += (tx - p.x) * (0.04 + orbEase * 0.06);
+                            p.y += (ty - p.y) * (0.04 + orbEase * 0.06);
                         } else {
-                            p.x += (p.homeX-p.x)*0.05;
-                            p.y += (p.homeY-p.y)*0.05;
-                            p.opacity = p.baseOp;
+                            p.x += (p.homeX - p.x) * lerpRate;
+                            p.y += (p.homeY - p.y) * lerpRate;
+                            p.opacity += (p.baseOp - p.opacity) * 0.05;
                         }
+
                     } else {
-                        // Phase 2: living idle
+                        // Phase 2: living idle + interactive — smooth blend in
+                        const lerpRate = 0.03 + easeBlend * 0.03;
+
                         if (p.role === 'person') {
-                            const breath = Math.sin(orbTime*1.5+i*0.003)*2.5;
-                            const driftX = Math.sin(p.turbPhase*1.3+i*0.05)*4;
-                            const driftY = Math.cos(p.turbPhase*0.9+i*0.07)*3.5+breath;
-                            const swirl = Math.sin(orbTime*2.5+i*0.02)*2;
-                            p.x += (p.targetX+driftX+swirl-p.x)*0.05;
-                            p.y += (p.targetY+driftY-p.y)*0.05;
-                            p.opacity = p.baseOp*(0.7+Math.sin(p.turbPhase*2.5+i*0.1)*0.2);
+                            const targetX = p.targetX + driftX + swirl;
+                            const targetY = p.targetY + driftY;
+                            p.x += (targetX - p.x) * lerpRate;
+                            p.y += (targetY - p.y) * lerpRate;
+                            p.opacity += (p.baseOp * shimmer - p.opacity) * 0.08;
                         } else if (p.role === 'orb') {
                             p.orbAngle += p.orbSpeed;
-                            const st = orbTime*0.3;
-                            const ba = p.orbAngle+st;
-                            const r = Math.min(orbR, p.orbDist*(1+Math.sin(st+p.orbAngle*3)*0.08));
-                            p.x = orbCX+Math.cos(ba)*r;
-                            p.y = orbCY+Math.sin(ba)*r;
+                            const st = orbTime * 0.3;
+                            const ba = p.orbAngle + st;
+                            const r = Math.min(orbR, p.orbDist * (1 + Math.sin(st + p.orbAngle * 3) * 0.08));
+                            const targetX = orbCX + Math.cos(ba) * r;
+                            const targetY = orbCY + Math.sin(ba) * r;
+                            // Smooth lerp instead of snap (especially important at phase 1→2 transition)
+                            p.x += (targetX - p.x) * (0.06 + easeBlend * 0.1);
+                            p.y += (targetY - p.y) * (0.06 + easeBlend * 0.1);
                             // Section color
                             let ang = Math.atan2(p.y-orbCY, p.x-orbCX)+Math.PI/2+(Math.PI*2/7)/2;
                             ang += Math.sin(Math.sqrt((p.x-orbCX)**2+(p.y-orbCY)**2)*0.04+orbTime*2)*0.2;
