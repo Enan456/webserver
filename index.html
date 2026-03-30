@@ -1145,7 +1145,7 @@ alias la="ls -a"` },
                     turbSpeed: 0.01 + Math.random() * 0.03,
                     delay: Math.random() * 1.0,
                     seed: Math.random(),
-                    colorVal: 180 + Math.floor(Math.random() * 75),
+                    colorVal: 210 + Math.floor(Math.random() * 45),
                     ambVal: 100 + Math.floor(Math.random() * 60),
                     orbAngle: Math.atan2(dy, dx),
                     orbDist: dist,
@@ -1288,16 +1288,20 @@ alias la="ls -a"` },
                     const p = parts[i];
                     p.turbPhase += p.turbSpeed;
 
-                    // Common motion values — breathing is prominent
+                    // Common motion values — breathing only active after phase 0
+                    const inPhase0 = phase === 0;
                     const breathCycle = Math.sin(orbTime * 1.2 + i * 0.002);
-                    const breathY = breathCycle * 5; // vertical rise/fall
-                    // Chest expansion: particles near torso center expand outward
-                    const relToPersonCX = p.targetX - (pOriginX + 150 * pScale);
-                    const relToPersonCY = p.targetY - (pOriginY + 160 * pScale);
-                    const distToChest = Math.sqrt(relToPersonCX * relToPersonCX + relToPersonCY * relToPersonCY);
-                    const chestExpand = p.role === 'person' && distToChest < 80 * pScale
-                        ? breathCycle * (1 - distToChest / (80 * pScale)) * 4 : 0;
-                    const breathX = relToPersonCX !== 0 ? chestExpand * Math.sign(relToPersonCX) : 0;
+                    const breathY = inPhase0 ? 0 : breathCycle * 5;
+                    // Chest expansion: only for person particles after swoop-in
+                    let breathX = 0;
+                    if (!inPhase0 && p.role === 'person') {
+                        const relCX = p.targetX - (pOriginX + 150 * pScale);
+                        const relCY = p.targetY - (pOriginY + 160 * pScale);
+                        const distChest = Math.sqrt(relCX * relCX + relCY * relCY);
+                        if (distChest < 80 * pScale && relCX !== 0) {
+                            breathX = breathCycle * (1 - distChest / (80 * pScale)) * 4 * Math.sign(relCX);
+                        }
+                    }
 
                     const driftX = Math.sin(p.turbPhase * 1.3 + i * 0.05) * 4 + breathX;
                     const driftY = Math.cos(p.turbPhase * 0.9 + i * 0.07) * 3.5 + breathY;
@@ -1410,19 +1414,29 @@ alias la="ls -a"` },
                         }
                     }
 
-                    if (p.opacity < 0.01) continue;
+                    // Store draw info (draw in layered passes below)
+                }
 
-                    if (p.role === 'orb' && phase >= 1 && p.color) {
-                        animCtx.fillStyle = hexToRgba(p.color, p.opacity);
-                    } else if (p.role === 'person') {
-                        animCtx.fillStyle = `rgba(${p.colorVal},${p.colorVal},${p.colorVal},${p.opacity})`;
-                    } else if (p.role === 'orb' && phase >= 1) {
-                        const g = 120 + p.seed * 80;
-                        animCtx.fillStyle = `rgba(${g|0},${g|0},${g|0},${p.opacity * 0.7})`;
-                    } else {
-                        animCtx.fillStyle = `rgba(${p.ambVal},${p.ambVal},${p.ambVal},${p.opacity})`;
+                // Draw pass: ambient FIRST (background), then person, then orb on top
+                for (let pass = 0; pass < 3; pass++) {
+                    const drawRole = pass === 0 ? 'ambient' : pass === 1 ? 'person' : 'orb';
+                    for (let i = 0; i < parts.length; i++) {
+                        const p = parts[i];
+                        if (p.role !== drawRole) continue;
+                        if (p.opacity < 0.01) continue;
+
+                        if (p.role === 'orb' && phase >= 1 && p.color) {
+                            animCtx.fillStyle = hexToRgba(p.color, p.opacity);
+                        } else if (p.role === 'person') {
+                            animCtx.fillStyle = `rgba(${p.colorVal},${p.colorVal},${p.colorVal},${p.opacity})`;
+                        } else if (p.role === 'orb' && phase >= 1) {
+                            const g = 120 + p.seed * 80;
+                            animCtx.fillStyle = `rgba(${g|0},${g|0},${g|0},${p.opacity * 0.7})`;
+                        } else {
+                            animCtx.fillStyle = `rgba(${p.ambVal},${p.ambVal},${p.ambVal},${p.opacity})`;
+                        }
+                        animCtx.fillText(p.ch, p.x, p.y);
                     }
-                    animCtx.fillText(p.ch, p.x, p.y);
                 }
 
                 // Title + interactive UI in phase 2
