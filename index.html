@@ -15,7 +15,7 @@
             font-family: 'Orbitron', monospace;
             width: 100vw;
             height: 100vh;
-            cursor: none;
+            cursor: default;
         }
 
         canvas {
@@ -104,7 +104,7 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
             position: relative;
-            cursor: none;
+            cursor: default;
         }
 
         .nav-links a::after {
@@ -158,7 +158,7 @@
                 margin-bottom: 0.5em;
             }
             #handCursor { display: none; }
-            body { cursor: crosshair; }
+            body { cursor: default; }
         }
     </style>
 </head>
@@ -283,38 +283,126 @@
         // ─── Person silhouette via offscreen canvas ──────────────────
         function generatePersonMask() {
             const off = document.createElement('canvas');
-            const w = 180, h = 360;
+            const w = 300, h = 500;
             off.width = w; off.height = h;
             const c = off.getContext('2d');
             c.fillStyle = '#fff'; c.strokeStyle = '#fff';
-            c.lineCap = 'round';
+            c.lineCap = 'round'; c.lineJoin = 'round';
 
-            // Head
-            c.beginPath(); c.arc(90, 45, 28, 0, Math.PI*2); c.fill();
-            // Neck
-            c.fillRect(82, 71, 16, 18);
-            // Torso
+            // ── Hair (messy/textured top) ──
             c.beginPath();
-            c.moveTo(55,89); c.lineTo(125,89); c.lineTo(118,200); c.lineTo(62,200);
+            c.moveTo(118, 18); c.quadraticCurveTo(130, 5, 155, 10);
+            c.quadraticCurveTo(175, 8, 182, 18);
+            c.quadraticCurveTo(188, 10, 185, 25);
+            c.quadraticCurveTo(190, 20, 188, 35);
+            c.lineTo(185, 42);
+            c.lineTo(115, 42);
+            c.quadraticCurveTo(110, 25, 112, 18);
+            c.quadraticCurveTo(115, 10, 118, 18);
             c.closePath(); c.fill();
-            // Left arm — relaxed down
-            c.lineWidth = 14; c.beginPath();
-            c.moveTo(55,96); c.quadraticCurveTo(18,150, 30,200);
+
+            // ── Head (oval, slightly angled) ──
+            c.beginPath();
+            c.ellipse(150, 58, 32, 38, 0, 0, Math.PI * 2);
+            c.fill();
+
+            // ── Ear left ──
+            c.beginPath();
+            c.ellipse(116, 58, 6, 10, -0.15, 0, Math.PI * 2);
+            c.fill();
+
+            // ── Ear right ──
+            c.beginPath();
+            c.ellipse(184, 58, 6, 10, 0.15, 0, Math.PI * 2);
+            c.fill();
+
+            // ── Neck ──
+            c.beginPath();
+            c.moveTo(138, 90); c.lineTo(162, 90);
+            c.lineTo(160, 112); c.lineTo(140, 112);
+            c.closePath(); c.fill();
+
+            // ── Shoulders / collar area (trapezoid, wide) ──
+            c.beginPath();
+            c.moveTo(140, 112); c.quadraticCurveTo(150, 108, 160, 112);
+            c.lineTo(210, 130); c.lineTo(205, 140);
+            c.lineTo(95, 140); c.lineTo(90, 130);
+            c.closePath(); c.fill();
+
+            // ── Torso (tapered, with some shape) ──
+            c.beginPath();
+            c.moveTo(95, 140);
+            c.quadraticCurveTo(88, 180, 92, 220);  // left side curves in (waist)
+            c.quadraticCurveTo(90, 250, 95, 280);   // hip widens
+            c.lineTo(205, 280);
+            c.quadraticCurveTo(210, 250, 208, 220);
+            c.quadraticCurveTo(212, 180, 205, 140);
+            c.closePath(); c.fill();
+
+            // ── Belt area ──
+            c.fillRect(93, 272, 114, 12);
+
+            // ── Left arm — hangs relaxed with slight bend ──
+            c.lineWidth = 18; c.beginPath();
+            c.moveTo(90, 135);
+            c.quadraticCurveTo(60, 175, 55, 220);
+            c.quadraticCurveTo(50, 260, 58, 295);
             c.stroke();
-            // Right arm — extended forward holding orb
-            c.lineWidth = 14; c.beginPath();
-            c.moveTo(125,96); c.quadraticCurveTo(170,120, 178,155);
-            c.stroke();
-            // Right hand/palm area (wider for orb cradle)
-            c.beginPath(); c.arc(178, 158, 10, 0, Math.PI*2); c.fill();
-            // Left leg
+            // Left forearm
             c.lineWidth = 16; c.beginPath();
-            c.moveTo(75,200); c.quadraticCurveTo(65,280, 55,345);
+            c.moveTo(58, 295);
+            c.quadraticCurveTo(55, 320, 60, 340);
             c.stroke();
-            // Right leg
+            // Left hand
+            c.beginPath(); c.arc(60, 345, 10, 0, Math.PI*2); c.fill();
+            // Fingers (3 small bumps)
+            c.lineWidth = 5;
+            c.beginPath(); c.moveTo(52, 345); c.lineTo(48, 358); c.stroke();
+            c.beginPath(); c.moveTo(60, 348); c.lineTo(58, 362); c.stroke();
+            c.beginPath(); c.moveTo(68, 345); c.lineTo(70, 358); c.stroke();
+
+            // ── Right arm — extended outward holding orb ──
+            c.lineWidth = 18; c.beginPath();
+            c.moveTo(210, 135);
+            c.quadraticCurveTo(240, 155, 255, 180);
+            c.stroke();
+            // Right forearm (reaching out)
             c.lineWidth = 16; c.beginPath();
-            c.moveTo(105,200); c.quadraticCurveTo(115,280, 125,345);
+            c.moveTo(255, 180);
+            c.quadraticCurveTo(270, 200, 278, 215);
             c.stroke();
+            // Right hand / palm (cupping the orb)
+            c.beginPath();
+            c.arc(280, 220, 12, 0, Math.PI * 2); c.fill();
+            // Fingers curving under orb
+            c.lineWidth = 5;
+            c.beginPath(); c.moveTo(272, 228); c.quadraticCurveTo(268, 240, 275, 245); c.stroke();
+            c.beginPath(); c.moveTo(280, 230); c.quadraticCurveTo(280, 242, 282, 248); c.stroke();
+            c.beginPath(); c.moveTo(288, 228); c.quadraticCurveTo(292, 240, 288, 245); c.stroke();
+
+            // ── Left leg ──
+            c.lineWidth = 22; c.beginPath();
+            c.moveTo(120, 280);
+            c.quadraticCurveTo(112, 340, 108, 400);
+            c.quadraticCurveTo(105, 430, 102, 460);
+            c.stroke();
+            // Left foot
+            c.lineWidth = 12; c.beginPath();
+            c.moveTo(102, 460); c.quadraticCurveTo(85, 468, 78, 470);
+            c.stroke();
+            c.beginPath(); c.ellipse(85, 472, 18, 7, 0, 0, Math.PI*2); c.fill();
+
+            // ── Right leg ──
+            c.lineWidth = 22; c.beginPath();
+            c.moveTo(180, 280);
+            c.quadraticCurveTo(185, 340, 188, 400);
+            c.quadraticCurveTo(190, 430, 192, 460);
+            c.stroke();
+            // Right foot
+            c.lineWidth = 12; c.beginPath();
+            c.moveTo(192, 460); c.quadraticCurveTo(210, 468, 218, 470);
+            c.stroke();
+            c.beginPath(); c.ellipse(208, 472, 18, 7, 0, 0, Math.PI*2); c.fill();
 
             return { canvas: off, w, h, data: c.getImageData(0,0,w,h).data };
         }
@@ -328,7 +416,7 @@
 
         // ─── Layout positions ────────────────────────────────────────
         // Person: centered left of screen, orb in right hand
-        const personScale = isMobile ? 0.9 : 1.4;
+        const personScale = isMobile ? 0.7 : 1.2;
         const personW = personMask.w * personScale;
         const personH = personMask.h * personScale;
 
@@ -337,18 +425,21 @@
         let orbCenterX, orbCenterY, orbRadius;
 
         function computeLayout() {
+            // Center the person on screen (offset so orb hand is roughly centered)
+            const personDrawW = personMask.w * personScale;
+            const personDrawH = personMask.h * personScale;
             if (isMobile) {
-                personOriginX = W * 0.08;
-                personOriginY = H * 0.18;
-                orbRadius = 80;
+                personOriginX = (W - personDrawW) / 2 - 30;
+                personOriginY = H * 0.12;
+                orbRadius = 65;
             } else {
-                personOriginX = W * 0.2;
-                personOriginY = H * 0.08;
-                orbRadius = 130;
+                personOriginX = (W - personDrawW) / 2 - 40;
+                personOriginY = H * 0.06;
+                orbRadius = 110;
             }
-            // Orb center = person's right hand position (scaled)
-            orbCenterX = personOriginX + 178 * personScale;
-            orbCenterY = personOriginY + 158 * personScale;
+            // Orb center = right hand in mask (280, 220) scaled
+            orbCenterX = personOriginX + 280 * personScale;
+            orbCenterY = personOriginY + 220 * personScale;
         }
         computeLayout();
 
