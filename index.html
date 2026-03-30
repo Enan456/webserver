@@ -199,7 +199,7 @@
         type: 'dir', children: {
             'about.txt': { type: 'file', content:
 `Name:   Enan Srivastava
-Title:  Data Scientist / Senior AI Engineer
+Title:  Operator / Data Scientist
         Chief Operating Officer at A Cubed Designs
 
 If you want to build cool stuff, hit me up.` },
@@ -566,7 +566,7 @@ alias la="ls -a"` },
             `<span class="c-cyan">     /     \\     </span>   <span class="c-bold">OS:</span> EnanOS 3.2.1 LTS`,
             `<span class="c-cyan">    / _____ \\    </span>   <span class="c-bold">Kernel:</span> 6.18.5-portfolio`,
             `<span class="c-cyan">   / /     \\ \\   </span>   <span class="c-bold">Shell:</span> zsh 5.9 (x86_64)`,
-            `<span class="c-cyan">  / /   E   \\ \\  </span>   <span class="c-bold">Role:</span> Sr. AI Engineer`,
+            `<span class="c-cyan">  / /   E   \\ \\  </span>   <span class="c-bold">Role:</span> Operator / Data Scientist`,
             `<span class="c-cyan">  \\ \\       / /  </span>   <span class="c-bold">Uptime:</span> since 2017`,
             `<span class="c-cyan">   \\ \\_____/ /   </span>   <span class="c-bold">Langs:</span> Python, JS, Java`,
             `<span class="c-cyan">    \\_______/    </span>   <span class="c-bold">Cloud:</span> AWS, GCP`,
@@ -649,7 +649,7 @@ alias la="ls -a"` },
     commands.man = (args) => {
         print(`<span class="c-bold c-cyan">╔══════════════════════════════════════╗</span>`);
         print(`<span class="c-bold c-cyan">║</span>  <span class="c-bold">ENAN SRIVASTAVA</span>                    <span class="c-bold c-cyan">║</span>`);
-        print(`<span class="c-bold c-cyan">║</span>  <span class="c-dim">Data Scientist / Sr. AI Engineer</span>    <span class="c-bold c-cyan">║</span>`);
+        print(`<span class="c-bold c-cyan">║</span>  <span class="c-dim">Operator / Data Scientist</span>    <span class="c-bold c-cyan">║</span>`);
         print(`<span class="c-bold c-cyan">╠══════════════════════════════════════╣</span>`);
         print(`<span class="c-bold c-cyan">║</span>  <span class="c-bold">Phone:</span>  630-608-3688                <span class="c-bold c-cyan">║</span>`);
         print(`<span class="c-bold c-cyan">║</span>  <span class="c-bold">Email:</span>  contact@enan.dev            <span class="c-bold c-cyan">║</span>`);
@@ -1186,12 +1186,18 @@ alias la="ls -a"` },
             6: 'https://www.linkedin.com/in/enan-srivastava/',
         };
 
+        let exitFlashAlpha = 0; // light blue flash on exit click
+
         function onAnimClick(e) {
             if (phase < 2) return;
             const sec = getAnimOrbSection(e.clientX || animMouseX, e.clientY || animMouseY);
             if (sectionUrls[sec]) {
                 window.open(sectionUrls[sec], '_blank');
+                return; // don't exit, just open link
             }
+            // Click anywhere else = exit with blue flash
+            exitFlashAlpha = 1.0;
+            setTimeout(() => { animCancelled = true; }, 400);
         }
         function onAnimMouseMoveWithCursor(e) {
             animMouseX = e.clientX; animMouseY = e.clientY;
@@ -1219,7 +1225,7 @@ alias la="ls -a"` },
         const sectionLabels = ['ABOUT','WORK','SKILLS','','CONTACT','GITHUB','LINKEDIN'];
         const sectionInfo = [
             'If you want to build cool stuff, hit me up.',
-            'Sr. AI Engineer | COO A Cubed | AIM Lab | Erdos Mentor',
+            'Operator | Data Scientist | COO A Cubed | Erdos Mentor',
             'Python, AWS, GCP, Java, JS, SQL | Design Thinking',
             '',
             '630-608-3688 | contact@enan.dev  [click to email]',
@@ -1282,10 +1288,19 @@ alias la="ls -a"` },
                     const p = parts[i];
                     p.turbPhase += p.turbSpeed;
 
-                    // Common motion values
-                    const breath = Math.sin(orbTime * 1.5 + i * 0.003) * 2.5;
-                    const driftX = Math.sin(p.turbPhase * 1.3 + i * 0.05) * 4;
-                    const driftY = Math.cos(p.turbPhase * 0.9 + i * 0.07) * 3.5 + breath;
+                    // Common motion values — breathing is prominent
+                    const breathCycle = Math.sin(orbTime * 1.2 + i * 0.002);
+                    const breathY = breathCycle * 5; // vertical rise/fall
+                    // Chest expansion: particles near torso center expand outward
+                    const relToPersonCX = p.targetX - (pOriginX + 150 * pScale);
+                    const relToPersonCY = p.targetY - (pOriginY + 160 * pScale);
+                    const distToChest = Math.sqrt(relToPersonCX * relToPersonCX + relToPersonCY * relToPersonCY);
+                    const chestExpand = p.role === 'person' && distToChest < 80 * pScale
+                        ? breathCycle * (1 - distToChest / (80 * pScale)) * 4 : 0;
+                    const breathX = relToPersonCX !== 0 ? chestExpand * Math.sign(relToPersonCX) : 0;
+
+                    const driftX = Math.sin(p.turbPhase * 1.3 + i * 0.05) * 4 + breathX;
+                    const driftY = Math.cos(p.turbPhase * 0.9 + i * 0.07) * 3.5 + breathY;
                     const swirl = Math.sin(orbTime * 2.5 + i * 0.02) * 2;
                     const shimmer = 0.7 + Math.sin(p.turbPhase * 2.5 + i * 0.1) * 0.2;
 
@@ -1422,7 +1437,7 @@ alias la="ls -a"` },
                     animCtx.fillText('ENAN', AW/2, AH * 0.06 + 20);
                     animCtx.font = `${isMob ? 11 : 14}px JetBrains Mono`;
                     animCtx.fillStyle = `rgba(200,200,200,${alpha * 0.8})`;
-                    animCtx.fillText('DATA SCIENTIST  /  SENIOR AI ENGINEER', AW/2, AH * 0.06 + (isMob ? 48 : 65));
+                    animCtx.fillText('OPERATOR  /  DATA SCIENTIST', AW/2, AH * 0.06 + (isMob ? 48 : 65));
 
                     // Nav labels around the orb
                     animCtx.font = `${isMob ? 9 : 12}px JetBrains Mono`;
@@ -1465,9 +1480,16 @@ alias la="ls -a"` },
                     // Skip hint
                     animCtx.font = `${isMob ? 10 : 11}px JetBrains Mono`;
                     animCtx.fillStyle = `rgba(80,80,80,${alpha * 0.6})`;
-                    animCtx.fillText('Ctrl+C to exit', AW/2, AH - 15);
+                    animCtx.fillText('Click or Ctrl+C to exit', AW/2, AH - 15);
 
                     animCtx.restore();
+                }
+
+                // Light blue exit flash overlay
+                if (exitFlashAlpha > 0) {
+                    animCtx.fillStyle = `rgba(100, 180, 255, ${exitFlashAlpha * 0.3})`;
+                    animCtx.fillRect(0, 0, AW, AH);
+                    exitFlashAlpha = Math.max(0, exitFlashAlpha - dt * 2.5);
                 }
 
                 animFrameId = requestAnimationFrame(frame);
