@@ -9,7 +9,12 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html { height: 100%; }
+        html {
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+        }
 
         body {
             background: #0a0a0a;
@@ -20,6 +25,9 @@
             height: 100%;
             height: 100dvh;
             overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
         }
 
         #terminal {
@@ -1082,12 +1090,21 @@ alias la="ls -a"` },
         }
     });
 
-    // Handle virtual keyboard resize on mobile
-    if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', () => {
-            // Scroll to bottom when keyboard appears/disappears
+    // Handle virtual keyboard resize on mobile —
+    // shrink terminal to fit above keyboard
+    const terminalEl = document.getElementById('terminal');
+    function handleViewportResize() {
+        if (window.visualViewport) {
+            const vv = window.visualViewport;
+            terminalEl.style.height = vv.height + 'px';
+            // Offset if viewport scrolled (iOS shifts page up)
+            terminalEl.style.transform = `translateY(${vv.offsetTop}px)`;
             output.scrollTop = output.scrollHeight;
-        });
+        }
+    }
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', handleViewportResize);
+        window.visualViewport.addEventListener('scroll', handleViewportResize);
     }
 
     // ═══════════════════════════════════════════════════════════════
