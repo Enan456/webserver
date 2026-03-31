@@ -2,821 +2,1708 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enan - Digital Architect</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>enan@portfolio</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Orbitron:wght@400;700;900&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html {
+            height: 100%;
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
         }
 
         body {
-            background: #0f0f1a;
-            overflow: hidden;
-            font-family: 'Orbitron', monospace;
-            position: relative;
+            background: #0a0a0a;
+            color: #c8c8c8;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
             width: 100vw;
-            height: 100vh;
-        }
-
-        #sandCanvas {
-            position: absolute;
+            height: 100%;
+            height: 100dvh;
+            overflow: hidden;
+            position: fixed;
             top: 0;
             left: 0;
+        }
+
+        #terminal {
             width: 100%;
             height: 100%;
-            z-index: 1;
-            transition: opacity 0.5s ease;
-        }
-
-
-        #orbCanvas {
-            position: absolute;
-            bottom: 50px; /* Shifted down */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 500px;
-            height: 500px;
-            z-index: 3;
-            cursor: crosshair;
-        }
-
-        .content {
-            position: absolute;
-            top: 80px;
-            left: 50%;
-            z-index: 2;
-            color: #ffffff;
-            text-align: center;
-            pointer-events: none;
-            opacity: 0;
-            transform: translate(-50%, -20px);
-            transition: opacity 1.5s ease, transform 1.5s ease;
-        }
-        
-        .content.visible {
-            opacity: 1;
-            transform: translateX(-50%);
-        }
-
-        h1 {
-            font-size: 4rem;
-            font-weight: 900;
-            text-shadow: none;
-            letter-spacing: 0.2em;
-            margin-bottom: 20px;
-            animation: letterSpacing 4s ease-in-out infinite;
-        }
-
-        .tagline {
-            font-size: 1.2rem;
-            color: #ffffff;
-            text-shadow:
-                0 0 5px #ffffff,
-                0 0 10px #ffffff;
-            letter-spacing: 0.1em;
-            height: 1.5em;
-            position: relative;
-        }
-        
-        @keyframes letterSpacing {
-            0%, 100% { letter-spacing: 0.2em; }
-            50% { letter-spacing: 0.25em; }
-        }
-
-        .nav-links {
-            position: absolute;
-            bottom: 20px; /* Shifted down */
-            left: 50%;
-            transform: translateX(-50%);
             display: flex;
-            gap: 30px;
-            z-index: 5;
-            pointer-events: all;
-            opacity: 0;
-            transition: opacity 1.5s ease;
+            flex-direction: column;
+            padding: 12px;
+            padding-bottom: 0;
+            padding-top: env(safe-area-inset-top, 12px);
+            padding-left: env(safe-area-inset-left, 12px);
+            padding-right: env(safe-area-inset-right, 12px);
         }
 
-        .nav-links.visible {
-            opacity: 1;
+        #output {
+            flex: 1;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+            line-height: 1.5;
         }
 
-        .nav-links a {
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            position: relative;
+        /* Spacer pushes content to bottom when output is short */
+        #output-spacer {
+            flex: 1;
+            min-height: 0;
         }
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #ffffff, #cccccc);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: #ffffff;
-            text-shadow: 0 0 10px #ffffff;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* Scanline effect */
-        @keyframes scanline {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
-        }
-
-        .scanline {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(180deg, transparent, rgba(0, 255, 255, 0.2), transparent);
-            animation: scanline 8s linear infinite;
-            pointer-events: none;
-            z-index: 3;
-        }
-
-        .info-panel {
-            position: absolute;
-            bottom: 150px; /* Shifted down */
-            color: #fff;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            pointer-events: none;
-            z-index: 5;
+        #output-inner {
             display: flex;
+            flex-direction: column;
+            min-height: 100%;
+            scrollbar-width: thin;
+            scrollbar-color: #333 #0a0a0a;
+        }
+
+        #output::-webkit-scrollbar { width: 6px; }
+        #output::-webkit-scrollbar-track { background: #0a0a0a; }
+        #output::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+        .line { min-height: 1.5em; }
+
+        /* Input row flows inline inside #output, not pinned to bottom */
+        #input-row {
+            display: flex;
+            align-items: center;
+            min-height: 1.5em;
             width: 100%;
+        }
+
+        #input-row.hidden { display: none; }
+
+        /* Zsh-style two-line prompt */
+        .prompt { color: #5faf5f; white-space: nowrap; }
+        .prompt .user { color: #5fafff; }
+        .prompt .host { color: #5faf5f; }
+        .prompt .path { color: #af87ff; }
+        .prompt .git { color: #d7af5f; }
+        .prompt .arrow { color: #5faf5f; }
+
+        .prompt-top { color: #555; margin-bottom: 0; min-height: 1.3em; }
+
+        /* Tmux-style status bar */
+        #tmux-bar {
+            flex-shrink: 0;
+            background: #1c1c1c;
+            color: #808080;
+            font-size: 0.85em;
+            padding: 2px 8px;
+            display: flex;
             justify-content: space-between;
-            padding: 0 50px;
+            border-top: 1px solid #2a2a2a;
         }
+        #tmux-bar .tmux-left { color: #5faf5f; }
+        #tmux-bar .tmux-mid { color: #c8c8c8; }
+        #tmux-bar .tmux-right { color: #808080; }
 
-        .info-panel.visible {
-            opacity: 1;
-        }
-
-        .left-panel, .right-panel, .center-panel {
-            width: 45%;
-        }
-        
-        .center-panel {
-            text-align: center;
+        #cmd {
+            flex: 1;
+            min-width: 0;
             width: 100%;
+            background: transparent !important;
+            background-color: transparent !important;
+            border: none;
+            outline: none;
+            color: #00ff41 !important;
+            -webkit-text-fill-color: #00ff41 !important;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: inherit;
+            caret-color: #00ff41;
+            line-height: 1.5;
+            padding: 0;
+            margin: 0;
+            white-space: pre;
+            -webkit-appearance: none;
+            appearance: none;
         }
 
-        .right-panel {
-            text-align: right;
-        }
-        
-        .info-panel p {
-            margin: 5px 0;
-            font-size: 0.9rem;
-            letter-spacing: 0.1em;
+        #cmd::placeholder {
+            color: #333;
+            -webkit-text-fill-color: #333;
         }
 
-        /* Mobile Optimizations */
+        /* Suggestion ghost text */
+        #suggestion {
+            color: #444;
+            pointer-events: none;
+        }
+
+        /* Colors for ls output */
+        .c-dir { color: #5fafff; font-weight: bold; }
+        .c-exec { color: #5faf5f; }
+        .c-file { color: #c8c8c8; }
+        .c-link { color: #af87ff; }
+        .c-err { color: #ff5f5f; }
+        .c-info { color: #5fafaf; }
+        .c-warn { color: #d7af5f; }
+        .c-green { color: #5faf5f; }
+        .c-bold { font-weight: bold; }
+        .c-dim { color: #555; }
+        .c-cyan { color: #5fafaf; }
+        .c-magenta { color: #af87ff; }
+
+        /* Animation canvas overlay */
+        #animCanvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            height: 100dvh;
+            z-index: 100;
+            display: none;
+            background: #0a0a0a;
+            touch-action: none; /* prevent scroll/zoom during animation */
+        }
+
+        #animCanvas.active { display: block; }
+        #animCanvas.fading { opacity: 0; transition: opacity 0.8s ease; }
+
+        #skipHint {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 101;
+            color: #555;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            display: none;
+        }
+
+        #skipHint.active { display: block; }
+
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
+            body { font-size: 13px; }
+            #terminal {
+                padding: 6px;
+                padding-bottom: 0;
             }
+            /* Prevent iOS zoom on input focus — must be >= 16px */
+            #cmd { font-size: 16px; }
+            #tmux-bar { font-size: 11px; padding: 3px 6px; }
+            .line { overflow-x: auto; }
+        }
 
-            .tagline {
-                font-size: 1rem;
-            }
-
-            #orbCanvas {
-                bottom: 200px; /* Shifted down */
-                transform: translateX(-50%) scale(0.7);
-            }
-
-            .nav-links {
-                bottom: 150px; /* Shifted down */
-                gap: 15px;
-                flex-wrap: wrap;
-                justify-content: center;
-                width: 90%;
-            }
-
-            .nav-links a {
-                font-size: 0.8rem;
-            }
-
-            .info-panel {
-                bottom: 400px; /* Shifted down */
-                flex-direction: column;
-                align-items: center;
-                padding: 0 20px;
-            }
-
-            .info-panel .left-panel,
-            .info-panel .right-panel,
-            .info-panel .center-panel {
-                width: 100%;
-                text-align: center;
-                margin-bottom: 1em;
-            }
+        @media (max-width: 400px) {
+            body { font-size: 12px; }
+            #cmd { font-size: 16px; }
         }
     </style>
 </head>
 <body>
-    <canvas id="sandCanvas"></canvas>
-    <canvas id="orbCanvas"></canvas>
-    <div class="scanline"></div>
-
-    <div class="content">
-        <h1>ENAN</h1>
-        <p class="tagline">
-            DATA SCIENTIST, OPERATOR
-        </p>
-    </div>
-
-    <div id="infoPanels">
-         <div id="aboutInfo" class="info-panel">
-            <div class="right-panel">
-                <p>If you want to build cool stuff, hit me up.</p>
+    <div id="terminal">
+        <div id="output">
+            <div id="output-inner">
+                <div id="output-spacer"></div>
+                <div id="output-lines"></div>
+                <div id="input-row" class="hidden">
+                    <span class="prompt"><span class="arrow">❯</span> </span>
+                    <input id="cmd" type="text" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false">
+                    <span id="suggestion"></span>
+                </div>
             </div>
         </div>
-        <div id="workInfo" class="info-panel">
-            <div class="left-panel">
-                <p>Senior AI Engineer</p>
-				                 <p style="margin-top: 2em;"> </p>
-                <p style="margin-top: 2em;">Chief Operating Officer at A Cubed Designs</p>
-            </div>
-            <div class="right-panel">
-                <p>Server Admin/Owner American Institutional Methodology (AIM) Lab</p>
-                 <p style="margin-top: 2em;"> </p>
-				                 <p style="margin-top: 2em;"> </p>
-                 <p>Data Science Mentor with The Erdos Institute</p>
-            </div>
-        </div>
-        <div id="skillsInfo" class="info-panel">
-            <div class="left-panel">
-                <p>Design Thinking</p>
-                <p>Business Management</p>
-                <p>Insurance</p>
-                <p>Nonprofit Consulting</p>
-            </div>
-             <div class="right-panel">
-                <p>Python, AWS, GCP, R Shiny, Java</p>
-                <p>JavaScript, SQL, Git, Firebase, HTML5, Bash, CSS</p>
-            </div>
-        </div>
-        <div id="contactInfo" class="info-panel">
-            <div class="left-panel">
-                <p>630-608-3688</p>
-            </div>
-            <div class="right-panel">
-                <p>contact@enan.dev</p>
-            </div>
-        </div>
-         <div id="githubInfo" class="info-panel">
-            <div class="right-panel">
-                <p>https://github.com/Enan456</p>
-            </div>
-        </div>
-         <div id="linkedinInfo" class="info-panel">
-            <div class="right-panel">
-                <p>https://www.linkedin.com/in/enan-srivastava/</p>
-            </div>
+        <div id="tmux-bar">
+            <span class="tmux-left">[0] 0:zsh*</span>
+            <span class="tmux-mid">"guest@portfolio"</span>
+            <span class="tmux-right" id="tmux-clock"></span>
         </div>
     </div>
+    <canvas id="animCanvas"></canvas>
+    <div id="skipHint">Press Ctrl+C to skip...</div>
 
-    <div class="nav-links" id="navLinks">
-        <a href="#about" data-section="1">ABOUT</a>
-        <a href="#work" data-section="2">WORK</a>
-        <a href="#skills" data-section="3">SKILLS</a>
-        <a href="mailto:contact@enan.dev" target="_blank" data-section="5">CONTACT</a>
-        <a href="https://github.com/Enan456" target="_blank" data-section="6">GITHUB</a>
-        <a href="https://www.linkedin.com/in/enan-srivastava/" target="_blank" data-section="7">LINKEDIN</a>
-    </div>
+    <script type="module">
+    // ═══════════════════════════════════════════════════════════════
+    // VIRTUAL FILESYSTEM
+    // ═══════════════════════════════════════════════════════════════
+    const fs = {
+        type: 'dir', children: {
+            'about.txt': { type: 'file', content:
+`╔══════════════════════════════════════════════════╗
+║  ENAN SRIVASTAVA                                 ║
+║  Operator / Data Scientist                       ║
+╚══════════════════════════════════════════════════╝
 
-    <script>
-        // Synthwave color palette
-        const palette = [
-            '#ff007f', // 0: Hot pink - ABOUT
-            '#ff00ff', // 1: Magenta - WORK
-            '#00ff00', // 2: Neon green - SKILLS
-            '#00ffff', // 3: Cyan - (Unused Link)
-            '#ffff00', // 4: Yellow - CONTACT
-            '#ff8800', // 5: Orange - GITHUB
-            '#00a2ff'  // 6: Blue - LINKEDIN
+If you want to build cool stuff, hit me up.
+
+─── CURRENT POSITIONS ─────────────────────────────
+
+  Senior AI Engineer
+    Building production AI/ML systems
+    Stack: Python, AWS, GCP, PyTorch, LLMs
+
+  Chief Operating Officer — A Cubed Designs
+    Business operations, design thinking, delivery
+
+  Server Admin/Owner — AIM Lab
+    Infrastructure, research computing
+
+  Data Science Mentor — The Erdos Institute
+    Mentoring data science cohorts, curriculum
+
+─── SKILLS ────────────────────────────────────────
+
+  Technical:
+    Languages:  Python, Java, JavaScript, SQL, R, Bash, CSS, HTML5
+    Cloud:      AWS, GCP, Firebase
+    Frameworks: R Shiny, Git, Node.js
+    Tools:      Docker, Linux, CI/CD
+
+  Business:
+    Design Thinking | Business Management
+    Insurance | Nonprofit Consulting
+
+─── CONTACT ───────────────────────────────────────
+
+  Phone:     630-608-3688
+  Email:     contact@enan.dev
+  GitHub:    github.com/Enan456
+  LinkedIn:  linkedin.com/in/enan-srivastava
+
+  Use "ssh github" or "ssh linkedin" to open.
+  Use "ssh contact" to send email.` },
+
+            'contact.txt': { type: 'file', content:
+`Phone:  630-608-3688
+Email:  contact@enan.dev
+
+Use "ssh contact" to send an email.` },
+
+            'links.txt': { type: 'file', content:
+`GitHub:    https://github.com/Enan456
+LinkedIn:  https://www.linkedin.com/in/enan-srivastava/
+
+Use "ssh github" or "ssh linkedin" to open in browser.` },
+
+            'resume.pdf': { type: 'file', url: 'Resume_2023.pdf', content:
+`[Binary file — resume.pdf]
+Use "open resume.pdf" to view in browser.` },
+
+            'projects': { type: 'dir', children: {
+                'README.txt': { type: 'file', content:
+`Check out my projects on GitHub:
+  https://github.com/Enan456
+
+Use "ssh github" to browse.` },
+            }},
+
+            'animation.sh': { type: 'file', executable: true, content:
+`#!/bin/bash
+# Runs the ASCII dust-person particle animation
+exec animation_engine --mode=dust-person --orb --interactive` },
+
+            '.bashrc': { type: 'file', content:
+`# enan portfolio shell config
+export PS1="\\u@portfolio:\\w$ "
+alias ll="ls -la"
+alias la="ls -a"` },
+        }
+    };
+
+    // ═══════════════════════════════════════════════════════════════
+    // SHELL STATE
+    // ═══════════════════════════════════════════════════════════════
+    let cwd = ['~'];
+    const history = [];
+    let histIdx = -1;
+    let savedInput = '';
+    let appPhase = 'boot'; // boot | animation | shell
+
+    const output = document.getElementById('output');
+    const outputLines = document.getElementById('output-lines');
+    const inputRow = document.getElementById('input-row');
+    const cmdInput = document.getElementById('cmd');
+    const suggestion = document.getElementById('suggestion');
+
+    // ═══════════════════════════════════════════════════════════════
+    // TERMINAL OUTPUT HELPERS
+    // ═══════════════════════════════════════════════════════════════
+    function print(html, cls = '') {
+        const div = document.createElement('div');
+        div.className = 'line' + (cls ? ' ' + cls : '');
+        div.innerHTML = html;
+        outputLines.appendChild(div);
+        output.scrollTop = output.scrollHeight;
+    }
+
+    function printText(text) {
+        print(escHtml(text));
+    }
+
+    function escHtml(s) {
+        return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function delay(ms) {
+        return new Promise(r => setTimeout(r, ms));
+    }
+
+    async function typeLine(text, charDelay = 25, lineClass = '') {
+        const div = document.createElement('div');
+        div.className = 'line' + (lineClass ? ' ' + lineClass : '');
+        outputLines.appendChild(div);
+        for (let i = 0; i < text.length; i++) {
+            div.textContent += text[i];
+            output.scrollTop = output.scrollHeight;
+            if (appPhase === 'skip') return;
+            await delay(charDelay);
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // FILESYSTEM HELPERS
+    // ═══════════════════════════════════════════════════════════════
+    function getNode(pathParts) {
+        let node = fs;
+        for (const p of pathParts) {
+            if (p === '~') { node = fs; continue; }
+            if (!node.children || !node.children[p]) return null;
+            node = node.children[p];
+        }
+        return node;
+    }
+
+    function resolvePath(input) {
+        let parts;
+        if (input.startsWith('~/')) {
+            parts = ['~', ...input.slice(2).split('/').filter(Boolean)];
+        } else if (input === '~') {
+            parts = ['~'];
+        } else {
+            parts = [...cwd, ...input.split('/').filter(Boolean)];
+        }
+        // Resolve . and ..
+        const resolved = [];
+        for (const p of parts) {
+            if (p === '.') continue;
+            if (p === '..') { if (resolved.length > 1) resolved.pop(); }
+            else resolved.push(p);
+        }
+        if (resolved.length === 0) resolved.push('~');
+        return resolved;
+    }
+
+    function cwdString() {
+        if (cwd.length === 1) return '~';
+        return '~/' + cwd.slice(1).join('/');
+    }
+
+    // Zsh two-line prompt: top line shows user@host path (git), bottom is ❯
+    function promptTopHtml() {
+        return `<span class="c-dim">╭─</span> <span class="c-bold"><span class="user">guest</span>@<span class="host">portfolio</span></span> <span class="path">${escHtml(cwdString())}</span> <span class="git">(main)</span>`;
+    }
+
+    function promptBottomHtml() {
+        return `<span class="c-dim">╰─</span><span class="arrow">❯</span> `;
+    }
+
+    function updatePrompt() {
+        // Remove old prompt-top if exists
+        const existing = document.getElementById('prompt-top-live');
+        if (existing) existing.remove();
+        // Add top line at end of output-lines (just above input row visually)
+        const topDiv = document.createElement('div');
+        topDiv.className = 'line prompt-top';
+        topDiv.id = 'prompt-top-live';
+        topDiv.innerHTML = promptTopHtml();
+        outputLines.appendChild(topDiv);
+        // Update bottom prompt
+        const promptEl = inputRow.querySelector('.prompt');
+        promptEl.innerHTML = promptBottomHtml();
+        output.scrollTop = output.scrollHeight;
+    }
+
+    // Tmux clock
+    function updateTmuxClock() {
+        const el = document.getElementById('tmux-clock');
+        if (el) {
+            const now = new Date();
+            el.textContent = now.toLocaleTimeString('en-US', { hour12: false, hour:'2-digit', minute:'2-digit' }) + ' ' + now.toLocaleDateString('en-US', { month:'short', day:'numeric' });
+        }
+    }
+    setInterval(updateTmuxClock, 10000);
+    updateTmuxClock();
+
+    function getCurrentDir() {
+        return getNode(cwd);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // COMMANDS
+    // ═══════════════════════════════════════════════════════════════
+    const commands = {};
+
+    commands.help = () => {
+        print(`<span class="c-bold c-cyan">Available commands:</span>`);
+        print('');
+        const cmds = [
+            ['ls [path]',        'List directory contents'],
+            ['cd <path>',        'Change directory'],
+            ['cat <file>',       'Display file contents'],
+            ['pwd',              'Print working directory'],
+            ['whoami',           'Display current user'],
+            ['ssh <target>',     'Open link (github, linkedin, contact)'],
+            ['open <file>',      'Open file in browser (e.g. resume.pdf)'],
+            ['clear',            'Clear terminal screen'],
+            ['history',          'Show command history'],
+            ['echo <text>',      'Print text'],
+            ['date',             'Show current date'],
+            ['uname -a',         'System information'],
+            ['neofetch',         'Display system info with ASCII art'],
+            ['sh animation.sh',  'Replay the particle animation'],
+            ['! [text]',         'Cowsay (moo!)'],
+            ['? [text]',         'Lolcat (rainbow text)'],
+            ['top / who / w',    'Show active visitors (live)'],
+            ['man [cmd]',        'Contact info / manual'],
+            ['exit',             'Logout'],
+            ['help',             'Show this help message'],
         ];
+        for (const [cmd, desc] of cmds) {
+            print(`  <span class="c-green">${escHtml(cmd.padEnd(22))}</span><span class="c-dim">${escHtml(desc)}</span>`);
+        }
+        print('');
+        print(`<span class="c-dim">Tab: autocomplete  |  Up/Down: history  |  Ctrl+L: clear</span>`);
+    };
 
-        const sandCanvas = document.getElementById('sandCanvas');
-        const sandCtx = sandCanvas.getContext('2d');
-        sandCanvas.width = window.innerWidth;
-        sandCanvas.height = window.innerHeight;
+    commands.ls = (args) => {
+        const showAll = args.includes('-a') || args.includes('-la') || args.includes('-al');
+        const longFmt = args.includes('-l') || args.includes('-la') || args.includes('-al');
+        const target = args.filter(a => !a.startsWith('-'))[0];
+        const path = target ? resolvePath(target) : cwd;
+        const node = getNode(path);
 
-        const orbCanvas = document.getElementById('orbCanvas');
-        const orbCtx = orbCanvas.getContext('2d');
-        orbCanvas.width = 500;
-        orbCanvas.height = 500;
-        
-        const particleLayers = [
-            { particles: [], count: 500, size: 1 },
-            { particles: [], count: 700, size: 1 },
-            { particles: [], count: 300, size: 1.5 }
-        ];
+        if (!node) return print(`<span class="c-err">ls: cannot access '${escHtml(target)}': No such file or directory</span>`);
+        if (node.type === 'file') return print(escHtml(target || path[path.length-1]));
 
-        const settledParticles = [];
-        const heightMap = new Array(sandCanvas.width).fill(sandCanvas.height);
-        const orbDustParticles = [];
-        const textDustParticles = [];
-        const navLinkDustParticles = [];
+        const entries = Object.keys(node.children);
+        if (entries.length === 0) return;
 
+        const items = showAll ? entries : entries.filter(e => !e.startsWith('.'));
+        if (showAll) items.unshift('.', '..');
 
-        let mouseX = 0;
-        let mouseY = 0;
-        const SNOW_SPEED = 0.2;
-        let orbRect; // To hold orb position dynamically
-
-
-        class SandParticle {
-            constructor(layer) {
-                this.layer = layer;
-                this.reset();
-            }
-
-            update() {
-                this.y += SNOW_SPEED * this.speedMultiplier; 
-                this.x += this.vx;
-
-                const dx = this.x - mouseX;
-                const dy = this.y - mouseY;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 100) {
-                    const force = (100 - dist) / 100;
-                    this.x += (dx / dist) * force * 1.5;
-                    this.y += (dy / dist) * force * 0.5;
+        if (longFmt) {
+            print(`<span class="c-dim">total ${items.length}</span>`);
+            for (const name of items) {
+                if (name === '.' || name === '..') {
+                    print(`drwxr-xr-x  <span class="c-dir">${escHtml(name)}</span>`);
+                    continue;
                 }
-
-                const xPos = Math.floor(this.x);
-                if (xPos >= 0 && xPos < sandCanvas.width && this.y >= heightMap[xPos] - this.layer.size) {
-                    this.settle(xPos);
-                    return;
-                }
-
-                if (this.y > sandCanvas.height + 10) {
-                    this.reset();
-                }
-            }
-
-            settle(xPos) {
-                 let finalX = xPos;
-                 let landingY = heightMap[xPos];
-
-                for (let i = 0; i < 5; i++) {
-                    let moved = false;
-                    const checkLeft = finalX > 0 && heightMap[finalX - 1] > landingY + 1;
-                    const checkRight = finalX < sandCanvas.width - 1 && heightMap[finalX + 1] > landingY + 1;
-
-                    if (checkLeft && (!checkRight || Math.random() < 0.5)) {
-                        finalX--;
-                        landingY = heightMap[finalX];
-                        moved = true;
-                    } else if (checkRight) {
-                        finalX++;
-                        landingY = heightMap[finalX];
-                        moved = true;
-                    }
-                    
-                    if (!moved) break;
-                }
-
-                heightMap[finalX] -= this.layer.size;
-
-                settledParticles.push({
-                    x: finalX,
-                    y: heightMap[finalX],
-                    color: this.color,
-                    size: this.layer.size
-                });
-
-                if (settledParticles.length > 30000) {
-                    settledParticles.splice(0, 100);
-                }
-                this.reset();
-            }
-
-            reset() {
-                this.x = Math.random() * sandCanvas.width;
-                this.y = -Math.random() * 50 - 10;
-                this.vx = 0; 
-                this.vy = 0;
-                
-                if (Math.random() < 0.2) { // 20% chance for a grey particle
-                    const greyValue = Math.floor(80 + Math.random() * 80);
-                    const alpha = 0.4 + Math.random() * 0.3;
-                    this.color = `rgba(${greyValue}, ${greyValue}, ${greyValue}, ${alpha})`;
-                    this.brightness = 0.3 + Math.random() * 0.4; // Make them slightly dimmer/slower
+                const child = node.children[name];
+                if (child.type === 'dir') {
+                    print(`drwxr-xr-x  <span class="c-dir">${escHtml(name)}/</span>`);
+                } else if (child.executable) {
+                    print(`-rwxr-xr-x  <span class="c-exec">${escHtml(name)}</span>`);
                 } else {
-                    this.brightness = 0.4 + Math.random() * 0.6;
-                    const colorValue = Math.floor(150 + 105 * this.brightness);
-                    const alpha = this.brightness * 0.7;
-                    this.color = `rgba(${colorValue}, ${colorValue}, ${colorValue}, ${alpha})`;
+                    print(`-rw-r--r--  <span class="c-file">${escHtml(name)}</span>`);
                 }
-                
-                this.speedMultiplier = 0.5 + this.brightness;
             }
-
-            draw() {
-                sandCtx.fillStyle = this.color;
-                sandCtx.fillRect(this.x, this.y, this.layer.size, this.layer.size);
-            }
+        } else {
+            const parts = items.map(name => {
+                if (name === '.' || name === '..') return `<span class="c-dir">${name}</span>`;
+                const child = node.children[name];
+                if (child.type === 'dir') return `<span class="c-dir">${escHtml(name)}/</span>`;
+                if (child.executable) return `<span class="c-exec">${escHtml(name)}</span>`;
+                return `<span class="c-file">${escHtml(name)}</span>`;
+            });
+            print(parts.join('  '));
         }
-        
-        particleLayers.forEach(layer => {
-            for (let i = 0; i < layer.count; i++) {
-                layer.particles.push(new SandParticle(layer));
+    };
+
+    commands.cd = (args) => {
+        const target = args[0] || '~';
+        const path = resolvePath(target);
+        const node = getNode(path);
+        if (!node) return print(`<span class="c-err">cd: no such file or directory: ${escHtml(target)}</span>`);
+        if (node.type !== 'dir') return print(`<span class="c-err">cd: not a directory: ${escHtml(target)}</span>`);
+        cwd = path;
+        updatePrompt();
+    };
+
+    commands.cat = (args) => {
+        if (!args[0]) return print(`<span class="c-err">cat: missing file operand</span>`);
+        const path = resolvePath(args[0]);
+        const node = getNode(path);
+        if (!node) return print(`<span class="c-err">cat: ${escHtml(args[0])}: No such file or directory</span>`);
+        if (node.type === 'dir') return print(`<span class="c-err">cat: ${escHtml(args[0])}: Is a directory</span>`);
+        printText(node.content);
+    };
+
+    commands.pwd = () => printText(cwdString());
+    commands.whoami = () => printText('guest');
+    commands.date = () => printText(new Date().toString());
+
+    commands.echo = (args) => printText(args.join(' '));
+
+    commands.clear = () => {
+        outputLines.innerHTML = '';
+    };
+
+    commands.history = () => {
+        history.forEach((cmd, i) => {
+            print(`  <span class="c-dim">${String(i + 1).padStart(4)}</span>  ${escHtml(cmd)}`);
+        });
+    };
+
+    commands.ssh = (args) => {
+        const targets = {
+            github:   { url: 'https://github.com/Enan456', name: 'GitHub' },
+            linkedin: { url: 'https://www.linkedin.com/in/enan-srivastava/', name: 'LinkedIn' },
+            contact:  { url: 'mailto:contact@enan.dev', name: 'Email' },
+        };
+        const t = (args[0] || '').toLowerCase();
+        if (!targets[t]) {
+            print(`<span class="c-err">ssh: unknown host '${escHtml(args[0] || '')}'</span>`);
+            print(`<span class="c-dim">Available: ssh github | ssh linkedin | ssh contact</span>`);
+            return;
+        }
+        const { url, name } = targets[t];
+        print(`<span class="c-info">Connecting to ${escHtml(name)}...</span>`);
+        print(`<span class="c-green">Connection established. Opening in new tab.</span>`);
+        window.open(url, '_blank');
+    };
+
+    commands.open = (args) => {
+        if (!args[0]) return print(`<span class="c-err">open: missing file operand</span>`);
+        const path = resolvePath(args[0]);
+        const node = getNode(path);
+        if (!node) return print(`<span class="c-err">open: ${escHtml(args[0])}: No such file</span>`);
+        if (node.url) {
+            print(`<span class="c-info">Opening ${escHtml(args[0])} in browser...</span>`);
+            window.open(node.url, '_blank');
+        } else {
+            print(`<span class="c-warn">open: ${escHtml(args[0])}: No external link associated</span>`);
+        }
+    };
+
+    commands.uname = (args) => {
+        printText('EnanOS 3.2.1 portfolio x86_64 GNU/Linux');
+    };
+
+    commands.neofetch = () => {
+        // Rotated E at ~45 degrees
+        const art = [
+            `<span class="c-cyan">        ╱ ╱ ╱ ╱ ╱</span>   <span class="c-bold">enan</span>@<span class="c-bold">portfolio</span>`,
+            `<span class="c-cyan">       ╱ ╱ ╱ ╱ ╱ </span>   <span class="c-dim">─────────────────────────</span>`,
+            `<span class="c-cyan">      ╱ ╱        </span>   <span class="c-bold">OS:</span> EnanOS 3.2.1 LTS`,
+            `<span class="c-cyan">     ╱ ╱ ╱ ╱     </span>   <span class="c-bold">Kernel:</span> 6.18.5-portfolio`,
+            `<span class="c-cyan">    ╱ ╱ ╱ ╱      </span>   <span class="c-bold">Shell:</span> zsh 5.9 (x86_64)`,
+            `<span class="c-cyan">   ╱ ╱           </span>   <span class="c-bold">Role:</span> Operator / Data Scientist`,
+            `<span class="c-cyan">  ╱ ╱ ╱ ╱ ╱      </span>   <span class="c-bold">Uptime:</span> since 2017`,
+            `<span class="c-cyan"> ╱ ╱ ╱ ╱ ╱       </span>   <span class="c-bold">Langs:</span> Python, JS, Java, SQL`,
+            `<span class="c-cyan">                 </span>   <span class="c-bold">Cloud:</span> AWS, GCP, Firebase`,
+            `<span class="c-cyan">                 </span>   <span class="c-bold">Email:</span> contact@enan.dev`,
+        ];
+        art.forEach(l => print(l));
+        print('');
+        // Color blocks
+        print(`  <span style="color:#ff007f">███</span><span style="color:#ff00ff">███</span><span style="color:#00ff00">███</span><span style="color:#00ffff">███</span><span style="color:#ffff00">███</span><span style="color:#ff8800">███</span><span style="color:#00a2ff">███</span>`);
+    };
+
+    commands.exit = async () => {
+        print('<span class="c-dim">logout</span>');
+        print('<span class="c-dim">Connection to portfolio closed.</span>');
+        inputRow.classList.add('hidden');
+        await delay(1500);
+        outputLines.innerHTML = '';
+        cwd = ['~'];
+        await runBoot();
+    };
+
+    commands.sh = async (args) => {
+        if (args[0] === 'animation.sh') {
+            await runAnimation();
+        } else if (args[0]) {
+            const path = resolvePath(args[0]);
+            const node = getNode(path);
+            if (!node) return print(`<span class="c-err">sh: ${escHtml(args[0])}: No such file</span>`);
+            if (!node.executable) return print(`<span class="c-err">sh: ${escHtml(args[0])}: Permission denied</span>`);
+            await runAnimation();
+        } else {
+            print(`<span class="c-err">sh: missing script operand</span>`);
+        }
+    };
+
+    commands.ll = (args) => commands.ls(['-la', ...args]);
+    commands.la = (args) => commands.ls(['-a', ...args]);
+
+    // cowsay — aliased to !
+    function cowsay(text) {
+        const msg = text || 'moo';
+        const top = ' ' + '_'.repeat(msg.length + 2);
+        const mid = '< ' + msg + ' >';
+        const bot = ' ' + '-'.repeat(msg.length + 2);
+        const cow = [
+            top, mid, bot,
+            '        \\   ^__^',
+            '         \\  (oo)\\_______',
+            '            (__)\\       )\\/\\',
+            '                ||----w |',
+            '                ||     ||',
+        ];
+        cow.forEach(l => printText(l));
+    }
+    commands.cowsay = (args) => cowsay(args.join(' '));
+    commands['!'] = (args) => cowsay(args.join(' ') || 'moo!');
+
+    // lolcat — aliased to ?
+    function lolcat(text) {
+        const colors = ['#ff0000','#ff7f00','#ffff00','#00ff00','#0000ff','#4b0082','#8b00ff'];
+        const lines = text.split('\n');
+        for (const line of lines) {
+            let html = '';
+            for (let i = 0; i < line.length; i++) {
+                const c = colors[(i) % colors.length];
+                html += `<span style="color:${c}">${escHtml(line[i])}</span>`;
             }
+            print(html);
+        }
+    }
+    commands.lolcat = (args) => {
+        lolcat(args.join(' ') || 'Usage: lolcat <text>  or  ? <text>');
+    };
+    commands['?'] = (args) => {
+        if (args.length === 0) {
+            lolcat('~~ R A I N B O W   M O D E ~~');
+        } else {
+            lolcat(args.join(' '));
+        }
+    };
+
+    // Extra unix commands
+    commands.man = (args) => {
+        print(`<span class="c-bold c-cyan">╔══════════════════════════════════════╗</span>`);
+        print(`<span class="c-bold c-cyan">║</span>  <span class="c-bold">ENAN SRIVASTAVA</span>                    <span class="c-bold c-cyan">║</span>`);
+        print(`<span class="c-bold c-cyan">║</span>  <span class="c-dim">Operator / Data Scientist</span>    <span class="c-bold c-cyan">║</span>`);
+        print(`<span class="c-bold c-cyan">╠══════════════════════════════════════╣</span>`);
+        print(`<span class="c-bold c-cyan">║</span>  <span class="c-bold">Phone:</span>  630-608-3688                <span class="c-bold c-cyan">║</span>`);
+        print(`<span class="c-bold c-cyan">║</span>  <span class="c-bold">Email:</span>  contact@enan.dev            <span class="c-bold c-cyan">║</span>`);
+        print(`<span class="c-bold c-cyan">║</span>                                      <span class="c-bold c-cyan">║</span>`);
+        print(`<span class="c-bold c-cyan">║</span>  <span class="c-bold">GitHub:</span>   github.com/Enan456        <span class="c-bold c-cyan">║</span>`);
+        print(`<span class="c-bold c-cyan">║</span>  <span class="c-bold">LinkedIn:</span> linkedin.com/in/          <span class="c-bold c-cyan">║</span>`);
+        print(`<span class="c-bold c-cyan">║</span>            <span class="c-dim">enan-srivastava</span>           <span class="c-bold c-cyan">║</span>`);
+        print(`<span class="c-bold c-cyan">╚══════════════════════════════════════╝</span>`);
+        if (args[0]) {
+            print('');
+            print(`<span class="c-dim">No manual entry for ${escHtml(args[0])}, but now you have my contact info.</span>`);
+        }
+    };
+
+    commands.touch = (args) => print(`<span class="c-warn">touch: read-only filesystem</span>`);
+    commands.mkdir = (args) => print(`<span class="c-warn">mkdir: read-only filesystem</span>`);
+    commands.rm = (args) => print(`<span class="c-err">rm: nice try 😏</span>`);
+    commands.sudo = (args) => print(`<span class="c-err">enan is not in the sudoers file. This incident will be reported.</span>`);
+    commands.vim = (args) => print(`<span class="c-dim">Hint: to exit vim, just close the browser tab.</span>`);
+    commands.nano = commands.vim;
+    commands.grep = (args) => print(`<span class="c-dim">Try searching with "cat <file>" instead.</span>`);
+    commands.wget = (args) => print(`<span class="c-warn">wget: network restricted in sandbox</span>`);
+    commands.curl = commands.wget;
+    // ── top: real-time presence via BroadcastChannel + localStorage ──
+    let cachedGeo = null;
+    const SESSION_ID = Math.random().toString(36).slice(2, 10);
+    const PRESENCE_KEY = 'enan_portfolio_sessions';
+    const PRESENCE_TTL = 30000; // 30s heartbeat
+
+    // Fetch geo once
+    async function getGeo() {
+        if (cachedGeo) return cachedGeo;
+        try {
+            const resp = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(4000) });
+            const d = await resp.json();
+            cachedGeo = {
+                city: d.city || 'Unknown',
+                region: d.region_code || d.region || '',
+                country: d.country_name || d.country_code || '',
+                ip: d.ip || '',
+            };
+        } catch {
+            cachedGeo = { city: 'Unknown', region: '', country: '', ip: '' };
+        }
+        return cachedGeo;
+    }
+
+    // Presence heartbeat — writes this session to localStorage
+    function updatePresence() {
+        try {
+            const sessions = JSON.parse(localStorage.getItem(PRESENCE_KEY) || '{}');
+            // Clean expired
+            const now = Date.now();
+            for (const id of Object.keys(sessions)) {
+                if (now - sessions[id].ts > PRESENCE_TTL * 2) delete sessions[id];
+            }
+            // Update ours
+            sessions[SESSION_ID] = {
+                ts: now,
+                city: cachedGeo ? `${cachedGeo.city}, ${cachedGeo.region} ${cachedGeo.country}`.trim() : 'Connecting...',
+                page: cwdString(),
+                joinedAt: sessions[SESSION_ID]?.joinedAt || now,
+            };
+            localStorage.setItem(PRESENCE_KEY, JSON.stringify(sessions));
+        } catch {}
+    }
+
+    // Start presence heartbeat
+    getGeo().then(() => { updatePresence(); });
+    setInterval(updatePresence, PRESENCE_TTL / 2);
+
+    // BroadcastChannel for cross-tab instant updates
+    let presenceChannel;
+    try {
+        presenceChannel = new BroadcastChannel('enan_portfolio_presence');
+        presenceChannel.onmessage = () => {}; // just keeps channel alive
+    } catch {}
+
+    // Clean up on tab close
+    window.addEventListener('beforeunload', () => {
+        try {
+            const sessions = JSON.parse(localStorage.getItem(PRESENCE_KEY) || '{}');
+            delete sessions[SESSION_ID];
+            localStorage.setItem(PRESENCE_KEY, JSON.stringify(sessions));
+            if (presenceChannel) presenceChannel.postMessage({ type: 'leave', id: SESSION_ID });
+        } catch {}
+    });
+
+    commands.top = async () => {
+        print(`<span class="c-bold c-cyan">Active Sessions — enan.dev</span>`);
+        print(`<span class="c-dim">Syncing presence data...</span>`);
+
+        // Ensure geo is loaded
+        await getGeo();
+        updatePresence();
+
+        // Read all sessions
+        let sessions = {};
+        try { sessions = JSON.parse(localStorage.getItem(PRESENCE_KEY) || '{}'); } catch {}
+
+        // Clean expired
+        const now = Date.now();
+        const activeSessions = Object.entries(sessions)
+            .filter(([, s]) => now - s.ts < PRESENCE_TTL * 2)
+            .sort((a, b) => a[1].joinedAt - b[1].joinedAt);
+
+        print('');
+        print(`<span class="c-bold">  ID  USER        CITY                          IDLE    PAGE</span>`);
+        print(`<span class="c-dim">  ──  ────        ────                          ────    ────</span>`);
+
+        activeSessions.forEach(([id, s], i) => {
+            const isYou = id === SESSION_ID;
+            const idle = Math.floor((now - s.ts) / 1000);
+            const idleStr = idle < 60 ? `${idle}s` : `${Math.floor(idle/60)}m`;
+            const city = (s.city || 'Unknown').padEnd(30).slice(0, 30);
+            const line = `  ${isYou ? '*' : ' '}${String(i+1).padStart(1)}  guest       ${escHtml(city)}${idleStr.padEnd(8)}${escHtml(s.page)}${isYou ? '  (you)' : ''}`;
+            print(isYou ? `<span class="c-green">${line}</span>` : `<span class="c-dim">${line}</span>`);
         });
 
-        class GustParticle {
-             constructor(targetX, targetY, isTextParticle = false) {
-                this.isTextParticle = isTextParticle;
-                this.screenX = -200 + Math.random() * 150;
-                this.screenY = Math.random() * window.innerHeight;
-                this.targetX = targetX;
-                this.targetY = targetY;
-                this.gustPhase = true;
-                this.gustSpeed = 5 + Math.random() * 5;
-                this.z = (Math.random() - 0.5) * 40;
-                this.size = 1.5;
-                this.opacity = 0.7 + Math.random() * 0.3;
-                this.life = 1.0;
-                this.startTime = Date.now() + Math.random() * 200; 
+        const upH = Math.floor((now - (activeSessions[0]?.[1]?.joinedAt || now)) / 3600000);
+        const upM = Math.floor(((now - (activeSessions[0]?.[1]?.joinedAt || now)) % 3600000) / 60000);
+        print('');
+        print(`<span class="c-dim">  ${activeSessions.length} active session${activeSessions.length !== 1 ? 's' : ''} | presence: localStorage+BroadcastChannel | ttl: ${PRESENCE_TTL/1000}s</span>`);
+    };
+    commands.ps = commands.top;
+    commands.who = commands.top;
+    commands.w = commands.top;
 
+    // ═══════════════════════════════════════════════════════════════
+    // COMMAND EXECUTOR
+    // ═══════════════════════════════════════════════════════════════
+    // Pipe-aware output capture
+    let pipeCapture = null; // when non-null, print() appends here instead of DOM
 
-                if (!isTextParticle) {
-                    this.baseX = targetX;
-                    this.baseY = targetY;
-                    this.baseZ = this.z;
-                    this.angle = Math.random() * Math.PI * 2;
-                    this.speed = 0.005 + Math.random() * 0.01;
+    const _origPrint = print;
+    print = function(html, cls) {
+        if (pipeCapture !== null) {
+            // Strip HTML tags for piped text
+            const tmp = document.createElement('div');
+            tmp.innerHTML = html;
+            pipeCapture.push(tmp.textContent || '');
+        } else {
+            _origPrint(html, cls);
+        }
+    };
+
+    async function execute(input) {
+        const trimmed = input.trim();
+        if (!trimmed) return;
+
+        history.push(trimmed);
+        histIdx = -1;
+
+        // Handle pipes
+        if (trimmed.includes('|')) {
+            const segments = trimmed.split('|').map(s => s.trim()).filter(Boolean);
+            let pipedInput = null;
+
+            for (let si = 0; si < segments.length; si++) {
+                const isLast = si === segments.length - 1;
+                const seg = segments[si];
+                const parts = seg.split(/\s+/);
+                let cmd = parts[0];
+                let args = parts.slice(1);
+
+                // If there's piped input from previous command, add it as arg
+                if (pipedInput !== null && args.length === 0) {
+                    args = [pipedInput.join('\n')];
                 }
-            }
 
-            update() {
-                if(Date.now() < this.startTime) return;
-
-                if (this.gustPhase) {
-                    const dx = this.targetX - this.screenX;
-                    const dy = this.targetY - this.screenY;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-
-                    if (distance > this.gustSpeed) {
-                        this.screenX += (dx / distance) * this.gustSpeed;
-                        this.screenY += (dy / distance) * this.gustSpeed;
-                        this.screenX += Math.sin(Date.now() * 0.01 + this.screenY * 0.02) * 1.5;
-                        this.screenY += Math.cos(Date.now() * 0.01 + this.screenX * 0.02) * 1.5;
+                if (!isLast) {
+                    // Capture output
+                    pipeCapture = [];
+                    if (commands[cmd]) {
+                        await commands[cmd](args);
                     } else {
-                        this.screenX = this.targetX;
-                        this.screenY = this.targetY;
-                        this.gustPhase = false;
-                         if (this.isTextParticle) {
-                            return;
-                        }
-                        // Convert screen coordinates to local orb canvas coordinates
-                        this.x = this.targetX - orbRect.left;
-                        this.y = this.targetY - orbRect.top;
-                        this.baseX = this.x;
-                        this.baseY = this.y;
+                        pipeCapture.push(`command not found: ${cmd}`);
                     }
-                } else if (this.isTextParticle) {
-                    this.life -= 0.02;
-                    if (this.life < 0) this.life = 0;
-
-                } else { // Orb particle logic
-                    this.angle += this.speed;
-
-                    const spiralTime = orbTime * 0.2;
-                    const distanceFromCenter = Math.sqrt((this.baseX - 250) ** 2 + (this.baseY - 250) ** 2);
-                    const currentAngle = Math.atan2(this.baseY - 250, this.baseX - 250);
-
-                    const spiralSpeed = 0.5;
-                    const spiralTightness = 0.1;
-                    const spiralAngle = currentAngle + spiralTime * spiralSpeed;
-                    const spiralRadius = Math.min(220, distanceFromCenter * (1 + Math.sin(spiralTime + currentAngle * 3) * spiralTightness));
-
-                    this.x = 250 + Math.cos(spiralAngle) * spiralRadius + Math.cos(this.angle) * 2;
-                    this.y = 250 + Math.sin(spiralAngle) * spiralRadius + Math.sin(this.angle) * 2;
-                    this.z = this.baseZ + Math.sin(this.angle * 0.4 + spiralTime) * 1.5;
-                }
-            }
-
-            draw() {
-                const scale = 1 + this.z * 0.005;
-                let projectedSize = this.size * scale;
-                const depth = Math.max(0.3, 1 - Math.abs(this.z) * 0.01);
-
-                if (this.isTextParticle) {
-                    if (this.life <= 0) return;
-                    projectedSize = this.gustPhase ? projectedSize : projectedSize * this.life;
-                    const opacity = this.opacity * depth * this.life;
-                    sandCtx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
-                    sandCtx.fillRect(this.screenX - projectedSize / 2, this.screenY - projectedSize / 2, projectedSize, projectedSize);
-                } else if (this.gustPhase) {
-                    sandCtx.fillStyle = `rgba(255, 255, 255, ${this.opacity * depth})`;
-                    sandCtx.fillRect(this.screenX - projectedSize / 2, this.screenY - projectedSize / 2, projectedSize, projectedSize);
-                } else { // Orb particle on orb canvas
-                    orbCtx.fillStyle = this.color || `rgba(255, 255, 255, ${this.opacity * depth})`;
-                    orbCtx.fillRect(this.x - projectedSize / 2, this.y - projectedSize / 2, projectedSize, projectedSize);
-                }
-            }
-        }
-
-        function createOrbDust() {
-            orbDustParticles.length = 0;
-            const centerX = 250;
-            const centerY = 250;
-            const orbParticles = 2500;
-
-            for (let i = 0; i < orbParticles; i++) {
-                const angle = Math.random() * Math.PI * 2;
-                const radius = Math.random() * 220;
-                const localX = centerX + Math.cos(angle) * radius;
-                const localY = centerY + Math.sin(angle) * radius;
-                // Calculate target screen position based on dynamic orb position
-                const screenX = orbRect.left + localX;
-                const screenY = orbRect.top + localY;
-                
-                const particle = new GustParticle(screenX, screenY);
-                orbDustParticles.push(particle);
-            }
-        }
-
-        function createTextDust() {
-            textDustParticles.length = 0; 
-            const textParticleCount = 1200;
-            const textRectWidth = 400;
-            const textRectHeight = 100;
-            const rectX = (window.innerWidth / 2) - (textRectWidth / 2);
-            const rectY = 80;
-
-            for (let i = 0; i < textParticleCount; i++) {
-                const targetX = rectX + Math.random() * textRectWidth;
-                const targetY = rectY + Math.random() * textRectHeight;
-                const particle = new GustParticle(targetX, targetY, true);
-                textDustParticles.push(particle);
-            }
-        }
-        
-         function createNavLinkDust() {
-            navLinkDustParticles.length = 0;
-            const navLinks = document.querySelectorAll('.nav-links a');
-            navLinks.forEach(link => {
-                const rect = link.getBoundingClientRect();
-                const sampling = 3; 
-                for (let y = rect.top; y < rect.bottom; y += sampling) {
-                    for (let x = rect.left; x < rect.right; x += sampling) {
-                        if (Math.random() > 0.5) { 
-                            const particle = new GustParticle(x, y, true);
-                            navLinkDustParticles.push(particle);
+                    pipedInput = pipeCapture;
+                    pipeCapture = null;
+                } else {
+                    // Last command — output normally
+                    if (pipedInput !== null && cmd === 'lolcat' || cmd === '?') {
+                        // Special: pipe into lolcat
+                        lolcat(pipedInput.join('\n'));
+                    } else if (commands[cmd]) {
+                        if (pipedInput !== null && (cmd === 'echo' || cmd === 'lolcat' || cmd === '?')) {
+                            args = [pipedInput.join('\n')];
                         }
-                    }
-                }
-            });
-        }
-
-        let orbTime = 0;
-        let hoveredSection = -1;
-        let introAnimationComplete = false;
-        
-        const aboutInfo = document.getElementById('aboutInfo');
-        const workInfo = document.getElementById('workInfo');
-        const skillsInfo = document.getElementById('skillsInfo');
-        const contactInfo = document.getElementById('contactInfo');
-        const githubInfo = document.getElementById('githubInfo');
-        const linkedinInfo = document.getElementById('linkedinInfo');
-        const allInfoPanels = [aboutInfo, workInfo, skillsInfo, ,contactInfo, githubInfo, linkedinInfo]; // Note the empty slot for section 3
-
-        function updateInfoPanels(sectionIndex) {
-            allInfoPanels.forEach(panel => {
-               if(panel) panel.classList.remove('visible');
-               if(panel) panel.style.color = '';
-            });
-
-            let panelToShow = null;
-            // The sections are 0-indexed here from the orb calculation
-            switch (sectionIndex) {
-                case 0: panelToShow = aboutInfo; break;
-                case 1: panelToShow = workInfo; break;
-                case 2: panelToShow = skillsInfo; break;
-                case 4: panelToShow = contactInfo; break;
-                case 5: panelToShow = githubInfo; break;
-                case 6: panelToShow = linkedinInfo; break;
-            }
-
-            if (panelToShow) {
-                panelToShow.classList.add('visible');
-                const activeColor = palette[sectionIndex];
-                panelToShow.style.color = activeColor;
-            }
-        }
-
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-
-        orbCanvas.addEventListener('mousemove', (e) => {
-            const rect = orbCanvas.getBoundingClientRect();
-            const x = e.clientX - rect.left - 250;
-            const y = e.clientY - rect.top - 250;
-            const angle = Math.atan2(y, x);
-            const distance = Math.sqrt(x * x + y * y);
-            let currentSection = -1;
-
-            if (distance < 220) {
-                let normalizedAngle = angle + Math.PI / 2 + (Math.PI * 2 / 7) / 2;
-                if (normalizedAngle >= Math.PI * 2) normalizedAngle -= Math.PI * 2;
-                const sectionSize = (Math.PI * 2) / 7;
-                currentSection = Math.floor(normalizedAngle / sectionSize);
-            }
-            
-            if(hoveredSection !== currentSection) {
-                hoveredSection = currentSection;
-                updateInfoPanels(hoveredSection);
-                document.querySelectorAll('.nav-links a').forEach(link => {
-                    // data-section is 1-based, orb is 0-based with gaps
-                    const linkDataSection = parseInt(link.dataset.section, 10);
-                    const linkSectionMap = {1:0, 2:1, 3:2, 5:4, 6:5, 7:6};
-                    const linkSection = linkSectionMap[linkDataSection];
-
-                    if (linkSection === hoveredSection) {
-                        link.style.color = palette[hoveredSection];
-                        link.style.textShadow = `0 0 10px ${palette[hoveredSection]}`;
+                        await commands[cmd](args);
                     } else {
-                        link.style.color = '#ffffff';
-                        link.style.textShadow = 'none';
+                        print(`<span class="c-err">command not found: ${escHtml(cmd)}</span>`);
                     }
-                });
-            }
-        });
-
-        orbCanvas.addEventListener('mouseleave', () => {
-             if (hoveredSection !== -1) {
-                hoveredSection = -1;
-                updateInfoPanels(hoveredSection);
-                 document.querySelectorAll('.nav-links a').forEach(link => {
-                    link.style.color = '#ffffff';
-                    link.style.textShadow = 'none';
-                });
-            }
-        });
-        
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            const linkDataSection = parseInt(link.dataset.section, 10);
-            const linkSectionMap = {1:0, 2:1, 3:2, 5:4, 6:5, 7:6};
-            const section = linkSectionMap[linkDataSection];
-
-            link.addEventListener('mouseenter', () => {
-                hoveredSection = section;
-                updateInfoPanels(section);
-                 document.querySelectorAll('.nav-links a').forEach(innerLink => {
-                    const innerLinkDataSection = parseInt(innerLink.dataset.section, 10);
-                    const innerLinkSection = linkSectionMap[innerLinkDataSection];
-                     if (innerLinkSection === section) {
-                        innerLink.style.color = palette[section];
-                        innerLink.style.textShadow = `0 0 10px ${palette[section]}`;
-                     } else {
-                        innerLink.style.color = '#ffffff';
-                        innerLink.style.textShadow = 'none';
-                     }
-                 });
-            });
-            link.addEventListener('mouseleave', () => {
-                hoveredSection = -1;
-                updateInfoPanels(-1);
-                document.querySelectorAll('.nav-links a').forEach(l => {
-                    l.style.color = '#ffffff';
-                    l.style.textShadow = 'none';
-                });
-            });
-        });
-
-        function animate() {
-            sandCtx.clearRect(0, 0, sandCanvas.width, sandCanvas.height);
-            orbCtx.clearRect(0, 0, 500, 500);
-
-            orbTime += 0.01;
-
-            if (!introAnimationComplete && textDustParticles.length > 0 && navLinkDustParticles.length > 0) {
-                const flyingParticles = [...textDustParticles, ...navLinkDustParticles, ...orbDustParticles].filter(p => p.gustPhase);
-                
-                // Start fading in the text when most particles are close to their destination.
-                if (flyingParticles.length < 400) {
-                    document.querySelector('.content').classList.add('visible');
-                    document.querySelector('.nav-links').classList.add('visible');
-                    introAnimationComplete = true;
                 }
             }
+            return;
+        }
 
-            particleLayers.forEach(layer => {
-                layer.particles.forEach(p => {
-                    p.update();
-                    p.draw();
+        const parts = trimmed.split(/\s+/);
+        const cmd = parts[0];
+        const args = parts.slice(1);
+
+        if (commands[cmd]) {
+            await commands[cmd](args);
+        } else {
+            print(`<span class="c-err">command not found: ${escHtml(cmd)}</span>`);
+            print(`<span class="c-dim">Type "help" for available commands.</span>`);
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // TAB COMPLETION
+    // ═══════════════════════════════════════════════════════════════
+    function getCompletions(input) {
+        const parts = input.split(/\s+/);
+        const allCmds = [...Object.keys(commands), 'sh'];
+
+        if (parts.length <= 1) {
+            // Complete command names
+            const prefix = parts[0] || '';
+            return { type: 'cmd', matches: allCmds.filter(c => c.startsWith(prefix) && c !== prefix), prefix };
+        }
+
+        // Complete file/dir names
+        const partial = parts[parts.length - 1] || '';
+        let dirParts, namePrefix;
+
+        if (partial.includes('/')) {
+            const lastSlash = partial.lastIndexOf('/');
+            const dirPath = partial.slice(0, lastSlash) || '.';
+            namePrefix = partial.slice(lastSlash + 1);
+            dirParts = resolvePath(dirPath);
+        } else {
+            dirParts = cwd;
+            namePrefix = partial;
+        }
+
+        const dirNode = getNode(dirParts);
+        if (!dirNode || dirNode.type !== 'dir') return { type: 'file', matches: [], prefix: namePrefix };
+
+        const matches = Object.keys(dirNode.children)
+            .filter(n => n.startsWith(namePrefix) && n !== namePrefix)
+            .map(n => {
+                const child = dirNode.children[n];
+                return child.type === 'dir' ? n + '/' : n;
+            });
+
+        return { type: 'file', matches, prefix: namePrefix };
+    }
+
+    function doTabComplete() {
+        const input = cmdInput.value;
+        const comp = getCompletions(input);
+
+        if (comp.matches.length === 0) return;
+
+        if (comp.matches.length === 1) {
+            const match = comp.matches[0];
+            if (comp.type === 'cmd') {
+                cmdInput.value = match + ' ';
+            } else {
+                const beforePrefix = input.slice(0, input.length - comp.prefix.length);
+                cmdInput.value = beforePrefix + match;
+                if (!match.endsWith('/')) cmdInput.value += ' ';
+            }
+        } else {
+            // Show options
+            const promptHtml = inputRow.querySelector('.prompt').innerHTML;
+            print(`<span class="prompt">${promptHtml}</span>${escHtml(input)}`);
+            print(comp.matches.map(m => {
+                if (m.endsWith('/')) return `<span class="c-dir">${escHtml(m)}</span>`;
+                return escHtml(m);
+            }).join('  '));
+            // Find common prefix
+            let common = comp.matches[0];
+            for (const m of comp.matches) {
+                while (!m.startsWith(common)) common = common.slice(0, -1);
+            }
+            if (common.length > comp.prefix.length) {
+                const beforePrefix = input.slice(0, input.length - comp.prefix.length);
+                cmdInput.value = beforePrefix + common;
+            }
+        }
+        updateSuggestion();
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // INLINE SUGGESTION (grey ghost text)
+    // ═══════════════════════════════════════════════════════════════
+    function updateSuggestion() {
+        const val = cmdInput.value;
+        if (!val) { suggestion.textContent = ''; return; }
+        // Find most recent history match
+        for (let i = history.length - 1; i >= 0; i--) {
+            if (history[i].startsWith(val) && history[i] !== val) {
+                suggestion.textContent = history[i].slice(val.length);
+                return;
+            }
+        }
+        suggestion.textContent = '';
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // INPUT HANDLING
+    // ═══════════════════════════════════════════════════════════════
+    cmdInput.addEventListener('keydown', async (e) => {
+        if (appPhase !== 'shell') return;
+
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            doTabComplete();
+            return;
+        }
+
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const val = cmdInput.value;
+            // Remove live prompt-top and print both lines to output
+            const liveTop = document.getElementById('prompt-top-live');
+            if (liveTop) liveTop.remove();
+            print(promptTopHtml(), 'prompt-top');
+            const promptHtml = inputRow.querySelector('.prompt').innerHTML;
+            print(`<span class="prompt">${promptHtml}</span>${escHtml(val)}`);
+            cmdInput.value = '';
+            suggestion.textContent = '';
+
+            inputRow.classList.add('hidden');
+            await execute(val);
+            if (appPhase === 'shell') {
+                inputRow.classList.remove('hidden');
+                updatePrompt();
+                cmdInput.focus();
+                output.scrollTop = output.scrollHeight;
+            }
+            return;
+        }
+
+        if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (history.length === 0) return;
+            if (histIdx === -1) savedInput = cmdInput.value;
+            histIdx = Math.min(histIdx + 1, history.length - 1);
+            cmdInput.value = history[history.length - 1 - histIdx];
+            updateSuggestion();
+            return;
+        }
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (histIdx <= 0) {
+                histIdx = -1;
+                cmdInput.value = savedInput;
+            } else {
+                histIdx--;
+                cmdInput.value = history[history.length - 1 - histIdx];
+            }
+            updateSuggestion();
+            return;
+        }
+
+        // Accept suggestion with Right arrow at end of input
+        if (e.key === 'ArrowRight' && suggestion.textContent &&
+            cmdInput.selectionStart === cmdInput.value.length) {
+            e.preventDefault();
+            cmdInput.value += suggestion.textContent;
+            suggestion.textContent = '';
+            return;
+        }
+
+        // Ctrl+L = clear
+        if (e.ctrlKey && e.key === 'l') {
+            e.preventDefault();
+            commands.clear();
+            return;
+        }
+
+        // Ctrl+C = cancel current input
+        if (e.ctrlKey && e.key === 'c') {
+            e.preventDefault();
+            const liveTop = document.getElementById('prompt-top-live');
+            if (liveTop) liveTop.remove();
+            print(promptTopHtml(), 'prompt-top');
+            const promptHtml = inputRow.querySelector('.prompt').innerHTML;
+            print(`<span class="prompt">${promptHtml}</span>${escHtml(cmdInput.value)}^C`);
+            cmdInput.value = '';
+            suggestion.textContent = '';
+            updatePrompt();
+            return;
+        }
+    });
+
+    cmdInput.addEventListener('input', () => {
+        updateSuggestion();
+    });
+
+    // Focus input when clicking/tapping terminal
+    document.getElementById('terminal').addEventListener('click', () => {
+        if (appPhase === 'shell') cmdInput.focus();
+    });
+    document.getElementById('terminal').addEventListener('touchend', (e) => {
+        if (appPhase === 'shell') {
+            // Only focus if not selecting text
+            if (!window.getSelection().toString()) {
+                cmdInput.focus();
+            }
+        }
+    });
+
+    // Handle virtual keyboard resize on mobile —
+    // shrink terminal to fit above keyboard
+    const terminalEl = document.getElementById('terminal');
+    function handleViewportResize() {
+        if (window.visualViewport) {
+            const vv = window.visualViewport;
+            terminalEl.style.height = vv.height + 'px';
+            // Offset if viewport scrolled (iOS shifts page up)
+            terminalEl.style.transform = `translateY(${vv.offsetTop}px)`;
+            output.scrollTop = output.scrollHeight;
+        }
+    }
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', handleViewportResize);
+        window.visualViewport.addEventListener('scroll', handleViewportResize);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // PRETEXT PARTICLE ANIMATION (canvas overlay)
+    // ═══════════════════════════════════════════════════════════════
+    import { prepareWithSegments, layoutWithLines } from 'https://esm.sh/@chenglou/pretext@0.0.3';
+
+    const animCanvas = document.getElementById('animCanvas');
+    const animCtx = animCanvas.getContext('2d');
+    const skipHint = document.getElementById('skipHint');
+    const palette = ['#ff007f','#ff00ff','#00ff00','#00ffff','#ffff00','#ff8800','#00a2ff'];
+
+    let animRunning = false;
+    let animCancelled = false;
+    let animFrameId = null;
+
+    // ── Person silhouette mask ──
+    function generatePersonMask() {
+        const off = document.createElement('canvas');
+        const w = 300, h = 500;
+        off.width = w; off.height = h;
+        const c = off.getContext('2d');
+        c.fillStyle = '#fff'; c.strokeStyle = '#fff';
+        c.lineCap = 'round'; c.lineJoin = 'round';
+
+        // Hair
+        c.beginPath();
+        c.moveTo(118,18); c.quadraticCurveTo(130,5,155,10);
+        c.quadraticCurveTo(175,8,182,18); c.quadraticCurveTo(188,10,185,25);
+        c.quadraticCurveTo(190,20,188,35); c.lineTo(185,42); c.lineTo(115,42);
+        c.quadraticCurveTo(110,25,112,18); c.quadraticCurveTo(115,10,118,18);
+        c.closePath(); c.fill();
+        // Head
+        c.beginPath(); c.ellipse(150,58,32,38,0,0,Math.PI*2); c.fill();
+        // Ears
+        c.beginPath(); c.ellipse(116,58,6,10,-0.15,0,Math.PI*2); c.fill();
+        c.beginPath(); c.ellipse(184,58,6,10,0.15,0,Math.PI*2); c.fill();
+        // Neck
+        c.beginPath(); c.moveTo(138,90); c.lineTo(162,90); c.lineTo(160,112); c.lineTo(140,112); c.closePath(); c.fill();
+        // Shoulders
+        c.beginPath(); c.moveTo(140,112); c.quadraticCurveTo(150,108,160,112);
+        c.lineTo(210,130); c.lineTo(205,140); c.lineTo(95,140); c.lineTo(90,130); c.closePath(); c.fill();
+        // Torso
+        c.beginPath(); c.moveTo(95,140); c.quadraticCurveTo(88,180,92,220);
+        c.quadraticCurveTo(90,250,95,280); c.lineTo(205,280);
+        c.quadraticCurveTo(210,250,208,220); c.quadraticCurveTo(212,180,205,140); c.closePath(); c.fill();
+        c.fillRect(93,272,114,12);
+        // Left arm
+        c.lineWidth=18; c.beginPath(); c.moveTo(90,135); c.quadraticCurveTo(60,175,55,220); c.quadraticCurveTo(50,260,58,295); c.stroke();
+        c.lineWidth=16; c.beginPath(); c.moveTo(58,295); c.quadraticCurveTo(55,320,60,340); c.stroke();
+        c.beginPath(); c.arc(60,345,10,0,Math.PI*2); c.fill();
+        c.lineWidth=5;
+        c.beginPath(); c.moveTo(52,345); c.lineTo(48,358); c.stroke();
+        c.beginPath(); c.moveTo(60,348); c.lineTo(58,362); c.stroke();
+        c.beginPath(); c.moveTo(68,345); c.lineTo(70,358); c.stroke();
+        // Right arm (holding orb)
+        c.lineWidth=18; c.beginPath(); c.moveTo(210,135); c.quadraticCurveTo(240,155,255,180); c.stroke();
+        c.lineWidth=16; c.beginPath(); c.moveTo(255,180); c.quadraticCurveTo(270,200,278,215); c.stroke();
+        c.beginPath(); c.arc(280,220,12,0,Math.PI*2); c.fill();
+        c.lineWidth=5;
+        c.beginPath(); c.moveTo(272,228); c.quadraticCurveTo(268,240,275,245); c.stroke();
+        c.beginPath(); c.moveTo(280,230); c.quadraticCurveTo(280,242,282,248); c.stroke();
+        c.beginPath(); c.moveTo(288,228); c.quadraticCurveTo(292,240,288,245); c.stroke();
+        // Left leg
+        c.lineWidth=22; c.beginPath(); c.moveTo(120,280); c.quadraticCurveTo(112,340,108,400); c.quadraticCurveTo(105,430,102,460); c.stroke();
+        c.lineWidth=12; c.beginPath(); c.moveTo(102,460); c.quadraticCurveTo(85,468,78,470); c.stroke();
+        c.beginPath(); c.ellipse(85,472,18,7,0,0,Math.PI*2); c.fill();
+        // Right leg
+        c.lineWidth=22; c.beginPath(); c.moveTo(180,280); c.quadraticCurveTo(185,340,188,400); c.quadraticCurveTo(190,430,192,460); c.stroke();
+        c.lineWidth=12; c.beginPath(); c.moveTo(192,460); c.quadraticCurveTo(210,468,218,470); c.stroke();
+        c.beginPath(); c.ellipse(208,472,18,7,0,0,Math.PI*2); c.fill();
+
+        return { w, h, data: c.getImageData(0,0,w,h).data };
+    }
+
+    const personMask = generatePersonMask();
+    function isInsidePerson(px,py) {
+        if (px<0||py<0||px>=personMask.w||py>=personMask.h) return false;
+        return personMask.data[(Math.floor(py)*personMask.w+Math.floor(px))*4+3]>128;
+    }
+
+    async function runAnimation() {
+        if (animRunning) return;
+        animRunning = true;
+        animCancelled = false;
+
+        const prevPhase = appPhase;
+        appPhase = 'animation';
+        inputRow.classList.add('hidden');
+
+        print('<span class="c-info">$ sh animation.sh</span>');
+        print('<span class="c-dim">Running particle animation...</span>');
+
+        const AW = animCanvas.width = window.innerWidth;
+        const AH = animCanvas.height = window.innerHeight;
+        animCanvas.classList.add('active');
+
+        const ANIM_FONT = '8px JetBrains Mono';
+        const GLYPH_CHARS = ['.','·','+','·','.','·','.','·','.','.'];
+        const isMob = AW <= 768;
+        const pScale = isMob ? 0.7 : 1.2;
+
+        // Layout
+        const personDrawW = personMask.w * pScale;
+        const pOriginX = (AW - personDrawW) / 2 - 40;
+        const pOriginY = AH * (isMob ? 0.25 : 0.18);
+        const orbCX = pOriginX + 280 * pScale;
+        const orbCY = pOriginY + 220 * pScale;
+        const orbR = isMob ? 85 : 150;
+
+        // Build glyph grid via Pretext
+        const cols = Math.floor(AW / 7);
+        const rows = Math.floor(AH / 9);
+        let str = '';
+        for (let i = 0; i < cols * rows; i++) {
+            str += GLYPH_CHARS[Math.floor(Math.random() * GLYPH_CHARS.length)];
+            if ((i + 1) % cols === 0) str += '\n';
+        }
+        const prepared = prepareWithSegments(str, ANIM_FONT, { whiteSpace: 'pre-wrap' });
+        const result = layoutWithLines(prepared, AW, 9);
+
+        // Create particles
+        const parts = [];
+        for (let li = 0; li < result.lines.length; li++) {
+            const lineText = result.lines[li].text;
+            const baseY = li * 9 + 4;
+            for (let ci = 0; ci < lineText.length; ci++) {
+                const ch = lineText[ci];
+                if (ch === '\n') continue;
+                const homeX = ci * 7 + 3;
+                const homeY = baseY;
+                const relX = (homeX - pOriginX) / pScale;
+                const relY = (homeY - pOriginY) / pScale;
+
+                let role = 'ambient';
+                let baseOp = 0.12 + Math.random() * 0.12;
+                const dx = homeX - orbCX, dy = homeY - orbCY;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+
+                if (isInsidePerson(relX, relY)) {
+                    role = 'person';
+                    baseOp = 0.6 + Math.random() * 0.4;
+                } else if (dist < orbR) {
+                    role = 'orb';
+                    baseOp = 0.7 + Math.random() * 0.3;
+                }
+
+                parts.push({
+                    ch, homeX, homeY, role,
+                    x: -200 - Math.random() * 800,
+                    y: Math.random() * AH,
+                    targetX: homeX, targetY: homeY,
+                    opacity: 0, baseOp,
+                    turbPhase: Math.random() * Math.PI * 2,
+                    turbSpeed: 0.01 + Math.random() * 0.03,
+                    delay: Math.random() * 1.0,
+                    seed: Math.random(),
+                    colorVal: 210 + Math.floor(Math.random() * 45),
+                    ambVal: 100 + Math.floor(Math.random() * 60),
+                    orbAngle: Math.atan2(dy, dx),
+                    orbDist: dist,
+                    orbSpeed: 0.003 + Math.random() * 0.008,
+                    color: null,
                 });
-            });
+            }
+        }
 
-            settledParticles.forEach(p => {
-                sandCtx.fillStyle = p.color;
-                sandCtx.fillRect(p.x, p.y, p.size, p.size);
+        // Snow
+        const snow = [];
+        const snowCount = isMob ? 200 : 500;
+        for (let i = 0; i < snowCount; i++) {
+            snow.push({
+                x: Math.random() * AW, y: -Math.random() * 40 - 5,
+                speed: 0.1 + Math.random() * 0.3,
+                size: Math.random() > 0.7 ? 1.5 : 1,
+                color: `rgba(${150 + Math.floor(Math.random()*100)},${150 + Math.floor(Math.random()*100)},${150 + Math.floor(Math.random()*100)},${0.2 + Math.random()*0.4})`,
             });
-            
-            orbDustParticles.forEach(particle => {
-                particle.update();
-                particle.draw();
-            });
-             textDustParticles.forEach(particle => {
-                particle.update();
-                particle.draw();
-            });
-             navLinkDustParticles.forEach(particle => {
-                particle.update();
-                particle.draw();
-            });
-            
-            orbDustParticles.forEach(particle => {
-                if (!particle.gustPhase) {
-                    // Add a chance for particles to be grey
-                    if (Math.random() < 0.35) {
-                        const greyValue = 120 + Math.random() * 80;
-                        particle.color = `rgba(${greyValue}, ${greyValue}, ${greyValue}, 0.6)`;
-                        return; // Skip the color section logic for this particle
+        }
+
+        // Ctrl+C handler
+        function onCtrlC(e) {
+            if (e.ctrlKey && e.key === 'c') { animCancelled = true; e.preventDefault(); }
+        }
+        document.addEventListener('keydown', onCtrlC);
+
+        // Mouse/touch tracking for interactive orb
+        let animMouseX = AW / 2, animMouseY = AH / 2;
+        let animHoveredSec = -1;
+
+        function onAnimMouseMove(e) { animMouseX = e.clientX; animMouseY = e.clientY; }
+        function onAnimTouchMove(e) { e.preventDefault(); animMouseX = e.touches[0].clientX; animMouseY = e.touches[0].clientY; }
+        function onAnimTouchStart(e) { animMouseX = e.touches[0].clientX; animMouseY = e.touches[0].clientY; }
+        const sectionUrls = {
+            4: 'mailto:contact@enan.dev',
+            5: 'https://github.com/Enan456',
+            6: 'https://www.linkedin.com/in/enan-srivastava/',
+        };
+
+        let exitFlashAlpha = 0; // light blue flash on exit click
+
+        function onAnimClick(e) {
+            if (phase < 2) return;
+            const sec = getAnimOrbSection(e.clientX || animMouseX, e.clientY || animMouseY);
+            if (sectionUrls[sec]) {
+                window.open(sectionUrls[sec], '_blank');
+                return; // don't exit, just open link
+            }
+            // Click anywhere else = exit with blue flash
+            exitFlashAlpha = 1.0;
+            setTimeout(() => { animCancelled = true; }, 400);
+        }
+        function onAnimMouseMoveWithCursor(e) {
+            animMouseX = e.clientX; animMouseY = e.clientY;
+            if (phase >= 2) {
+                const sec = getAnimOrbSection(animMouseX, animMouseY);
+                animCanvas.style.cursor = sectionUrls[sec] ? 'pointer' : 'default';
+            }
+        }
+
+        animCanvas.addEventListener('mousemove', onAnimMouseMoveWithCursor);
+        animCanvas.addEventListener('touchmove', onAnimTouchMove, { passive: false });
+        animCanvas.addEventListener('touchstart', onAnimTouchStart, { passive: true });
+        animCanvas.addEventListener('click', onAnimClick);
+
+        function getAnimOrbSection(mx, my) {
+            const dx = mx - orbCX, dy = my - orbCY;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            if (dist > orbR + 15) return -1;
+            let ang = Math.atan2(dy, dx) + Math.PI/2 + (Math.PI*2/7)/2;
+            if (ang >= Math.PI*2) ang -= Math.PI*2;
+            if (ang < 0) ang += Math.PI*2;
+            return Math.floor(ang / ((Math.PI*2)/7));
+        }
+
+        const sectionLabels = ['ABOUT','WORK','SKILLS','','CONTACT','GITHUB','LINKEDIN'];
+        const sectionInfo = [
+            'If you want to build cool stuff, hit me up.',
+            'Operator | Data Scientist | COO A Cubed | Erdos Mentor',
+            'Python, AWS, GCP, Java, JS, SQL | Design Thinking',
+            '',
+            '630-608-3688 | contact@enan.dev  [click to email]',
+            'github.com/Enan456  [click to open]',
+            'linkedin.com/in/enan-srivastava  [click to open]',
+        ];
+
+        // Animation loop
+        let phase = 0, phaseTime = 0, orbTime = 0;
+        const P0 = 3.5, P1 = 2.0;
+        let lastT = performance.now();
+
+        await new Promise(resolve => {
+            function frame(now) {
+                if (animCancelled) { resolve(); return; }
+
+                const dt = (now - lastT) / 1000;
+                lastT = now;
+                phaseTime += dt;
+                orbTime += dt;
+
+                animCtx.clearRect(0, 0, AW, AH);
+
+                // Phase transitions
+                if (phase === 0 && phaseTime >= P0) { phase = 1; phaseTime = 0; }
+                if (phase === 1 && phaseTime >= P1) { phase = 2; phaseTime = 0; }
+                // Phase 2 runs forever — click or Ctrl+C exits
+
+                // Update hovered section in phase 2
+                if (phase === 2) {
+                    animHoveredSec = getAnimOrbSection(animMouseX, animMouseY);
+                }
+
+                // Snow
+                for (const s of snow) {
+                    s.y += s.speed;
+                    if (s.y > AH + 10) { s.y = -5; s.x = Math.random() * AW; }
+                    animCtx.fillStyle = s.color;
+                    animCtx.fillRect(s.x, s.y, s.size, s.size);
+                }
+
+                // Particles
+                animCtx.font = ANIM_FONT;
+                animCtx.textAlign = 'center';
+                animCtx.textBaseline = 'middle';
+
+                for (let i = 0; i < parts.length; i++) {
+                    const p = parts[i];
+                    p.turbPhase += p.turbSpeed;
+
+                    if (phase === 0) {
+                        const t = Math.max(0, Math.min(1, (phaseTime - p.delay) / (P0 - 1)));
+                        const ease = t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
+                        if (p.role === 'orb') {
+                            p.x += (p.homeX - p.x) * ease * 0.06;
+                            p.y += (p.homeY - p.y) * ease * 0.06;
+                            p.opacity = p.baseOp * 0.1;
+                        } else {
+                            p.x += (p.targetX - p.x) * ease * 0.07;
+                            p.y += (p.targetY - p.y) * ease * 0.07;
+                            p.opacity = p.role === 'person' ? p.baseOp * ease : p.baseOp * ease * 0.5;
+                        }
+                        if (t < 0.85) {
+                            const turb = (1-t)*4;
+                            p.x += Math.sin(p.turbPhase)*turb;
+                            p.y += Math.cos(p.turbPhase*0.7)*turb;
+                        }
+                    } else if (phase === 1) {
+                        if (p.role === 'person') {
+                            const breath = Math.sin(orbTime*1.5)*4;
+                            const driftX = Math.sin(p.turbPhase*1.3+i*0.05)*3;
+                            const driftY = Math.cos(p.turbPhase*0.9+i*0.07)*3+breath;
+                            p.x += (p.targetX+driftX-p.x)*0.06;
+                            p.y += (p.targetY+driftY-p.y)*0.06;
+                            p.opacity = p.baseOp;
+                        } else if (p.role === 'orb') {
+                            const t = Math.min(1, phaseTime/P1);
+                            p.opacity = p.baseOp * t;
+                            p.orbAngle += p.orbSpeed;
+                            const sa = p.orbAngle + orbTime*0.3;
+                            const r = p.orbDist*(0.3+0.7*t);
+                            p.x += (orbCX+Math.cos(sa)*r - p.x)*0.08;
+                            p.y += (orbCY+Math.sin(sa)*r - p.y)*0.08;
+                        } else {
+                            p.x += (p.homeX-p.x)*0.05;
+                            p.y += (p.homeY-p.y)*0.05;
+                            p.opacity = p.baseOp;
+                        }
+                    } else {
+                        // Phase 2: living idle + interactive
+                        if (p.role === 'person') {
+                            const breath = Math.sin(orbTime*1.2+i*0.003)*5;
+                            const driftX = Math.sin(p.turbPhase*1.3+i*0.05)*4;
+                            const driftY = Math.cos(p.turbPhase*0.9+i*0.07)*3.5+breath;
+                            const swirl = Math.sin(orbTime*2.5+i*0.02)*2;
+                            p.x += (p.targetX+driftX+swirl-p.x)*0.05;
+                            p.y += (p.targetY+driftY-p.y)*0.05;
+                            p.opacity = p.baseOp*(0.7+Math.sin(p.turbPhase*2.5+i*0.1)*0.2);
+                        } else if (p.role === 'orb') {
+                            p.orbAngle += p.orbSpeed;
+                            const st = orbTime*0.3;
+                            const ba = p.orbAngle+st;
+                            const r = Math.min(orbR, p.orbDist*(1+Math.sin(st+p.orbAngle*3)*0.08));
+                            p.x = orbCX+Math.cos(ba)*r;
+                            p.y = orbCY+Math.sin(ba)*r;
+                            // Section color
+                            let ang = Math.atan2(p.y-orbCY, p.x-orbCX)+Math.PI/2+(Math.PI*2/7)/2;
+                            ang += Math.sin(Math.sqrt((p.x-orbCX)**2+(p.y-orbCY)**2)*0.04+orbTime*2)*0.2;
+                            if (ang>=Math.PI*2) ang-=Math.PI*2;
+                            if (ang<0) ang+=Math.PI*2;
+                            const sec = Math.floor(ang/((Math.PI*2)/7));
+
+                            // Highlight hovered section
+                            if (animHoveredSec >= 0) {
+                                if (sec === animHoveredSec) {
+                                    p.color = palette[sec];
+                                    p.opacity = Math.min(1, p.baseOp * 1.8);
+                                } else {
+                                    p.color = p.seed < 0.25 ? null : palette[sec];
+                                    p.opacity = p.baseOp * 0.35;
+                                }
+                            } else {
+                                p.color = p.seed < 0.25 ? null : palette[sec];
+                                p.opacity = p.baseOp;
+                            }
+
+                            // Mouse pushes orb particles
+                            const dxM = p.x - animMouseX, dyM = p.y - animMouseY;
+                            const distM = Math.sqrt(dxM*dxM + dyM*dyM);
+                            if (distM < 50) {
+                                const push = (50-distM)/50*3;
+                                p.x += (dxM/distM)*push;
+                                p.y += (dyM/distM)*push;
+                            }
+                        } else {
+                            p.x += (p.homeX-p.x)*0.02;
+                            p.y += (p.homeY-p.y)*0.02;
+                            p.x += Math.sin(p.turbPhase)*0.3;
+                            p.y += Math.cos(p.turbPhase*0.6)*0.2;
+                        }
                     }
 
-                    const distanceFromCenter = Math.sqrt((particle.x - 250)**2 + (particle.y - 250)**2);
-                    const pRelativeX = (particle.x - 250) / 220;
-                    const pRelativeY = (particle.y - 250) / 220;
-                    
-                    const angle = Math.atan2(pRelativeY, pRelativeX);
-                    let normalizedAngle = angle + Math.PI / 2 + (Math.PI * 2 / 7) / 2;
+                    if (p.opacity < 0.01) continue;
 
-                    // Add a sine wave distortion for a wavy effect
-                    const waveAmount = 0.2;
-                    const waveFrequency = 0.05;
-                    normalizedAngle += Math.sin(distanceFromCenter * waveFrequency + orbTime * 3) * waveAmount;
-                    
-                    if (normalizedAngle >= Math.PI * 2) normalizedAngle -= Math.PI * 2;
-                    if (normalizedAngle < 0) normalizedAngle += Math.PI * 2;
-                    
-                    const sectionSize = (Math.PI * 2) / 7;
-                    const sectionIndex = Math.floor(normalizedAngle / sectionSize);
-
-                    particle.color = palette[sectionIndex] + 'A0';
+                    if (p.role === 'orb' && phase >= 1 && p.color) {
+                        animCtx.fillStyle = hexToRgba(p.color, p.opacity);
+                    } else if (p.role === 'person') {
+                        animCtx.fillStyle = `rgba(${p.colorVal},${p.colorVal},${p.colorVal},${p.opacity})`;
+                    } else if (p.role === 'orb' && phase >= 1) {
+                        const g = 120 + p.seed * 80;
+                        animCtx.fillStyle = `rgba(${g|0},${g|0},${g|0},${p.opacity * 0.7})`;
+                    } else {
+                        animCtx.fillStyle = `rgba(${p.ambVal},${p.ambVal},${p.ambVal},${p.opacity})`;
+                    }
+                    animCtx.fillText(p.ch, p.x, p.y);
                 }
-            });
 
-            requestAnimationFrame(animate);
-        }
+                // Title + interactive UI in phase 2
+                if (phase === 2) {
+                    const alpha = Math.min(1, phaseTime / 1.5);
+                    animCtx.save();
 
-        function updateOrbPosition() {
-             orbRect = orbCanvas.getBoundingClientRect();
-        }
+                    // Title
+                    animCtx.font = `bold ${isMob ? 28 : 48}px Orbitron, JetBrains Mono`;
+                    animCtx.textAlign = 'center';
+                    animCtx.fillStyle = `rgba(255,255,255,${alpha})`;
+                    animCtx.fillText('ENAN', AW/2, AH * 0.06 + 20);
+                    animCtx.font = `${isMob ? 11 : 14}px JetBrains Mono`;
+                    animCtx.fillStyle = `rgba(200,200,200,${alpha * 0.8})`;
+                    animCtx.fillText('OPERATOR  /  DATA SCIENTIST', AW/2, AH * 0.06 + (isMob ? 48 : 65));
 
-        function reinitializeParticles() {
-            updateOrbPosition();
-            createOrbDust();
-            createTextDust();
-            createNavLinkDust();
-        }
+                    // Nav labels around the orb
+                    animCtx.font = `${isMob ? 9 : 12}px JetBrains Mono`;
+                    for (let s = 0; s < 7; s++) {
+                        if (!sectionLabels[s]) continue;
+                        const secAngle = (s * (Math.PI*2/7)) - Math.PI/2 - (Math.PI*2/7)/2;
+                        const labelR = orbR + (isMob ? 20 : 30);
+                        const lx = orbCX + Math.cos(secAngle) * labelR;
+                        const ly = orbCY + Math.sin(secAngle) * labelR;
+                        const isHovered = s === animHoveredSec;
+                        animCtx.fillStyle = isHovered ? palette[s] : `rgba(150,150,150,${alpha * 0.5})`;
+                        if (isHovered) {
+                            animCtx.font = `bold ${isMob ? 10 : 13}px JetBrains Mono`;
+                        }
+                        animCtx.fillText(sectionLabels[s], lx, ly);
+                        if (isHovered) {
+                            animCtx.font = `${isMob ? 9 : 12}px JetBrains Mono`;
+                        }
+                    }
 
-        window.addEventListener('resize', () => {
-            sandCanvas.width = window.innerWidth;
-            sandCanvas.height = window.innerHeight;
-            
-            heightMap.length = sandCanvas.width;
-            heightMap.fill(sandCanvas.height);
-            settledParticles.length = 0;
-            
-            reinitializeParticles();
+                    // Hovered section info at bottom
+                    if (animHoveredSec >= 0 && sectionInfo[animHoveredSec]) {
+                        animCtx.font = `${isMob ? 11 : 14}px JetBrains Mono`;
+                        animCtx.fillStyle = palette[animHoveredSec];
+                        animCtx.fillText(sectionLabels[animHoveredSec], AW/2, AH - (isMob ? 65 : 80));
+                        animCtx.font = `${isMob ? 10 : 12}px JetBrains Mono`;
+                        animCtx.fillStyle = `rgba(200,200,200,0.8)`;
+                        animCtx.fillText(sectionInfo[animHoveredSec], AW/2, AH - (isMob ? 45 : 55));
+                    }
+
+                    // Cursor glow on orb
+                    if (animHoveredSec >= 0) {
+                        animCtx.beginPath();
+                        animCtx.arc(animMouseX, animMouseY, 6, 0, Math.PI*2);
+                        animCtx.strokeStyle = palette[animHoveredSec] + '50';
+                        animCtx.lineWidth = 1;
+                        animCtx.stroke();
+                    }
+
+                    // Skip hint
+                    animCtx.font = `${isMob ? 10 : 11}px JetBrains Mono`;
+                    animCtx.fillStyle = `rgba(80,80,80,${alpha * 0.6})`;
+                    animCtx.fillText('Click or Ctrl+C to exit', AW/2, AH - 15);
+
+                    animCtx.restore();
+                }
+
+                // Light blue exit flash overlay
+                if (exitFlashAlpha > 0) {
+                    animCtx.fillStyle = `rgba(100, 180, 255, ${exitFlashAlpha * 0.3})`;
+                    animCtx.fillRect(0, 0, AW, AH);
+                    exitFlashAlpha = Math.max(0, exitFlashAlpha - dt * 2.5);
+                }
+
+                animFrameId = requestAnimationFrame(frame);
+            }
+            animFrameId = requestAnimationFrame(frame);
         });
 
-        document.addEventListener('DOMContentLoaded', () => {
-            reinitializeParticles();
-        });
+        // Cleanup
+        document.removeEventListener('keydown', onCtrlC);
+        animCanvas.removeEventListener('mousemove', onAnimMouseMoveWithCursor);
+        animCanvas.removeEventListener('touchmove', onAnimTouchMove);
+        animCanvas.removeEventListener('touchstart', onAnimTouchStart);
+        animCanvas.removeEventListener('click', onAnimClick);
+        animCanvas.style.cursor = '';
+        if (animFrameId) cancelAnimationFrame(animFrameId);
 
-        animate();
+        // Fade out canvas
+        animCanvas.classList.add('fading');
+        await delay(800);
+        animCanvas.classList.remove('active', 'fading');
+        animCanvas.style.opacity = '';
+
+        if (animCancelled) {
+            print('^C');
+        } else {
+            print('<span class="c-dim">Animation complete.</span>');
+        }
+        print('');
+
+        animRunning = false;
+        appPhase = 'shell';
+        inputRow.classList.remove('hidden');
+        updatePrompt();
+        cmdInput.focus();
+        output.scrollTop = output.scrollHeight;
+    }
+
+    function hexToRgba(hex, alpha) {
+        const r = parseInt(hex.slice(1,3),16);
+        const g = parseInt(hex.slice(3,5),16);
+        const b = parseInt(hex.slice(5,7),16);
+        return `rgba(${r},${g},${b},${alpha})`;
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // BOOT SEQUENCE
+    // ═══════════════════════════════════════════════════════════════
+    let skipBoot = false;
+
+    function onSkipBoot() { skipBoot = true; }
+
+    async function runBoot() {
+        appPhase = 'boot';
+        skipBoot = false;
+        document.addEventListener('keydown', onSkipBoot, { once: false });
+        document.addEventListener('click', onSkipBoot, { once: true });
+
+        const fast = () => skipBoot;
+        const d = (ms) => fast() ? delay(0) : delay(ms);
+
+        await d(300);
+        print('<span class="c-dim">[    0.000000] Linux version 6.18.5-portfolio (enan@build) (gcc 13.2.0)</span>');
+        await d(100);
+        print('<span class="c-dim">[    0.012345] Command line: BOOT_IMAGE=/vmlinuz root=/dev/sda1</span>');
+        await d(80);
+        print('<span class="c-dim">[    0.034521] x86/cpu: AMD EPYC 7R13 Processor</span>');
+        await d(80);
+        print('<span class="c-dim">[    0.056789] Memory: 16384MB available</span>');
+        await d(150);
+        print('<span class="c-green">[  OK  ]</span> Started systemd-journald.service');
+        await d(100);
+        print('<span class="c-green">[  OK  ]</span> Started systemd-networkd.service');
+        await d(100);
+        print('<span class="c-green">[  OK  ]</span> Reached target network-online.target');
+        await d(100);
+        print('<span class="c-green">[  OK  ]</span> Started openssh-server.service');
+        await d(100);
+        print('<span class="c-green">[  OK  ]</span> Started tmux server');
+        await d(200);
+        print('');
+
+        // Login
+        print('<span class="c-dim">EnanOS 3.2.1 LTS (GNU/Linux 6.18.5-portfolio x86_64)</span>');
+        print('');
+        await typeLine('enan-portfolio login: ', fast() ? 0 : 20);
+        await d(500);
+        const lastLine = outputLines.lastElementChild;
+        if (lastLine) {
+            for (const ch of 'guest') {
+                lastLine.textContent += ch;
+                if (!fast()) await delay(70);
+            }
+        }
+        await d(200);
+
+        await typeLine('Password: ', fast() ? 0 : 20);
+        await d(300);
+        const pwLine = outputLines.lastElementChild;
+        if (pwLine) {
+            for (let i = 0; i < 10; i++) {
+                pwLine.textContent += '*';
+                if (!fast()) await delay(50);
+            }
+        }
+        await d(400);
+        print('');
+
+        const now = new Date();
+        print(`<span class="c-dim">Last login: ${now.toDateString()} ${now.toLocaleTimeString()} from 192.168.1.42</span>`);
+        print('');
+        print(`Welcome to <span class="c-bold">EnanOS 3.2.1 LTS</span> <span class="c-dim">\\s \\r \\m</span>`);
+        print('');
+        print(`  <span class="c-dim">*</span> Docs:    <span class="c-cyan">https://enan.dev</span>`);
+        print(`  <span class="c-dim">*</span> GitHub:  <span class="c-cyan">https://github.com/Enan456</span>`);
+        print(`  <span class="c-dim">*</span> Shell:   <span class="c-dim">zsh 5.9 with oh-my-zsh</span>`);
+        print('');
+        print(`Type <span class="c-green">"help"</span> for commands  |  <span class="c-green">"!"</span> cowsay  |  <span class="c-green">"?"</span> lolcat`);
+        print('');
+
+        document.removeEventListener('keydown', onSkipBoot);
+
+        // Run animation after login (skip if user pressed key during boot)
+        if (!skipBoot) {
+            await runAnimation();
+        } else {
+            // Skipped boot = skip animation too, go straight to shell
+            appPhase = 'shell';
+            inputRow.classList.remove('hidden');
+            updatePrompt();
+            cmdInput.focus();
+            output.scrollTop = output.scrollHeight;
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // START
+    // ═══════════════════════════════════════════════════════════════
+    runBoot();
 
     </script>
 </body>
 </html>
-
-
