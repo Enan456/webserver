@@ -198,50 +198,49 @@
     const fs = {
         type: 'dir', children: {
             'about.txt': { type: 'file', content:
-`Name:   Enan Srivastava
-Title:  Operator / Data Scientist
-        Chief Operating Officer at A Cubed Designs
+`╔══════════════════════════════════════════════════╗
+║  ENAN SRIVASTAVA                                 ║
+║  Operator / Data Scientist                       ║
+╚══════════════════════════════════════════════════╝
 
-If you want to build cool stuff, hit me up.` },
+If you want to build cool stuff, hit me up.
 
-            'work': { type: 'dir', children: {
-                'README.txt': { type: 'file', content:
-`=== Current Positions ===
+─── CURRENT POSITIONS ─────────────────────────────
 
-1. Senior AI Engineer
-2. Chief Operating Officer — A Cubed Designs
-3. Server Admin/Owner — American Institutional Methodology (AIM) Lab
-4. Data Science Mentor — The Erdos Institute` },
-                'ai-engineer.txt': { type: 'file', content:
-`Role:     Senior AI Engineer
-Focus:    Building production AI/ML systems
-Stack:    Python, AWS, GCP, PyTorch, LLMs` },
-                'a-cubed.txt': { type: 'file', content:
-`Role:     Chief Operating Officer (COO)
-Company:  A Cubed Designs
-Focus:    Business operations, design thinking, client delivery` },
-                'aim-lab.txt': { type: 'file', content:
-`Role:     Server Admin / Owner
-Org:      American Institutional Methodology (AIM) Lab
-Focus:    Infrastructure, research computing` },
-                'erdos.txt': { type: 'file', content:
-`Role:     Data Science Mentor
-Org:      The Erdos Institute
-Focus:    Mentoring data science cohorts, curriculum` },
-            }},
+  Senior AI Engineer
+    Building production AI/ML systems
+    Stack: Python, AWS, GCP, PyTorch, LLMs
 
-            'skills': { type: 'dir', children: {
-                'technical.txt': { type: 'file', content:
-`Languages:    Python, Java, JavaScript, SQL, R, Bash, CSS, HTML5
-Cloud:        AWS, GCP, Firebase
-Frameworks:   R Shiny, Git, Node.js
-Tools:        Docker, Linux, CI/CD` },
-                'business.txt': { type: 'file', content:
-`Design Thinking
-Business Management
-Insurance
-Nonprofit Consulting` },
-            }},
+  Chief Operating Officer — A Cubed Designs
+    Business operations, design thinking, delivery
+
+  Server Admin/Owner — AIM Lab
+    Infrastructure, research computing
+
+  Data Science Mentor — The Erdos Institute
+    Mentoring data science cohorts, curriculum
+
+─── SKILLS ────────────────────────────────────────
+
+  Technical:
+    Languages:  Python, Java, JavaScript, SQL, R, Bash, CSS, HTML5
+    Cloud:      AWS, GCP, Firebase
+    Frameworks: R Shiny, Git, Node.js
+    Tools:      Docker, Linux, CI/CD
+
+  Business:
+    Design Thinking | Business Management
+    Insurance | Nonprofit Consulting
+
+─── CONTACT ───────────────────────────────────────
+
+  Phone:     630-608-3688
+  Email:     contact@enan.dev
+  GitHub:    github.com/Enan456
+  LinkedIn:  linkedin.com/in/enan-srivastava
+
+  Use "ssh github" or "ssh linkedin" to open.
+  Use "ssh contact" to send email.` },
 
             'contact.txt': { type: 'file', content:
 `Phone:  630-608-3688
@@ -560,19 +559,23 @@ alias la="ls -a"` },
     };
 
     commands.neofetch = () => {
+        // Rotated E at ~45 degrees
         const art = [
-            `<span class="c-cyan">       ___       </span>   <span class="c-bold">enan</span>@<span class="c-bold">portfolio</span>`,
-            `<span class="c-cyan">      /   \\      </span>   <span class="c-dim">─────────────────</span>`,
-            `<span class="c-cyan">     /     \\     </span>   <span class="c-bold">OS:</span> EnanOS 3.2.1 LTS`,
-            `<span class="c-cyan">    / _____ \\    </span>   <span class="c-bold">Kernel:</span> 6.18.5-portfolio`,
-            `<span class="c-cyan">   / /     \\ \\   </span>   <span class="c-bold">Shell:</span> zsh 5.9 (x86_64)`,
-            `<span class="c-cyan">  / /   E   \\ \\  </span>   <span class="c-bold">Role:</span> Operator / Data Scientist`,
-            `<span class="c-cyan">  \\ \\       / /  </span>   <span class="c-bold">Uptime:</span> since 2017`,
-            `<span class="c-cyan">   \\ \\_____/ /   </span>   <span class="c-bold">Langs:</span> Python, JS, Java`,
-            `<span class="c-cyan">    \\_______/    </span>   <span class="c-bold">Cloud:</span> AWS, GCP`,
+            `<span class="c-cyan">        ╱ ╱ ╱ ╱ ╱</span>   <span class="c-bold">enan</span>@<span class="c-bold">portfolio</span>`,
+            `<span class="c-cyan">       ╱ ╱ ╱ ╱ ╱ </span>   <span class="c-dim">─────────────────────────</span>`,
+            `<span class="c-cyan">      ╱ ╱        </span>   <span class="c-bold">OS:</span> EnanOS 3.2.1 LTS`,
+            `<span class="c-cyan">     ╱ ╱ ╱ ╱     </span>   <span class="c-bold">Kernel:</span> 6.18.5-portfolio`,
+            `<span class="c-cyan">    ╱ ╱ ╱ ╱      </span>   <span class="c-bold">Shell:</span> zsh 5.9 (x86_64)`,
+            `<span class="c-cyan">   ╱ ╱           </span>   <span class="c-bold">Role:</span> Operator / Data Scientist`,
+            `<span class="c-cyan">  ╱ ╱ ╱ ╱ ╱      </span>   <span class="c-bold">Uptime:</span> since 2017`,
+            `<span class="c-cyan"> ╱ ╱ ╱ ╱ ╱       </span>   <span class="c-bold">Langs:</span> Python, JS, Java, SQL`,
+            `<span class="c-cyan">                 </span>   <span class="c-bold">Cloud:</span> AWS, GCP, Firebase`,
             `<span class="c-cyan">                 </span>   <span class="c-bold">Email:</span> contact@enan.dev`,
         ];
         art.forEach(l => print(l));
+        print('');
+        // Color blocks
+        print(`  <span style="color:#ff007f">███</span><span style="color:#ff00ff">███</span><span style="color:#00ff00">███</span><span style="color:#00ffff">███</span><span style="color:#ffff00">███</span><span style="color:#ff8800">███</span><span style="color:#00a2ff">███</span>`);
     };
 
     commands.exit = async () => {
@@ -781,12 +784,72 @@ alias la="ls -a"` },
     // ═══════════════════════════════════════════════════════════════
     // COMMAND EXECUTOR
     // ═══════════════════════════════════════════════════════════════
+    // Pipe-aware output capture
+    let pipeCapture = null; // when non-null, print() appends here instead of DOM
+
+    const _origPrint = print;
+    print = function(html, cls) {
+        if (pipeCapture !== null) {
+            // Strip HTML tags for piped text
+            const tmp = document.createElement('div');
+            tmp.innerHTML = html;
+            pipeCapture.push(tmp.textContent || '');
+        } else {
+            _origPrint(html, cls);
+        }
+    };
+
     async function execute(input) {
         const trimmed = input.trim();
         if (!trimmed) return;
 
         history.push(trimmed);
         histIdx = -1;
+
+        // Handle pipes
+        if (trimmed.includes('|')) {
+            const segments = trimmed.split('|').map(s => s.trim()).filter(Boolean);
+            let pipedInput = null;
+
+            for (let si = 0; si < segments.length; si++) {
+                const isLast = si === segments.length - 1;
+                const seg = segments[si];
+                const parts = seg.split(/\s+/);
+                let cmd = parts[0];
+                let args = parts.slice(1);
+
+                // If there's piped input from previous command, add it as arg
+                if (pipedInput !== null && args.length === 0) {
+                    args = [pipedInput.join('\n')];
+                }
+
+                if (!isLast) {
+                    // Capture output
+                    pipeCapture = [];
+                    if (commands[cmd]) {
+                        await commands[cmd](args);
+                    } else {
+                        pipeCapture.push(`command not found: ${cmd}`);
+                    }
+                    pipedInput = pipeCapture;
+                    pipeCapture = null;
+                } else {
+                    // Last command — output normally
+                    if (pipedInput !== null && cmd === 'lolcat' || cmd === '?') {
+                        // Special: pipe into lolcat
+                        lolcat(pipedInput.join('\n'));
+                    } else if (commands[cmd]) {
+                        if (pipedInput !== null && (cmd === 'echo' || cmd === 'lolcat' || cmd === '?')) {
+                            args = [pipedInput.join('\n')];
+                        }
+                        await commands[cmd](args);
+                    } else {
+                        print(`<span class="c-err">command not found: ${escHtml(cmd)}</span>`);
+                    }
+                }
+            }
+            return;
+        }
 
         const parts = trimmed.split(/\s+/);
         const cmd = parts[0];
