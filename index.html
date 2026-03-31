@@ -287,13 +287,6 @@ Use "ssh github" or "ssh linkedin" to open in browser.` },
 `[Binary file — resume.pdf]
 Use "open resume.pdf" to view in browser.` },
 
-            'projects': { type: 'dir', children: {
-                'README.txt': { type: 'file', content:
-`Check out my projects on GitHub:
-  https://github.com/Enan456
-
-Use "ssh github" to browse.` },
-            }},
 
             'animation.sh': { type: 'file', executable: true, content:
 `#!/bin/bash
@@ -462,6 +455,7 @@ alias la="ls -a"` },
             ['! [text]',         'Cowsay (moo!)'],
             ['? [text]',         'Lolcat (rainbow text)'],
             ['top / who / w',    'Show active visitors (live)'],
+            ['webcam',           'Test your webcam/camera'],
             ['man [cmd]',        'Contact info / manual'],
             ['exit',             'Logout'],
             ['help',             'Show this help message'],
@@ -810,7 +804,66 @@ alias la="ls -a"` },
     commands.who = commands.top;
     commands.w = commands.top;
 
-    // ═══════════════════════════════════════════════════════════════
+    // ── webcam tester ──
+    commands.webcam = async () => {
+        print('<span class="c-info">Starting webcam tester...</span>');
+        print('<span class="c-dim">Requesting camera access...</span>');
+
+        let stream;
+        try {
+            stream = await navigator.mediaDevices.getUserMedia({
+                video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } },
+                audio: false,
+            });
+        } catch (err) {
+            print(`<span class="c-err">webcam: ${err.name} — ${err.message}</span>`);
+            print('<span class="c-dim">Make sure camera permissions are allowed.</span>');
+            return;
+        }
+
+        print('<span class="c-green">Camera active. Press Ctrl+C or click to close.</span>');
+
+        // Create overlay
+        const overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:200;background:#0a0a0a;display:flex;flex-direction:column;align-items:center;justify-content:center;';
+
+        const video = document.createElement('video');
+        video.srcObject = stream;
+        video.autoplay = true;
+        video.playsInline = true;
+        video.muted = true;
+        video.style.cssText = 'max-width:90vw;max-height:75vh;border:2px solid #5faf5f;border-radius:4px;';
+        overlay.appendChild(video);
+
+        const info = document.createElement('div');
+        info.style.cssText = "color:#808080;font-family:'JetBrains Mono',monospace;font-size:12px;margin-top:12px;text-align:center;";
+        const track = stream.getVideoTracks()[0];
+        const settings = track.getSettings();
+        info.innerHTML = `<span style="color:#5faf5f">${track.label}</span><br>${settings.width || '?'}x${settings.height || '?'} @ ${settings.frameRate ? Math.round(settings.frameRate) : '?'}fps<br><br><span style="color:#555">Click or Ctrl+C to close</span>`;
+        overlay.appendChild(info);
+
+        document.body.appendChild(overlay);
+
+        // Close handler
+        await new Promise(resolve => {
+            function close() {
+                stream.getTracks().forEach(t => t.stop());
+                overlay.remove();
+                document.removeEventListener('keydown', onKey);
+                resolve();
+            }
+            function onKey(e) {
+                if (e.ctrlKey && e.key === 'c') { e.preventDefault(); close(); }
+                if (e.key === 'Escape') close();
+            }
+            overlay.addEventListener('click', close);
+            document.addEventListener('keydown', onKey);
+        });
+
+        print('<span class="c-dim">Webcam closed.</span>');
+    };
+    commands.cam = commands.webcam;
+    commands.camera = commands.webcam;
     // COMMAND EXECUTOR
     // ═══════════════════════════════════════════════════════════════
     // Pipe-aware output capture
