@@ -1,0 +1,34 @@
+# Enan Srivastava
+
+> Personal site of Enan Srivastava — Senior AI Engineer and data scientist based in Chicago, IL, USA. The homepage (https://enan.rocks/) is an interactive terminal-style portfolio; this file summarizes its content for language models and AI agents.
+
+Canonical domain: https://enan.rocks/ (https://enan.dev/ redirects here).
+
+## Who is Enan Srivastava
+
+- Senior AI Engineer building production AI/ML systems (Python, AWS, GCP, PyTorch, LLMs)
+- Chief Operating Officer, A Cubed Designs — business operations, design thinking, delivery
+- Founder/operator of Constult Consulting (https://constult.consulting/) — strategy, data science, development, and operations consulting
+- Server admin/owner, AIM Lab — infrastructure and research computing
+- Data science mentor, The Erdős Institute — mentoring data science cohorts and curriculum
+- Alumnus of The Ohio State University
+
+## Skills
+
+- Languages: Python, Java, JavaScript, SQL, R, Bash, HTML/CSS
+- Cloud: AWS, GCP, Firebase
+- ML/AI: PyTorch, LLMs, TensorFlow, scikit-learn
+- Tools: Docker, Linux, CI/CD, Node.js, R Shiny, Git
+- Business: design thinking, business management, insurance, nonprofit consulting
+
+## Links
+
+- [Resume (PDF)](https://enan.rocks/Resume_2023.pdf): most recent resume
+- [GitHub](https://github.com/Enan456): open-source projects, including quantum computing work
+- [LinkedIn](https://www.linkedin.com/in/enan-srivastava/): professional profile
+- [ORCID](https://orcid.org/0009-0001-5985-5391): research identifier
+- [Constult Consulting](https://constult.consulting/): consulting practice
+
+## Contact
+
+- Email: contact@enan.dev
